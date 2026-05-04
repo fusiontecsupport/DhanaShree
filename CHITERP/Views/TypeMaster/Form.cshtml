@@ -1,0 +1,205 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.TypeMaster
+
+@{
+    ViewBag.Title = "Type Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Type Master</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                    <form action="@Url.Content("~/TypeMaster/Savedata")" method="post" data-flag="0" class="needs-validationTypeMasterform" id="TypeMasterform" name="TypeMasterform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                        <div class="row">
+                            <div class="col-md-2 mb-2 hide">
+                                <label for="TypeId">Id</label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="TypeId" name="TypeId" value="0" class="form-control TypeId" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="TypeId" name="TypeId" value="0" class="form-control TypeId" />
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="TypeCategoryId">Type<span class="required-field"></span></label>
+                                @Html.DropDownList("TypeCategoryId", null, "Select Category", new { @class = "form-control select2 custom-select  TypeCategoryId", @data_val = "true", @required = "required", @id = "TypeCategoryId", @style = "width:50%;" })
+                                <div class="invalid-feedback">
+                                    Please Select Type Category !!
+                                </div>
+                            </div>
+                            @*<div class="col-md-2 mb-2">
+
+            <label>Type Category Id <span class="text-danger">*</span></label>
+            @Html.DropDownList("TypeCategoryId", null, "Please select Status", new { @class = "form-control select2 custom-select  TypeCategoryId", @data_val = "true", @required = "required", @id = "TypeCategoryId", @style = "width:50%;" })
+        </div>*@
+
+                            <div class="col-md-3 mb-3">
+                                <label for="Type">Type Name <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="Type" name="Type" value="@Model.Type" class="form-control Type" required placeholder="Type" maxlength="15" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Type Name  !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="TypePriority" name="Type" class="form-control Type" required placeholder="Type" maxlength="15" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Type Name !!
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="TypePriority">TypePriority <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="TypePriority" name="TypePriority" value="@Model.TypePriority" class="form-control TypePriority" required placeholder="TypePriority" maxlength="50" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter TypePriority !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="TypePriority" name="TypePriority" class="form-control TypePriority" required placeholder="TypePriority" maxlength="50" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter TypePriority !!
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="ControlName"> ControlName  <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="ControlName" name="ControlName" value="@Model.ControlName" class="form-control ControlName" required placeholder="ControlName" maxlength="50" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter ControlName !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="ControlName" name="ControlName" class="form-control ControlName" required placeholder="ControlName" maxlength="50" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter ControlName !!
+                                    </div>
+                                }
+                            </div>
+
+                            @*//<div class="col-md-2 mb-2">
+
+        //    <label>Status <span class="text-danger">*</span></label>
+        //    @Html.DropDownList("DISPSTATUS", null, "Please select Status", new { @class = "form-control select2 custom-select  DISPSTATUS", @data_val = "true", @required = "required", @id = "DISPSTATUS", @style = "width:50%;" })
+        //</div>*@
+
+                            <div class="col-12">
+                                <div class="d-md-flex align-items-center mt-3">
+
+                                    <a href="@Url.Action("Index", "TypeMaster")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                        @*<button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">
+                        <div class="d-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send feather-sm fill-white me-2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            Submit
+                        </div>
+                    </button>*@
+                                        @*<button id="btnsave" type="button" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>*@
+                                        @*<input type="submit" id="btnCreate" onclick="Validate(this, event);" value="Submit"
+                    class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4" />*@
+                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#TypeId').val() == "") {
+                $('#TypeId').val() = 0;
+            }
+        });
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('TypeMasterform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "TypeMaster";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#TypeMasterform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+
+
+
+</script>

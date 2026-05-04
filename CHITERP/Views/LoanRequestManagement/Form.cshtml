@@ -1,0 +1,343 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.LoanRequest
+
+@{
+    ViewBag.Title = "Loan Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                    <form action="@Url.Content("~/LoanRequestManagement/Savedata")" method="post" data-flag="0" class="needs-validation LoanRequestform" id="LoanRequestform" name="LoanRequestform" novalidate onsubmit="return ValidateMyform(this,event);">
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-6">
+                                <div class="mb-6 row">
+                                    <label class="col-sm-6 text-end control-label col-form-label">Organization/Person</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control custom-select select2">
+                                            <option value="-1">select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-6">
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 text-end control-label col-form-label">Introduced By	</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" readonly id="IntroducedBy" class="form-control" name="IntroducedBy" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="row col-md-12">
+                                <div class="col-md-2 mb-2 hide">
+                                    <label for="LoanRequestID">Request Id</label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="LoanRequestID" name="LoanRequestID" value="@Model.LoanRequestID" class="form-control LoanRequestID" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="LoanRequestID" name="LoanRequestID" value="0" class="form-control LoanRequestID" />
+                                    }
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="LoanSchemeID">Loan Scheme<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("LoanSchemeID", null, "-- Select --", new { @class = "form-control select2 custom-select  LoanSchemeID", @data_val = "true", @required = "required", @id = "LoanSchemeID", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Loan Scheme !!
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="LoanSecuredTypeId">Secured<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("LoanSecuredTypeId", null, "-- Select --", new { @class = "form-control select2 custom-select  LoanSecuredTypeId", @data_val = "true", @required = "required", @id = "LoanSecuredTypeId", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Secured !!
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="DisbursementModeTypeID">Disbursement Mode<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("DisbursementModeTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select  DisbursementModeTypeID", @data_val = "true", @required = "required", @id = "DisbursementModeTypeID", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Disbursement Mode !!
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="RepaymentModeTypeID">Repayment Mode<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("RepaymentModeTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select  RepaymentModeTypeID", @data_val = "true", @required = "required", @id = "RepaymentModeTypeID", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Repayment Mode !!
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row col-md-12">
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="Principal">Principal<span class="text-danger">*</span></label>
+
+                                    @if (Model != null)
+                                    {
+                                        <input type="number" id="Principal" name="Principal" value="@Model.Principal" class="form-control Principal" required maxlength="100" tabindex="2" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Principal!!
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="number" id="Principal" name="Principal" class="form-control Principal" required maxlength="100" tabindex="2" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Principal!!
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="DisbursementAmount">Disbursement Amount<span class="text-danger">*</span></label>
+
+                                    @if (Model != null)
+                                    {
+                                        <input type="number" id="DisbursementAmount" name="DisbursementAmount" value="@ViewBag.DisbursementAmount" class="form-control DisbursementAmount" required maxlength="100" tabindex="2" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Disbursement Amount   !!
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="number" id="DisbursementAmount" name="DisbursementAmount" class="form-control DisbursementAmount" required maxlength="100" tabindex="2" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Disbursement Amount   !!
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="InterestRate">Interest Rate (%)</label>
+
+                                    @if (Model != null)
+                                    {
+                                        <input type="number" id="InterestRate" name="InterestRate" value="@Model.InterestRate" class="form-control InterestRate" maxlength="100" tabindex="2" />
+                                    }
+                                    else
+                                    {
+                                        <input type="number" id="InterestRate" name="InterestRate" class="form-control InterestRate" maxlength="100" tabindex="2" />
+                                    }
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="DeductionTypeId">Deduction<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("DeductionTypeId", null, "-- select --", new { @class = "form-control select2 custom-select  DeductionTypeId", @data_val = "true", @required = "required", @id = "DeductionTypeId", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Deduction !!
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row col-md-12">
+                                <div class="col-md-4 mb-4">
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-2 text-end control-label col-form-label">Term	</label>
+                                        <div class="col-sm-4">
+                                            @if (Model != null)
+                                            {
+                                                <input type="number" id="Term" name="Term" value="@Model.Term" class="form-control Term" maxlength="100" tabindex="2" />
+                                            }
+                                            else
+                                            {
+                                                <input type="number" id="Term" name="Term" class="form-control Term" maxlength="100" tabindex="2" />
+                                            }
+                                        </div>
+                                        <div class="col-sm-5">
+                                            @Html.DropDownList("TermTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select  TermTypeID", @data_val = "true", @id = "TermTypeID", @style = "width:50%;" })
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="LinkedOfficeID">Linked Office<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("LinkedOfficeID", null, "Please select Status", new { @class = "form-control select2 custom-select  LinkedOfficeID", @data_val = "true", @required = "required", @id = "LinkedOfficeID", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Linked Office !!
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 mb-2">
+                                    <label>Disbursement Date<span class="text-danger">*</span></label>
+                                    @if (Model != null)
+                                    {
+                                        <input id="DisbursementDate" type="date" value="@String.Format("{0:yyyy-MM-dd}",Model.DisbursementDate)" name="DisbursementDate" required class="form-control DisbursementDate" />
+                                        <div class="invalid-feedback">
+                                            Please Select Disbursement Date !!
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input id="DisbursementDate" type="date" value="" name="DisbursementDate" class="form-control DisbursementDate" required />
+                                    }
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label>Requested On<span class="text-danger">*</span></label>
+                                    @if (Model != null)
+                                    {
+                                        <input id="RequestedOn" type="date" value="@String.Format("{0:yyyy-MM-dd}",Model.RequestedOn)" name="RequestedOn" required class="form-control RequestedOn" />
+                                        <div class="invalid-feedback">
+                                            Please Select Requested On !!
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input id="RequestedOn" type="date" value="" name="RequestedOn" class="form-control RequestedOn" required />
+                                        <div class="invalid-feedback">
+                                            Please Select Requested On !!
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="row col-md-12">
+
+                                <div class="col-md-2 mb-2">
+                                    <label for="AccountEmployeeID">Account Employee<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("AccountEmployeeID", null, "-- Select --", new { @class = "form-control select2 custom-select  AccountEmployeeID", @data_val = "true", @id = "AccountEmployeeID", @style = "width:50%;" })
+                                </div>
+
+                                <div class="col-md-2 mb-2">
+                                    <label>Agent Commission</label>
+                                    @if (Model != null)
+                                    {
+                                        <input id="AgentCommission" type="number" value="@Model.AgentCommission" name="AgentCommission" class="form-control AgentCommission" />
+                                    }
+                                    else
+                                    {
+                                        <input id="AgentCommission" type="number" value="" name="AgentCommission" class="form-control AgentCommission" />
+                                    }
+                                </div>
+
+                                <div class="col-md-2 mb-2">
+                                    <label>Commission Agent</label>
+                                    @if (Model != null)
+                                    {
+                                        <input id="LoanAmount" type="number" value="@Model.LoanAmount" name="LoanAmount" class="form-control LoanAmount" />
+                                    }
+                                    else
+                                    {
+                                        <input id="LoanAmount" type="number" value="" name="LoanAmount" class="form-control LoanAmount" />
+                                    }
+                                </div>
+
+                                <div class="col-md-2 mb-2">
+                                    <label for="StatusTypeID">Status<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Status !!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="d-md-flex align-items-center mt-3">
+
+                                    <a href="@Url.Action("Index", "LoanRequestManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#LoanRequestID').val() == "") {
+                $('#LoanRequestID').val("0");
+            }
+        });
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('LoanRequestform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "LoanRequestManagement";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#LoanRequestform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+
+}
+
+

@@ -1,0 +1,866 @@
+﻿@using CHITERP.Data;
+@using CHITERP.Models;
+@model CHITERP.Models.TranBookVrfcnList
+@{
+    ViewBag.Title = "Transaction Book Verification List - Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title </h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                </div>
+                <form action="@Url.Content("~/TransactionBookVerification/Savedata")" method="post" data-flag="0" class="needs-validation TransactionBookVerificationform" id="TransactionBookVerificationform" name="TransactionBookVerificationform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="row">
+                                    <div class="col-md-2 mb-2 hide">
+                                        <label for="BookVerificationListID">Transaction Id</label>
+
+                                        @if (Model.tranbookvfcnlst.Count > 0)
+                                        {
+
+                                            <input type="text" id="BookVerificationListID" name="BookVerificationListID" value="@Model.tranbookvfcnlst[0].BookVerificationListID" class="form-control BookVerificationListID" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" id="BookVerificationListID" name="BookVerificationListID" value="@ViewBag.TranID" class="form-control BookVerificationListID" />
+
+                                        }
+
+                                        <input type="text" id="F_BookVerificationID" name="F_BookVerificationID" class="form-control F_BookVerificationID" />
+                                        <input id="F_BookEntryDate" type="date" max="2099-12-31" min="2015-01-01" readonly value="" name="F_BookEntryDate" class="form-control F_BookEntryDate" />
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <label for="ProductTypeID">Product<span class="text-danger">*</span></label>
+                                        @Html.DropDownList("ProductTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select  ProductTypeID", @data_val = "true", @required = "required", @id = "ProductTypeID", @style = "width:50%;", @onchange = "LoadProdDtls();" })
+                                        <div class="invalid-feedback">
+                                            Please Select Product !!
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-5 mb-5">
+                                        <label for="ProductID">Subscription<span class="text-danger">*</span></label>
+                                        @Html.DropDownList("ProductID", null, "-- Select --", new { @class = "form-control select2 custom-select  ProductID", @data_val = "true", @required = "required", @id = "ProductID", @style = "width:50%;", @onchange = "LoadBooks();" })
+                                        <div class="invalid-feedback">
+                                            Please Select Subscription Details!!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <label for="BookID">Book<span class="text-danger">*</span></label>
+                                        @Html.DropDownList("BookID", null, "-- Select --", new { @class = "form-control select2 custom-select  BookID", @data_val = "true", @required = "required", @id = "BookID", @style = "width:50%;" })
+                                        <div class="invalid-feedback">
+                                            Please Select Book !!
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="GeneratedDate">Book Verification Generation Date</label>
+
+
+                                        @if (Model != null)
+                                        {
+                                            string pdatetime = Convert.ToString(Model.tranbookvfcnlst[0].GeneratedDate);
+                                            if ((pdatetime != null && pdatetime != ""))
+                                            {
+                                                var param = pdatetime.Split(' ');
+                                                DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                <input id="GeneratedDate" type="date" max="2099-12-31" min="2015-01-01" readonly value="@String.Format("{0:yyyy-MM-dd}",pdate)" required name="GeneratedDate" class="form-control GeneratedDate" />
+                                                <div class="invalid-feedback">
+                                                    Please Select Date !!
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <input id="GeneratedDate" type="date" max="2099-12-31" min="2015-01-01" readonly name="GeneratedDate" required class="form-control GeneratedDate" />
+                                                <div class="invalid-feedback">
+                                                    Please Select Date !!
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <input id="GeneratedDate" type="date" max="2099-12-31" min="2015-01-01" readonly name="GeneratedDate" required class="form-control GeneratedDate" />
+                                            <div class="invalid-feedback">
+                                                Please Select Date !!
+                                            </div>
+                                        }
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-2 mb-2">
+                                        <label for="CollectedDate">Book Collected Date</label>
+
+
+                                        @if (Model != null)
+                                        {
+                                            string pdatetime = Convert.ToString(Model.tranbookvfcnlst[0].CollectedDate);
+                                            if ((pdatetime != null && pdatetime != ""))
+                                            {
+                                                var param = pdatetime.Split(' ');
+                                                DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                <input id="CollectedDate" type="date" max="2099-12-31" min="2015-01-01" value="@String.Format("{0:yyyy-MM-dd}",pdate)" required name="CollectedDate" class="form-control CollectedDate" />
+                                                <div class="invalid-feedback">
+                                                    Please Select Date !!
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <input id="CollectedDate" type="date" max="2099-12-31" min="2015-01-01" name="CollectedDate" required class="form-control CollectedDate" />
+                                                <div class="invalid-feedback">
+                                                    Please Select Date !!
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <input id="CollectedDate" type="date" max="2099-12-31" min="2015-01-01" name="CollectedDate" required class="form-control CollectedDate" />
+                                            <div class="invalid-feedback">
+                                                Please Select Date !!
+                                            </div>
+                                        }
+                                    </div>
+
+
+                                    <div class="col-md-2 mb-2">
+                                        <label for="F_OldReceiptID">Old Receipt Reference<span class="text-danger">*</span></label>
+                                        @Html.DropDownList("F_OldReceiptID", null, "-- Select --", new { @class = "form-control select2 custom-select  F_OldReceiptID", @data_val = "true", @required = "required", @id = "F_OldReceiptID", @style = "width:50%;", @onchange = "AssignReceiptAmt()" })
+
+                                        <div class="invalid-feedback">
+                                            Please Select Old Receipt Reference!!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+
+                                        <label for="F_OldReceiptAmount">Old Receipt Amount<span class="text-danger">*</span></label>
+
+                                        @if (Model != null)
+                                        {
+                                            <input type="number" id="F_OldReceiptAmount" min="0.00" step="0.01" name="F_OldReceiptAmount" class="form-control F_OldReceiptAmount" required maxlength="100" onchange="CalcDiffAmt();" tabindex="2" readonly />
+                                        }
+                                        else
+                                        {
+                                            <input type="number" id="F_OldReceiptAmount" min="0.00" step="0.01" name="F_OldReceiptAmount" class="form-control F_OldReceiptAmount" required maxlength="100" tabindex="2" onchange="CalcDiffAmt();" readonly />
+                                        }
+
+                                        <div class="invalid-feedback">
+                                            Please Enter Amount!!
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <label for="F_BookVerificationFindingID">Book Verification Finding<span class="text-danger">*</span></label>
+                                        @Html.DropDownList("F_BookVerificationFindingID", null, "-- Select --", new { @class = "form-control select2 custom-select  F_BookVerificationFindingID", @data_val = "true", @required = "required", @id = "F_BookVerificationFindingID", @style = "width:50%;" })
+                                        <div class="invalid-feedback">
+                                            Please Select Book Verification Finding!!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+
+                                        <label for="F_BookAmount">Book Amount<span class="text-danger">*</span></label>
+
+                                        @if (Model != null)
+                                        {
+                                            <input type="number" id="F_BookAmount" min="0.00" step="0.01" name="F_BookAmount" class="form-control F_BookAmount" required maxlength="100" onchange="CalcDiffAmt();" tabindex="2" />
+                                        }
+                                        else
+                                        {
+                                            <input type="number" id="F_BookAmount" min="0.00" step="0.01" name="F_BookAmount" class="form-control F_BookAmount" required maxlength="100" tabindex="2" onchange="CalcDiffAmt()" />
+                                        }
+
+                                        <div class="invalid-feedback">
+                                            Please Enter Amount!!
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-2 mb-2">
+                                        <label for="ReturnedDate">Book Returned Date </label>
+                                        @if (Model != null)
+                                        {
+                                            string pdatetime = Convert.ToString(Model.tranbookvfcnlst[0].ReturnedDate);
+                                            if ((pdatetime != null && pdatetime != ""))
+                                            {
+                                                var param = pdatetime.Split(' ');
+                                                DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                <input id="ReturnedDate" type="date" max="2099-12-31" min="2015-01-01" value="@String.Format("{0:yyyy-MM-dd}",pdate)" name="ReturnedDate" class="form-control ReturnedDate" />
+                                                <div class="invalid-feedback">
+                                                    Please Select Date !!
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <input id="ReturnedDate" type="date" max="2099-12-31" min="2015-01-01" name="ReturnedDate" class="form-control ReturnedDate" />
+                                                <div class="invalid-feedback">
+                                                    Please Select Date !!
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <input id="ReturnedDate" type="date" max="2099-12-31" min="2015-01-01" name="ReturnedDate" class="form-control ReturnedDate" />
+                                            <div class="invalid-feedback">
+                                                Please Select Date !!
+                                            </div>
+                                        }
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-2 mb-2">
+                                        <label for="StatusTypeID">Book Status<span class="text-danger">*</span></label>
+                                        @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                        <div class="invalid-feedback">
+                                            Please Select Book Status !!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <label for="BkVfcnStatusTypeID"> Verification Status<span class="text-danger">*</span></label>
+                                        @Html.DropDownList("BkVfcnStatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  BkVfcnStatusTypeID", @data_val = "true", @required = "required", @id = "BkVfcnStatusTypeID", @style = "width:50%;" })
+                                        <div class="invalid-feedback">
+                                            Please Select Verification Status !!
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 Attachmentdiv" id="Attachmentdiv" style="display:none;">
+                                    <div class="">
+
+                                        <div class="panel-body">
+                                            <span class="panel-title"><strong>Attachments</strong></span>
+
+
+                                            <div class="col-lg-8">
+                                                <input type="hidden" name="hiddentrandid" id="hiddentrandid" value="@ViewBag.hiddentrandid" />
+                                                <div class="col-lg-12"><input type="file" name="filesupload" id="filesupload" value="" class="pull-left btn btn-success" multiple="multiple" />    <input type="submit" value="Upload BookVerification Proof related Documents" title="Upload" class="pull-left btn btn-danger" disabled style="padding:6px;" /><br /></div>
+
+                                            </div>
+
+
+                                            <div>
+                                                @if (ViewBag.BookVerificationFiles != null && ViewBag.BookVerificationFiles != "")
+                                                {
+                                                    foreach (var fName in ViewBag.BookVerificationFiles)
+                                                    {
+
+                                                        var name = fName;
+                                                        var link = @Url.Content("~/BookVerificationFiles/" + ViewBag.hiddentrandid + "/") + name.Replace(" ", "%20");
+
+                                                        var del_link = @Url.Content("~/TransactionBookVerification/FilesDelete?id=" + ViewBag.hiddentrandid) + ";" + name.Replace(" ", "%20");
+
+
+                                                        <div class="col-lg-2">
+                                                            @if (fName.EndsWith("pdf"))
+                                                            {
+                                                                <a href="@link" target="_blank" data-dismiss="modal">   <img src="~/Content/themes/base/images/pdf-icon.png" class="img-responsive  img-rounded img-thumbnail" style="height:50px;width:25%;margin-top:10px;" />&nbsp;&nbsp;@fName </a>
+
+                                                            }
+                                                            else if (fName.EndsWith("doc") || fName.EndsWith("docx"))
+                                                            {
+                                                                <a href="@link" target="_blank" data-dismiss="modal">   <img src="~/Content/themes/base/images/doc%20icon.jpg" class="img-responsive  img-rounded img-thumbnail" style="height:50px;width:25%;margin-top:10px;" />  &nbsp;&nbsp; @fName</a>
+
+                                                            }
+
+                                                            else
+                                                            {
+                                                                <a href="@link" target="_blank" data-dismiss="modal">   <img src="@link" class="img-responsive  img-rounded img-thumbnail" style="height:100px;width:100%;margin-top:10px;" /> @fName</a>
+                                                            }
+                                                            <a href="@del_link" class="btn  btn-lg btn-lg center-block"><i class="fa fa-trash-o color3" style="color:red"></i></a>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-4">
+
+                                                <hr />
+
+
+                                                <div id="imgPreview" class="thumbnail" style="display:none">
+                                                    <img class="img-responsive" id="targetImg" src="@ViewBag.imgsrc" />
+                                                    <div class="caption">
+                                                        <a href="@ViewBag.delteimgsrc" onclick="ClearPreview()"><i class="glyphicon glyphicon-trash"></i></a>
+                                                        <span id="description"></span>
+                                                    </div>
+                                                    @*<a href="#" class="btn btn-default" onclick="Uploadimage()">Upload</a>*@
+                                                </div>
+
+                                            </div>
+                                            @*<div class="col-md-4 thumbnail" id="uploadedImage">
+                                                </div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-12">
+                                    <label for="Remarks">Remarks </label>
+
+
+                                    @if (Model != null)
+                                    {
+
+                                        <input type="text" id="Remarks" name="Remarks" value="@Model.tranbookvfcnlst[0].Remarks" maxlength="50" class="form-control Remarks" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="Remarks" name="Remarks" maxlength="50" class="form-control Remarks" />
+                                    }
+
+                                </div>
+
+                                <div class="row col-12">
+                                    <h2> Book Entry Details</h2>
+                                    <table class='table table-striped table-bordered bootstrap-datatable' id="tblBookVerificationList">
+                                        <thead>
+                                            <tr>
+                                                <th><label>Book Number</label></th>
+                                                <th><label>Verification Generated Date</label></th>
+                                                <th><label>Old Collection Receipt Ref</label></th>
+                                                <th><label>Old Collection Receipt Amt.</label></th>
+                                                <th><label>Book Amount</label></th>
+                                                <th><label>Verification Finding</label></th>
+                                                <th><label>Verification Status</label></th>
+                                                <th><label>Book Status</label></th>
+                                                <th>Edit / Delete</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody class="BooksVerificationList_BODY" id="BooksVerificationListDETAIL_BODY">
+                                            @if (Model != null)
+                                            {
+                                                var order = 0;
+                                                foreach (pr_Get_Book_Verification_Entry_Details_Result details in Model.tranbookentrylst)
+                                                {
+                                                    string bkissdate = Convert.ToString(details.BookIssuedDate);
+                                                    string bktrmdate = Convert.ToString(details.BookTerminatedDate);
+                                                    string bkcoldate = Convert.ToString(details.BookCollectedDate);
+                                                    string bkrtndate = Convert.ToString(details.BookReturnedDate);
+                                                    string bkentdt = Convert.ToString(details.BookEntryDt);
+                                                    order = ++order;
+                                                    <tr class="item-row">
+
+                                                        <td class="hide">
+
+                                                            <input id="FD_AccountBookID" type="text" readonly value="@details.BookID" name="FD_AccountBookID" class="form-control hide FD_AccountBookID" />
+                                                            <input id="FD_OwnerID" type="text" readonly value="@details.SubsId" name="FD_OwnerID" class="form-control hide FD_OwnerID" />
+                                                            <input id="FD_OwnerTypeID" type="text" readonly value="@details.ProdTypeId" name="FD_OwnerTypeID" class="form-control hide FD_OwnerTypeID" />
+                                                            <input id="VfcnStsId" type="text" readonly value="@details.VfcnStsId" name="FD_EmployeeId" class="form-control hide FD_EmployeeId" />
+                                                            <input id="FD_BVcnRemarks" type="text" readonly value="@details.BVcnRemarks" name="FD_ReviewByEmployeeId" class="form-control hide FD_ReviewByEmployeeId" />
+                                                            <input id="FD_BkVfcnFindingId" type="text" readonly value="@details.BookVfcnID" name="FD_ApprovedByEmployeeId" class="form-control hide FD_ApprovedByEmployeeId" />
+                                                            <input id="FD_BookStatusTypeID" type="text" readonly value="@details.BookStsId" name="FD_BookStatusTypeID" class="form-control hide FD_BookStatusTypeID" />
+                                                            <input id="FD_BookIssuedDate" type="date" max="2099-12-31" min="2015-01-01" readonly value="@String.Format("{0:yyyy-MM-dd}",bkissdate)" name="FD_BookIssuedDate" class="form-control FD_BookIssuedDate" />
+                                                            <input id="FD_BookTerminatedDate" type="date" max="2099-12-31" min="2015-01-01" readonly value="@String.Format("{0:yyyy-MM-dd}",bktrmdate)" name="FD_BookTerminatedDate" class="form-control FD_BookTerminatedDate" />
+                                                            <input id="FD_BookCollectedDate" type="date" max="2099-12-31" min="2015-01-01" readonly value="@String.Format("{0:yyyy-MM-dd}",bkcoldate)" name="FD_BookCollectedDate" class="form-control FD_BookCollectedDate" />
+                                                            <input id="FD_BookReturnedDate" type="date" max="2099-12-31" min="2015-01-01" readonly value="@String.Format("{0:yyyy-MM-dd}",bkrtndate)" name="FD_BookReturnedDate" class="form-control FD_BookReturnedDate" />
+                                                            <input id="FD_BookEntryDate" type="date" max="2099-12-31" min="2015-01-01" readonly value="@String.Format("{0:yyyy-MM-dd}",bkentdt)" name="FD_BookEntryDate" class="form-control FD_BookEntryDate" />
+                                                            <input id="FD_OldReceiptRefId" type="text" readonly value="@details.OldReceiptRefId" name="FD_OldReceiptRefId" class="form-control FD_OldReceiptRefId" />
+                                                        </td>
+
+                                                        <td>
+                                                            <input id="FD_BookNumber" type="text" readonly value="@details.BookNumber" name="FD_BookNumber" class="form-control FD_BookNumber" />
+                                                        </td>
+                                                        <td>
+                                                            <input id="FD_BookVfcnGeneratedDate" type="date" max="2099-12-31" min="2015-01-01" readonly value="@details.BookVfcnGeneratedDate" name="FD_BookVfcnGeneratedDate" class="form-control FD_BookVfcnGeneratedDate" />
+                                                        </td>
+                                                        <td>
+                                                            <input id="FD_OldReceiptRefNo" type="text" readonly value="@details.OldReceiptRefNo" name="FD_OldReceiptRefNo" class="form-control FD_OldReceiptRefNo" />
+
+                                                        </td>
+                                                        <td>
+                                                            <input id="FD_OldReceiptAmt" type="text" readonly value="@details.OldReceiptAmt" name="FD_OldReceiptAmt" class="form-control FD_OldReceiptAmt" />
+
+                                                        </td>
+                                                        <td>
+                                                            <input id="FD_BookAmt" type="text" readonly value="@details.BookAmt" name="FD_BookAmt" class="form-control FD_BookAmt" />
+
+                                                        </td>
+                                                        <td>
+                                                            <input id="FD_VfcnFindingDesc" type="text" readonly value="@details.VfcnFindingDesc" name="FD_VfcnFindingDesc" class="form-control FD_VfcnFindingDesc" />
+
+                                                        </td>
+                                                        <td>
+                                                            <input id="FD_VfcnStsDesc" type="text" readonly value="@details.VfcnStsDesc" name="FD_VfcnStsDesc" class="form-control FD_VfcnStsDesc" />
+
+                                                        </td>
+                                                        <td>
+                                                            <input id="FD_BookStatus" type="text" readonly value="@details.BookSts" name="FD_BookStatus" class="form-control FD_BookStatus" />
+
+                                                        </td>
+
+                                                        <td>
+                                                            <a href="#" id="@details.BookVfcnID" class="BKVfcneditor_edit btn btn-info btn-sm"><i class="fa fa-edit"></i></a>&nbsp;<a href="#" id="@details.BookVfcnID" class="BKVfcneditor_remove btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                                        </td>
+
+                                                    </tr>
+
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-12 hide">
+
+
+                                    <div class="col-md-3 mb-3">
+                                        <label for="LinkedOfficeID">Different Office<span class="text-danger">*</span></label>
+                                        @Html.DropDownList("LinkedOfficeID", null, "Please select Linked Office", new { @class = "form-control select2 custom-select  LinkedOfficeID", @data_val = "true", @id = "LinkedOfficeID", @style = "width:50%;" }) @*@required = "required",*@
+                                        <div class="invalid-feedback">
+                                            Please Select Linked Office !!
+                                        </div>
+                                    </div>
+
+                                    <div class="card-header bg-info">
+                                        <h4 class="mb-0 text-white">Fund Transfer to Another Product / Account</h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                                    </div>
+                                    <div class="row col-md-12">
+
+                                        <div class="col-md-3 mb-3">
+                                            <label for="TransferToProductID">Transfer to Product</label>
+                                            @Html.DropDownList("TransferToProductID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToProductID", @data_val = "true", @id = "TransferToProductID", @style = "width:50%;" })
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="TransferToCategory">Category</label>
+                                            @Html.DropDownList("TransferToCategory", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToCategory", @data_val = "true", @id = "TransferToCategory", @style = "width:50%;" })
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="TransferToProductID">Subscription A/c</label>
+                                            @Html.DropDownList("TransferToProductID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToProductID", @data_val = "true", @id = "TransferToProductID", @style = "width:50%;" })
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="TransferToFundAccountID">Fund A/c</label>
+                                            @Html.DropDownList("TransferToFundAccountID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToFundAccountID", @data_val = "true", @id = "TransferToFundAccountID", @style = "width:50%;" })
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="d-md-flex align-items-center mt-3">
+
+                                        <a href="@Url.Action("Index", "TransactionBookVerification")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                        <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                            <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#Attachmentdiv').hide();
+            if ($('#BookVerificationListID').val() == "") {
+                $('#BookVerificationListID').val("0");
+
+                 var now = new Date();
+
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                var today = now.getFullYear() + "-" + (month) + "-" + (day);
+                if ($('#GeneratedDate').val() == '')
+                    $('#GeneratedDate').val(today);
+                if ($('#CollectedDate').val() == '')
+                    $('#CollectedDate').val(today);
+
+
+
+            }
+            else {
+            //    $('#Attachmentdiv').show();
+            //    //LoadSubTrnTyps();
+
+                 //LoadProdDtls();
+                //LoadBooks();
+                LoadReceiptDtls();
+            }
+
+            //--------------Delete Book Entry Record----------------//
+            $(document).on("click", "a.BKVfcneditor_remove", function () {
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Are you sure to delete this Book Verification Entry record ? ",
+                    type: 'warning',
+                    confirmButtonText: "Yes",
+                    showCancelButton: true,
+                    cancelButtonText: "No",
+                    showCloseButton: true
+                }).then((result) => {
+                    if (result.value) {
+                        var idx = $(this).attr('id');
+                        //base = window.location.origin;
+                        var baseUrl = $("#BaseUrl").data("baseurl");
+                        $.post(baseUrl + "/TransactionBookVerification/BVDel",
+                            {
+                                id: idx, fld: "CommonAccountBook"
+                            },
+                            function (data, status) {
+
+                                if (data == "Deleted Successfully ...") {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'success',
+                                        title: 'Book Entry Deleted Successfully ..!', //You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 3500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            //var returnurl = "@Url.Action("Index", "TransactionBookVerification")";
+                                            var returnurl="@Url.Action("Form", "TransactionBookVerification")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+                                else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'danger',
+                                        title: data,
+                                        showConfirmButton: true,
+                                        //timer: 5500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "TransactionBookVerification")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+
+
+                            });
+                    }
+                    else if (result.dismiss === 'cancel') { return false; }
+                });
+
+
+            });//end
+
+
+            //--------------Edit Book Entry Record----------------//
+            $(document).on("click", "a.BKVfcneditor_edit", function () {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Are you sure to fetch this Book Verification Entry record to edit? ",
+                    type: 'warning',
+                    confirmButtonText: "Yes",
+                    showCancelButton: true,
+                    cancelButtonText: "No",
+                    showCloseButton: true
+                }).then((result) => {
+                    if (result.value) {
+                        var idx = $(this).attr('id');
+
+                        row = this.parentNode.parentNode.rowIndex;
+                        row = row - 1;
+
+                        var $tableBody = $('#tblBookVerificationList').find("#BooksVerificationListDETAIL_BODY")
+
+                        $trCur = $tableBody.find("tr:eq(" + row + ")");
+
+                        var bvid = $trCur.find(".BookVfcnID").val();
+                        var acbkid = $trCur.find(".FD_AccountBookID").val();
+                        var oid = $trCur.find(".FD_OwnerID").val();
+                        var otid = $trCur.find(".FD_OwnerTypeID").val();
+                        var vfcnstsid = $trCur.find(".VfcnStsId").val();
+                        var vfncrmks = $trCur.find(".FD_BVcnRemarks").val();
+                        var vfcnfindingid = $trCur.find(".FD_BkVfcnFindingId").val();
+                        var bksid = $trCur.find(".FD_BookStatusTypeID").val();
+                        var bno = $trCur.find(".FD_BookNumber").val();
+                        var bisdt = $trCur.find(".FD_BookIssuedDate").val();
+                        var btdt = $trCur.find(".FD_BookTerminatedDate").val();
+                        var bvgndt = $trCur.find(".FD_BookVfcnGeneratedDate").val();
+                        var btdt = $trCur.find(".FD_BookTerminatedDate").val();
+                        var bcoldt = $trCur.find(".FD_BookCollectedDate").val();
+                        var brtndt = $trCur.find(".FD_BookReturnedDate").val();
+                        var bedt = $trCur.find(".FD_BookEntryDate").val();
+                        var bkorfid = $trCur.find(".FD_OldReceiptRefId").val();
+                        var bkorf = $trCur.find(".FD_OldReceiptRefNo").val();
+                        var bkorfamt = $trCur.find(".FD_OldReceiptAmt").val();
+                        var bkamt = $trCur.find(".FD_BookAmt").val();
+
+                        $("#BookID").val(acbkid);
+                        $("#ProductID").val(oid);
+                        $("#ProductID").trigger('change');
+                        $("#ProductTypeID").val(otid);
+                        $("#F_BookVerificationID").val(bvid);
+                        $("#F_BookVerificationID").trigger('change');
+                        $("#BookStatusTypeID").val(bksid);
+                        $("#BookStatusTypeID").trigger('change');
+                        LoadReceiptDtls();
+                        $("#BookNumber").val(bno);
+                        $("#F_BookVerificationFindingID").val(vfcnfindingid);
+                        $("#F_BookVerificationFindingID").trigger('change');
+                        $("#F_BookAmount").val(bkamt);
+                        $("#F_OldReceiptID").val(bkorfid);
+                        $("#F_OldReceiptID").trigger('change');
+                        $("#F_OldReceiptAmount").val(bkorfamt);
+
+                        if (bedt != null && bedt != "") {
+                            $("#F_BookEntryDate").val(bedt);
+                        }
+
+                        if (bvgndt != null && bvgndt != "") {
+                            $("#GeneratedDate").val(bvgndt);
+                        }
+                        if (bcoldt != null && bcoldt != "") {
+                            $("#CollectedDate").val(bcoldt);
+                        }
+                        if (brtndt != null && brtndt != "") {
+                            $("#ReturnedDate").val(brtndt);
+                        }
+                        //if (bisdt != null && bisdt != "") {
+                        //    $("#IssuedDate").val(brtndt);
+                        //}
+                        if (btdt != null && btdt != "") {
+                            $("#BookTerminatedDate").val(btdt);
+
+                        }
+                        $("#F_OldReceiptID").val(bkorfid);
+                        $("#F_OldReceiptID").trigger('change');
+                        $("#BkVfcnStatusTypeID").val(vfcnstsid);
+                        $("#BkVfcnStatusTypeID").trigger('change');
+                        $("#Remarks").val(vfncrmks);
+
+                    }
+                    else if (result.dismiss === 'cancel') { return false; }
+                });
+
+
+            });//end
+
+        });
+             function AssignReceiptAmt() {
+
+                 var rcptdtl = $(".F_OldReceiptID option:selected").text().split("~");
+                 if (rcptdtl.length > 0 && rcptdtl[1] != "")
+                     $(".F_OldReceiptAmount").val(rcptdtl[1]);
+
+            }
+            function CalcDiffAmt() {
+
+                var orcptamt = $(".F_OldReceiptAmount").val();
+                var bkamt = $(".F_BookAmount").val();
+
+
+            }
+            function LoadReceiptDtls() {
+                var prod = $("#ProductTypeID option:selected").val();
+                var subsid = $("#ProductID option:selected").val();
+                var rcptdt = $("#GeneratedDate").val();
+                var bvfnlstid = $("#BookVerificationListID").val();
+                var bvid = $("#F_BookVerificationID").val();
+                if (bvid == "")
+                    bvid = "0";
+                if (subsid != "" && prod != "") {
+                    url = '@Url.Action("GetReceiptDtls", "TransactionBookVerification")/?id=' + subsid + '~' + prod + '~' + bvfnlstid + '~' + rcptdt +'~' + bvid;
+                    console.log(url);
+                //alert(url);
+                    $("#F_OldReceiptID").empty().trigger('change');
+                        $.ajax({
+                            type: 'post',
+                            url: url,
+                            async: false,
+                            dataType: 'json',
+                            success: function (data) {
+
+                                $("#F_OldReceiptID").append('<option value="">Please Select Receipt Reference</option>');
+                                var i = 0;
+                                $.each(data, function (i, dataval) {
+                                    $("#F_OldReceiptID").append('<option value="' + dataval.TypeID + '">' + dataval.Type + '</option>');
+                                });
+                            },
+                            complete: function () {
+                                //alert('hi');
+                                AssignReceiptAmt();
+                            },
+                            error: function (ex) {
+                                alert('Failed to Get Details due to Error: ' + ex);
+                            }
+                        });
+                }
+
+            }
+
+
+            function LoadProdDtls() {
+                var trncatg = "C";
+                var prod = $("#ProductTypeID option:selected").val();
+                var bkvfcnlstid = $(".BookVerificationListID").val();
+                if (prod > 0 && trncatg != null && trncatg != "" && (bkvfcnlstid = "" || bkvfcnlstid == "0")) {
+                    url = '@Url.Action("GetProductSubsDtl", "TransactionBookVerification")/?id=' + trncatg + '~' + prod;
+                    $.ajax({
+                        type: 'post',
+                        url: url,
+                        dataType: 'json',
+                        async: false,
+                        success: function (data) {
+                            console.log(data);
+                            $("#ProductID").empty().trigger('change');
+                            $("#ProductID").append('<option value="">Please Select Subscription</option>');
+                            var i = 0;
+                            $.each(data, function (i, dataval) {
+                                $("#ProductID").append('<option value="' + dataval.ProductID + '">' + dataval.subscriptioncode + '</option>');
+                            });
+                        },
+                        complete: function () {
+                            //alert('hi');
+                            LoadBooks();
+                        },
+                        error: function (ex) {
+                            alert('Failed to Get Details due to Error: ' + ex);
+                        }
+                    });
+                }
+            }
+             function LoadBooks() {
+
+                 var prod = $("#ProductTypeID option:selected").val();
+                 var subsid = $("#ProductID option:selected").val();
+            var bkvfcnlstid = $(".BookVerificationListID").val();
+
+                 if (prod > 0 && subsid > 0 ) {
+                url = '@Url.Action("GetBooks", "TransactionBookVerification")/?id=' + subsid + '~' + prod + '~'+bkvfcnlstid;
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        console.log(data);
+                        $("#BookID").empty().trigger('change');
+                        $("#BookID").append('<option value="">Please Select Book</option>');
+                        var i = 0;
+                        $.each(data, function (i, dataval) {
+                            $("#BookID").append('<option value="' + dataval.TypeID + '">' + dataval.Type + '</option>');
+                        });
+                    },
+                    complete: function () {
+                        //alert('Loading Receipts');
+                        LoadReceiptDtls();
+
+                    },
+                    error: function (ex) {
+                        alert('Failed to Get Details due to Error: ' + ex);
+                    }
+                });
+            }
+
+            }
+
+
+
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var ids = $("#BookVerificationListID").val();
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('TransactionBookVerificationform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "TransactionBookVerification";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#TransactionBookVerificationform').serialize();
+                            //submitFormData(ActionName, controllername, pagetitle, formData);
+                            var fileActionName = "SaveBookVerificationFiles";
+                            var fileUpload = $("#filesupload").get(0); //document.getElementById("filesupload").files[0];//
+                            var files = fileUpload.files;
+                            //alert(trandid);
+                            // Create FormData object
+                            var fileData = new FormData();
+                            //fileData.append("trandid", trandid);
+                            // Looping over all files and add it to FormData object
+                            for (var i = 0; i < files.length; i++) {
+                                //alert(files[i].name);
+                                fileData.append(files[i].name, files[i]);
+                            }
+
+                            //submitFormFileData(ActionName, controllername, pagetitle, formData, fileData, fileActionName, ids);
+                            var returl="@Url.Action("Form", "TransactionBookVerification")";
+                            submitFormData(ActionName, controllername, pagetitle + '~' + returl, formData, fileData, fileActionName, ids);
+
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+
+
+
+        </script>
+
+
+
+    }

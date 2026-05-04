@@ -1,0 +1,299 @@
+﻿
+@using CHITERP.Models;
+@model CHITERP.Models.ContactTypeMaster
+
+@{
+    ViewBag.Title = "Contact Type Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                    <form action="@Url.Content("~/ContactTypeMaster/Savedata")" method="post" data-flag="0" class="needs-validation ContactTypeMasterform" id="ContactTypeMasterform" name="ContactTypeMasterform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                        <div class="row">
+                            <div class="col-md-2 mb-2 hide">
+                                <label for="CONTTID">Id</label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="CONTTID" name="CONTTID" value="@Model.CONTTID" class="form-control CONTTID" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="CONTTID" name="CONTTID" value="0" class="form-control CONTTID" />
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="CONTTYPESHRTDESC">Contact Type Short Name <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="CONTTYPESHRTDESC" name="CONTTYPESHRTDESC" value="@Model.CONTTYPESHRTDESC" class="form-control CONTTYPESHRTDESC" required placeholder="Contact Type Short Name" maxlength="15" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Contact Type Short Name !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="CONTTYPESHRTDESC" name="CONTTYPESHRTDESC" class="form-control CONTTYPESHRTDESC" required placeholder="Contact Type Short Name" maxlength="15" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Contact Type Short Name !!
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="CONTTYPEDESC">Contact Type Name <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="CONTTYPEDESC" name="CONTTYPEDESC" value="@Model.CONTTYPEDESC" class="form-control CONTTYPEDESC" required placeholder="Contact Type Name" maxlength="100" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Contact Type Name !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="CONTTYPEDESC" name="CONTTYPEDESC" class="form-control CONTTYPEDESC" required placeholder="Contact Type Name" maxlength="100" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Contact Type Name !!
+                                    </div>
+                                }
+                            </div>
+
+                           
+
+
+                            <div class="col-md-2 mb-2">
+
+                                <label>Status <span class="text-danger">*</span></label>
+                                @Html.DropDownList("DISPSTATUS", null, "Please select Status", new { @class = "form-control select2 custom-select  DISPSTATUS", @data_val = "true", @required = "required", @id = "DISPSTATUS", @style = "width:50%;" })
+                                <div class="invalid-feedback">
+                                    Please Select Status !!
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="col-lg-8">
+                                    <div class="mb-3 form-group">
+
+                                        <table>
+                                            <tr>
+                                                <td class="crbytext">Created By :</td>
+                                                <td class="crbyval">@Html.DisplayFor(model => model.CreatedBy, new { @class = "CreatedBy", @id = "CreatedBy" })</td>
+                                                <td>&nbsp;</td>
+                                                <td class="crbytext">Created Date:</td>
+                                                <td class="crbyval">@Html.DisplayFor(model => model.CreatedDt, new { @class = "CreatedDt", @id = "CreatedDt" })</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+
+                                                <td class="crbytext">Modified By:</td>
+                                                <td class="crbyval">@Html.DisplayFor(model => model.UpdatedBy, new { @class = "UpdatedBy", @id = "UpdatedBy" })</td>
+                                                <td>&nbsp;</td>
+                                                <td class="crbytext">Modified Date:</td>
+                                                <td class="crbyval">@Html.DisplayFor(model => model.UpdatedDt, new { @class = "UpdatedDt", @id = "UpdatedDt" })</td>
+                                            </tr>
+
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-md-flex align-items-center mt-3">
+
+                                    <a href="@Url.Action("Index", "ContactTypeMaster")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                        <button id="btnsave" type="button" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#CONTTID').val() == "") {
+
+                $('#CONTTID').val() = 0;
+
+                if ($('#CreatedDt').val() == "") {
+                    var date = new Date();
+                    $('#CreatedDt').val(date);
+                }
+            }
+            else {
+
+                if ($('#UpdatedDt').val() == "") {
+                    var date = new Date();
+                    $('#UpdatedDt').val(date);
+                }
+            }
+
+        });
+
+        $('#btnsave').click(function () {
+
+            if ($('#CONTTYPESHRTDESC').val() == "") {
+
+                Swal.fire({
+                    text: 'Please Enter Contact Type Short Name',
+                    icon: 'warning',
+                    //timer: 2500,
+                    showConfirmButton: true
+                }).then(function () {
+                    $('.CONTTYPESHRTDESC').focus();
+                });
+
+                //alert('Please Enter Contact Type Short Name !!');
+                //$('#CONTTYPESHRTDESC').focus();
+
+                return false;
+            }
+
+            if ($('#CONTTYPEDESC').val() == "") {
+
+                Swal.fire({
+                    text: 'Please Enter Contact Type Name',
+                    icon: 'warning',
+                    //timer: 2500,
+                    showConfirmButton: true
+                }).then(function () {
+                    $('.CONTTYPEDESC').focus();
+                });
+
+                //alert('Please Enter Contact Type Name !!');
+                //$('#CONTTYPEDESC').focus();
+                return false;
+            }
+
+            var tab = {
+                CONTTID: $("#CONTTID").val(),
+                CONTTYPESHRTDESC: $('#CONTTYPESHRTDESC').val(),
+                CONTTYPEDESC: $('#CONTTYPEDESC').val(),
+                DISPSTATUS: $('#DISPSTATUS').val(),
+                CreatedBy: $('#CreatedBy').val(),
+                CreatedDt: $('#CreatedDt').val(),
+                UpdatedBy: $('#UpdatedBy').val(),
+                UpdatedDt: $('#UpdatedDt').val()
+
+            };
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Are you sure that you want to submit this record?",
+                icon: 'warning',
+                confirmButtonText: "Yes",
+                showCancelButton: true,
+                cancelButtonText: "No",
+                showCloseButton: true
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: "@Url.Action("SaveData", "ContactTypeMaster")",
+                        data: JSON.stringify(tab),
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+                        success: function (status) {
+                            if (status == "Update") {
+
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Contact Type Master Details Modified Successfully',
+                                    showConfirmButton: true,
+                                    //timer: 3500
+                                }).then((result) => {
+                                    if (result.value) {
+                                        var returnurl = "@Url.Action("Index", "ContactTypeMaster")";
+                                        window.location.href = returnurl;
+                                    }
+                                });
+
+                        @*alert('Call Type Master Details Updated Successfully !! ');
+
+                        var returnurl = "@Url.Action("Index", "CallTypeMaster")";
+                        window.location.href = returnurl;*@
+                            }
+                            else if (status == "Success") {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Contact Type Master Details Added Successfully',
+                                    showConfirmButton: true,
+                                    //timer: 3500
+                                }).then((result) => {
+                                    if (result.value) {
+                                        var returnurl = "@Url.Action("Index", "ContactTypeMaster")";
+                                        window.location.href = returnurl;
+                                    }
+                                });
+
+
+                        @*alert('Call Type Master Details Inserted Successfully !! ');
+                        var returnurl = "@Url.Action("Index", "CallTypeMaster")";
+                        window.location.href = returnurl;*@
+                            }
+                            else if (status == "Existing") {
+
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: 'Contact Type Master Details Already Exists',
+                                    showConfirmButton: true,
+                                    //timer: 3500
+                                }).then((result) => {
+                                    if (result.value) {
+                                        var returnurl = "@Url.Action("Form", "ContactTypeMaster")";
+                                        window.location.href = returnurl;
+                                    }
+                                });
+
+                        @*alert('Call Type Master Details Already Inserted !! ');
+                        $('#CALLTYPESHRTDESC').val("");
+                        $('#CALLTYPEDESC').val("");
+                        var returnurl = "@Url.Action("Form", "CallTypeMaster")";
+                        window.location.href = returnurl;*@
+                            }
+                        },
+                        error: function (errormessage) {
+                            alert(errormessage.responseText);
+                        }
+                    });
+
+                } else if (result.dismiss === 'cancel') {
+
+
+                    return false;
+
+                }
+            });
+
+
+
+        });
+
+    </script>
+
+
+}

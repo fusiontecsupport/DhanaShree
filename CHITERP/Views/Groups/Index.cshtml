@@ -1,0 +1,97 @@
+﻿@model IEnumerable<CHITERP.Models.ApplicationGroups>
+@{
+    ViewBag.Title = "Groups";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="card-header border-bottom" style="background-color:white;">
+                            <div class="d-flex no-block align-items-center mb-0">
+                                <h3 class="card-title text-dark-primary"><i class="fa fa-bar-chart-o fa-fw"></i>@ViewBag.Title</h3>
+                                <div class="ms-auto">
+                                    <div class="btn-group">
+                                        <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("Create", "Groups")"><i class="fa fa-plus"></i>&nbsp; Create </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </th>
+                                <th></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { @class = "editor_edit btn btn-warning btn-sm", id = item.Id }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                        @Html.ActionLink("Delete", "Delete", new { @class = "editor_remove btn btn-danger btn-sm", id = item.Id })
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<h2>Groups</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>*@
+

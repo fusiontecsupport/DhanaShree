@@ -1,0 +1,136 @@
+﻿@model CHITERP.Models.GroupViewModel
+
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title mb-3 pb-3 border-bottom">Edit</h3>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.Id)
+
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+                                @Html.EditorFor(model => model.Name, new { @class = "form-control Name", @id = "Name" })
+                                @Html.ValidationMessageFor(model => model.Name)
+                            </div>
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                @Html.EditorFor(model => model.Description, new { @class = "form-control Description", @id = "Description" })
+                                @Html.ValidationMessageFor(model => model.Description)
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            @Html.Label("Permissions", new { @class = "control-label col-md-2" })
+
+                            @foreach (var item in Model.RolesList)
+                            {
+                                <div>
+                                    <input type="checkbox" name="SelectedRoles" value="@item.Text" checked="@item.Selected" class="checkbox-inline" />
+                                    @Html.Label(item.Text, new { @class = "control-label" })
+                                </div>
+                            }
+                        </div>
+                        <div class="row">
+                            @Html.Label("Users", new { @class = "control-label col-md-2" })
+
+                            @foreach (var item in Model.UsersList)
+                            {
+                                <div>
+                                    <input type="checkbox" name="SelectedRoles" value="@item.Text" checked="@item.Selected" class="checkbox-inline" disabled />
+                                    @Html.Label(item.Text, new { @class = "control-label" })
+                                </div>
+                            }
+                        </div>
+                        <div class="col-12">
+                            <div class="d-md-flex align-items-center mt-3">
+
+                                <a href="@Url.Action("Index", "Groups")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Back to List</a>
+
+                                <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                    <input type="submit" value="Save" class="btn btn-info font-weight-medium rounded-pill px-4" />
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+@*<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>ApplicationGroup</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description)
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Permissions", new { @class = "control-label col-md-2" })
+            <span class=" col-md-10">
+                @foreach (var item in Model.RolesList)
+                {
+                    <div>
+                        <input type="checkbox" name="selectedRoles" value="@item.Text" checked="@item.Selected" class="checkbox-inline" />
+                        @Html.Label(item.Text, new { @class = "control-label" })
+                    </div>}
+            </span>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@

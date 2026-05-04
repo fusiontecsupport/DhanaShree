@@ -1,0 +1,5 @@
+use finfusion
+go
+
+alter table chitsubscription
+drop constraint FK_ChitSubscription_CompanyFundAccount

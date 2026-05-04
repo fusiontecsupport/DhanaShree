@@ -1,0 +1,138 @@
+﻿@*@using CHITERP.Models
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>
+        }
+    }
+    else
+    {
+        <ul class="nav navbar-nav navbar-right">
+            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>
+    }*@
+
+
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords"
+          content="Empty Container Management">
+    <meta name="description"
+          content="Empty Container Solution">
+    <meta name="robots" content="noindex,nofollow">
+    <title>FinFusion</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
+
+    @*<link href="/Content/jquery.datetimepicker.css" rel="stylesheet" />
+        <link href="/Content/jquery.ui.datepicker.min.css" rel="stylesheet" />*@
+
+
+    @*<link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">*@
+
+    @*<link rel="stylesheet" type="text/css" href="~/assets/libs/pickadate/lib/themes/default.css">
+        <link rel="stylesheet" type="text/css" href="~/assets/libs/pickadate/lib/themes/default.date.css">
+        <link rel="stylesheet" type="text/css" href="~/assets/libs/pickadate/lib/themes/default.time.css">*@
+
+    <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css">
+
+    <!-- Custom CSS -->
+    <link href="~/assets/dist/css/style.min.css" rel="stylesheet" />
+    <link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        body {
+            background-image: url("~/Content/images/bg.png");
+            background-repeat: no-repeat;
+            /* background-image: url('~/Content/images/bg.png') no-repeat center center !important;*/
+            background-size: cover !important;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <div id="page-wrapper">
+            @RenderBody()
+        </div>
+    </div>
+    <!-- /#wrapper -->
+    <!-- -------------------------------------------------------------- -->
+    <!-- All Required js -->
+    <!-- -------------------------------------------------------------- -->
+    <script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!--Custom JavaScript -->
+    <!-- -------------------------------------------------------------- -->
+    <!-- This page plugin js -->
+    @*<script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>*@
+    @*<script src="~/assets/libs/pickadate/lib/compressed/picker.js"></script>
+        <script src="~/assets/libs/pickadate/lib/compressed/picker.date.js"></script>
+        <script src="~/assets/libs/pickadate/lib/compressed/picker.time.js"></script>*@
+    @*<script src="~/assets/libs/pickadate/lib/compressed/legacy.js"></script>*@
+    @*<script src="~/assets/libs/moment/moment.js"></script>
+        <script src="~/assets/libs/daterangepicker/daterangepicker.js"></script>
+        <script src="~/assets/dist/js/pages/forms/datetimepicker/datetimepicker.init.js"></script>*@
+
+    <!--Custom JavaScript -->
+    <script src="~/assets/dist/js/feather.min.js"></script>
+    @*<script src="~/assets/dist/js/app.min.js"></script>*@
+
+    <script src="~/assets/dist/js/app.init.horizontal.js"></script>
+    <!--Wave Effects -->
+    <script src="~/assets/dist/js/waves.js"></script>
+    @*<script src="~/assets/dist/js/custom.min.js"></script>*@
+    <!-- This Page JS -->
+    <script src="~/assets/libs/moment/moment.js"></script>
+    <script src="~/assets/libs/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker-custom.js"></script>
+
+    <!-- -------------------------------------------------------------- -->
+    <script>
+        $(".preloader").fadeOut();
+        // ==============================================================
+        // Login and Recover Password
+        // ==============================================================
+        $('#to-recover').on("click", function () {
+            $("#loginform").slideUp();
+            $("#recoverform").fadeIn();
+        });
+
+        //LDATE
+        //$('#date-format').bootstrapMaterialDatePicker({ format: 'dd-mm-yyyy' });
+        $('#LDATE').bootstrapMaterialDatePicker({ format: 'DD-MM-YYYY', weekStart: 0, time: false });
+
+    </script>
+
+
+
+</body>
+
+</html>

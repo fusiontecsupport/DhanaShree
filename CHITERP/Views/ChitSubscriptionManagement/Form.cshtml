@@ -1,0 +1,1462 @@
+﻿@using CHITERP.Models;
+@using CHITERP.Data;
+@model CHITERP.Models.ChitTransSS
+
+@{
+    ViewBag.Title = "Chit Subscription";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .spacer5 {
+        height: 15px;
+    }
+    /*   body {
+        font-family: Arial !important;
+    }*/
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title </h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-6">
+
+
+                            <div class="mb-6 row">
+                                <label class="col-sm-6 text-end control-label col-form-label">Organization/Person</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("FPersonID", null, "Please Select Organization/Person", new
+                                    {
+                                        @class = "form-control select2 custom-select  FPersonID",
+                                        @data_val = "true",
+                                        @required = "required",
+                                        @id = "FPersonID",
+                                        @onchange = "ClientNameChange();"@*, @style = "width:50%;"*@})
+                                    <div class="invalid-feedback">
+                                        Please Select Organization/Person !!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-6">
+                            <div class="mb-3 row">
+                                <label class="col-sm-3 text-end control-label col-form-label">Introduced By	</label>
+                                <div class="col-sm-6">
+                                    <input type="text" readonly id="IntroducedBy" class="form-control IntroducedBy" name="IntroducedBy" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="mytab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" id="Subscriptions">
+                                <a class="nav-link d-flex active tab" data-bs-toggle="tab" href="#Subscription" role="tab" aria-selected="true">
+                                    <span>
+                                        <i class="fa fa-rocket"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Subscription</span>
+                                </a>
+                            </li>
+                            <li class="nav-item " id="CollectionSchedule">
+                                <a class="nav-link d-flex tab1" data-bs-toggle="tab" href="#ChitCollectionSchedule" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-book"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">
+                                        Collection Schedule & Receipts
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item" id="CQRCode">
+                                <a class="nav-link d-flex tab2" data-bs-toggle="tab" href="#ChitQRCode" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-qrcode"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">QRCode</span>
+                                </a>
+                            </li>
+                            <li class="nav-item hide" id="Addresses">
+                                <a class="nav-link d-flex tab1" data-bs-toggle="tab" href="#Address" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-building"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">
+                                        Address
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item hide" id="Contact1">
+                                <a class="nav-link d-flex tab2" data-bs-toggle="tab" href="#Contacts" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-phone"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Contacts</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item hide" id="Closure1">
+                                <a class="nav-link d-flex tab2" data-bs-toggle="tab" href="#Closure" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-users"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Closure</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item hide" id="Collection1">
+                                <a class="nav-link d-flex tab2" data-bs-toggle="tab" href="#Collection" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-list-alt"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Collection</span>
+                                </a>
+                            </li>
+                        </ul>
+
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="Subscription" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <br />
+                                        <form action="@Url.Content("~/ChitGroupManagement/Savedata")" method="post" data-flag="0" class="needs-validation ChitSubscriptionMainform" id="ChitSubscriptionMainform" name="ChitSubscriptionMainform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                                            <div class="row">
+
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="SubscriptionID">Id</label>
+                                                    @if (Model != null)
+                                                    {
+                                                        <input type="text" id="SubscriptionID" name="SubscriptionID" value="@Model.chitsubs[0].SubscriptionID" class="form-control SubscriptionID" />
+                                                        <input type="text" id="PersonID" name="PersonID" value="@Model.chitsubs[0].PersonID" class="form-control PersonID" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="SubscriptionID" name="SubscriptionID" value="0" class="form-control SubscriptionID" />
+                                                        <input type="text" id="PersonID" name="PersonID" value="" class="form-control PersonID" />
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="ChitSchemeID">Chit Scheme <span class="text-danger">*</span></label>
+
+                                                    @Html.DropDownList("ChitSchemeID", null, "Please select", new
+                                                    {
+                                                        @class = "form-control select2 custom-select  ChitSchemeID",
+                                                        @data_val = "true",
+                                                        @required = "required",
+                                                        @id = "ChitSchemeID",
+                                                        @onchange = "SchemeNameChange();"@*, @style = "width:50%;"*@})
+                                                    <div class="invalid-feedback">
+                                                        Please Select Scheme Code !!
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="SchemeName">Scheme Name</label>
+                                                    <input type="text" id="SchemeName" name="SchemeName" class="form-control SchemeName" readonly maxlength="150" tabindex="2" />
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="ChitValue">Chit Value (₹)</label>
+                                                    <input type="text" id="ChitValue" name="ChitValue" class="form-control ChitValue" readonly maxlength="150" tabindex="2" />
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="ChitDuration">Duration</label>
+                                                    <input type="text" id="ChitDuration" name="ChitDuration" class="form-control ChitDuration" readonly maxlength="150" tabindex="2" />
+                                                </div>
+
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="ChitGroupID">Group <span class="text-danger">*</span></label>
+                                                    <input type="text" id="edChitGroupID" name="edChitGroupID" class="form-control hide edChitGroupID" value="@ViewBag.edChitGroupID" readonly maxlength="150" tabindex="2" />
+                                                    @Html.DropDownList("ChitGroupID", null, "Please select", new { @class = "form-control select2 custom-select  ChitGroupID", @data_val = "true", @required = "required", @id = "ChitGroupID", @style = "width:50%;", @onchange = "GetMemberDtl();" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Group !!
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="GroupTypeID">Group Type</label>
+                                                    <input type="text" id="PrevGroupTypeID" name="PrevGroupTypeID" class="form-control hide PrevGroupTypeID" value="@ViewBag.PrevGroupTypeID" readonly maxlength="150" tabindex="2" />
+                                                    <input type="text" id="GroupTypeID" name="GroupTypeID" class="form-control hide GroupTypeID" readonly maxlength="150" tabindex="2" />
+                                                    <input type="text" id="GroupTypeDesc" name="GroupTypeDesc" class="form-control GroupTypeDesc" readonly maxlength="150" tabindex="2" />
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="AlreadyJoined">Already Joined</label>
+                                                    <input type="text" id="AlreadyJoined" name="AlreadyJoined" class="form-control AlreadyJoined" readonly maxlength="150" tabindex="2" />
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="BalanceMembersAvailable">Balance Members Available</label>
+                                                    <input type="text" id="BalanceMembersAvailable" name="BalanceMembersAvailable" class="form-control BalanceMembersAvailable" readonly maxlength="150" tabindex="2" />
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="TotalGroupMembers">Total Group Members</label>
+                                                    <input type="text" id="TotalGroupMembers" name="TotalGroupMembers" class="form-control TotalGroupMembers" readonly maxlength="150" tabindex="2" />
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="CollectionTypeID">Collection Type<span class="text-danger">*</span></label>
+
+                                                    @Html.DropDownList("CollectionTypeID", null, "Please select", new { @class = "form-control select2 custom-select  CollectionTypeID", @data_val = "true", @required = "required", @id = "CollectionTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Collection Type !!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="CollectionIntervalTypeID"> Collection Interval<span class="text-danger">*</span></label>
+
+                                                    @Html.DropDownList("CollectionIntervalTypeID", null, "Please select", new { @class = "form-control select2 custom-select  CollectionIntervalTypeID", @data_val = "true", @required = "required", @id = "CollectionIntervalTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Interval !!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="FundAccountID">Fund Account</label>
+
+                                                    @Html.DropDownList("FundAccountID", null, "Please select", new { @class = "form-control select2 custom-select  FundAccountID", @data_val = "true", @id = "FundAccountID", @style = "width:50%;" })
+
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="LinkedOfficeID">Linked Office<span class="text-danger">*</span></label>
+
+                                                    @Html.DropDownList("LinkedOfficeID", null, "Please select", new { @class = "form-control select2 custom-select  LinkedOfficeID", @data_val = "true", @required = "required", @id = "LinkedOfficeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Linked Office !!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="BookPickupDay">Book Pickup Day<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("BookPickupDay", null, "Select Pickup Date", new { @class = "form-control select2 custom-select  BookPickupDay", @data_val = "true", @required = "required", @id = "BookPickupDay", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Book  Pickup Date !!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label>Route <span class="text-danger">*</span> </label>
+                                                    @Html.DropDownList("RouteID", null, "Please select", new { @class = "form-control select2 custom-select  RouteID", @data_val = "true", @id = "RouteID", @style = "width:50%;", @required="required" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Route !!
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="ChitSchemeID">No of. Tickets</label>
+                                                    @if (Model != null)
+                                                    {
+                                                        <input type="number" id="TicketNumber" min="0" name="TicketNumber" value="@Model.chitsubs[0].TicketNumber" class="form-control TicketNumber" maxlength="50" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter No. of Tickets!!
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="TicketNumber" min="0" name="TicketNumber" value="" class="form-control TicketNumber" maxlength="50" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter  No. of Tickets!!
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label>Mode <span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("CollectionModeTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  CollectionModeTypeID", @data_val = "true", @required = "required", @id = "CollectionModeTypeID", @style = "width:50%;" })
+
+                                                    <div class="invalid-feedback">
+                                                        Please Select Mode !!
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <br />
+                                            <div class="row">
+
+                                                <div class="col-md-3 mb-3">
+
+                                                    <label>Collection Agent 1<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("CollectionAgentPersonID1", null, "Please select Collection Employee 1", new { @class = "form-control select2 custom-select  CollectionAgentPersonID1", @data_val = "true", @required = "required", @id = "CollectionAgentPersonID1", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Collection Employee 1!!
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+
+                                                    <label>Alternate Collection Agent </label>
+                                                    @Html.DropDownList("CollectionAgentPersonID2", null, "Please select Collection Employee 2", new { @class = "form-control select2 custom-select  CollectionAgentPersonID2", @data_val = "true", @id = "CollectionAgentPersonID2", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Collection Employee 2!!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+
+                                                    <label>Commission Agent 1 <span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("CommisionAgentPersonID", null, "Please select Commission Employee", new { @class = "form-control select2 custom-select  CommisionAgentPersonID", @data_val = "true", @required = "required", @id = "CommisionAgentPersonID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Commission Agent 1!!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+
+                                                    <label>Commission Agent 2</label>
+                                                    @Html.DropDownList("CommisionAgentPersonID2", null, "Please select Commission Employee", new { @class = "form-control select2 custom-select  CommisionAgentPersonID2", @data_val = "true", @id = "CommisionAgentPersonID2", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Commission Agent 2!!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="CommencementDate">Commencement Date</label>
+                                                    @if (Model != null)
+                                                    {
+                                                        string pdatetime = Convert.ToString(Model.chitsubs[0].CommencementDate);
+                                                        if ((pdatetime != null && pdatetime != ""))
+                                                        {
+                                                            var param = pdatetime.Split(' ');
+                                                            DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                            <input id="CommencementDate" onchange="CalcEndDt();" type="date" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",pdate)" name="CommencementDate" class="form-control CommencementDate" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input id="CommencementDate" onchange="CalcEndDt();" type="date" max="2099-12-31" name="CommencementDate" class="form-control  CommencementDate" />
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="CommencementDate" onchange="CalcEndDt();" type="date" max="2099-12-31" name="CommencementDate" class="form-control CommencementDate" />
+                                                    }
+                                                    <div class="invalid-feedback">
+                                                        Please Select Commencement Date !!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="CommencementTime">Commencement Time</label>
+                                                    @if (Model != null)
+                                                    {
+                                                        string pdatetime = Convert.ToString(Model.chitsubs[0].CommencementDate);
+                                                        if ((pdatetime != null && pdatetime != ""))
+                                                        {
+                                                            var param = pdatetime.Split(' ');
+                                                            string ptime = param[1];
+                                                            <input type="time" min="00:00" max="23:00" id="CommencementTime" value="@ptime" name="CommencementTime" class="form-control CommencementTime" />
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="time" min="00:00" max="23:00" id="CommencementTime" name="CommencementTime" class="form-control CommencementTime" />
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="time" min="00:00" max="23:00" id="CommencementTime" name="CommencementTime" class="form-control CommencementTime" />
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="StartDate">Collection Start Date</label>
+                                                    @if (Model != null)
+                                                    {
+                                                        string pdatetime = Convert.ToString(Model.chitsubs[0].StartDate);
+                                                        if ((pdatetime != null && pdatetime != ""))
+                                                        {
+                                                            var param = pdatetime.Split(' ');
+                                                            DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                            <input id="StartDate" type="date" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",pdate)" name="StartDate" class="form-control StartDate" onchange="CalcEndDt();" required />
+                                                            <div class="invalid-feedback">
+                                                                Please Select Collection Start Date !!
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input id="StartDate" type="date" max="2099-12-31" name="StartDate" class="form-control StartDate" onchange="CalcEndDt();" />
+                                                            <div class="invalid-feedback">
+                                                                Please Select Collection Start Date !!
+                                                            </div>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="StartDate" type="date" max="2099-12-31" name="StartDate" class="form-control StartDate" onchange="CalcEndDt();" />
+                                                        <div class="invalid-feedback">
+                                                            Please Select Collection Start Date !!
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="EndDate">Closure Date</label>
+                                                    @if (Model != null)
+                                                    {
+                                                        string pdatetime = Convert.ToString(Model.chitsubs[0].EndDate);
+                                                        if ((pdatetime != null && pdatetime != ""))
+                                                        {
+                                                            var param = pdatetime.Split(' ');
+                                                            DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                            <input id="EndDate" type="date" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",pdate)" name="EndDate" class="form-control EndDate" />
+                                                            <div class="invalid-feedback">
+                                                                Please Select Closure Date !!
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input id="EndDate" type="date" max="2099-12-31" name="EndDate" class="form-control EndDate" />
+                                                            <div class="invalid-feedback">
+                                                                Please Select Closure Date !!
+                                                            </div>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="EndDate" type="date" max="2099-12-31" name="EndDate" class="form-control EndDate" />
+                                                        <div class="invalid-feedback">
+                                                            Please Select Closure Date !!
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label>Status <span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Status
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="TicketPaidNumber">Ticket Paid#</label>
+                                                    @if (Model != null)
+                                                    {
+                                                        <input type="number" min="0" id="TicketPaidNumber" name="TicketPaidNumber" value="@Model.chitsubs[0].TicketPaidNumber" class="form-control TicketPaidNumber" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" min="0" id="TicketPaidNumber" name="TicketPaidNumber" value="" class="form-control TicketPaidNumber" readonly />
+                                                    }
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="d-md-flex align-items-center mt-3">
+                                                    <a href="@Url.Action("Index", "ChitSubscriptionManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+                                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane p-3" id="ChitCollectionSchedule" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-3 hide">
+                                                    <div class="form-group">
+                                                        <label>primary</label>
+                                                        <input class="form-control" id="ChitSchemeID" value="@ViewBag.ChitSchemeID" name="ChitSchemeID" />
+                                                    </div>
+                                                </div>
+                                                <input type="text" id="CHITSCHEDULEDETAILIDX" value="0" name="CHITSCHEDULEDETAILIDX" class="CHITSCHEDULEDETAILIDX hide" />
+                                                <table class='table table-striped table-bordered bootstrap-datatable' id="CHITSCHEDULEDETAIL">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="6"><h4>Planned</h4></th>
+                                                            <th colspan="4"><h4>Actuals</h4></th>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th><label>Inst. No</label></th>
+                                                            <th><label>Inst. Date</label></th>
+                                                            <th><label>Subs. Amt</label></th>
+                                                            <th><label>Div. Amt</label></th>
+                                                            <th><label>Due. Amt</label></th>
+                                                            <th><label>Balance Due Amt</label></th>
+
+                                                            <th><label>Colln. Date</label></th>
+                                                            <th><label>Colln. Amt</label></th>
+                                                            <th><label>Bal. Actuals</label></th>
+                                                            <th><label>Colln. Sts</label></th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="CHITSCHEDULEDETAIL_BODY" id="CHITSCHEDULEDETAIL_BODY">
+                                                        @if (Model != null)
+                                                        {
+                                                            var order = 0;
+                                                            foreach (pr_Get_Chit_Collection_Pattern_n_Actuals_Details_Result details in Model.chitschedules)
+                                                            {
+                                                                order = ++order;
+                                                                <tr class="item-row">
+
+                                                                    <td>
+
+                                                                        <input id="InstNo" type="number" style="width:60px;" readonly value="@details.InstNo" name="InstNo" class="form-control InstNo" required />
+                                                                    </td>
+                                                                    <td>
+
+                                                                        <input id="InsttDt" readonly style="width:95px;" type="text" value="@details.InsttDt" name="InsttDt" class="form-control DtlDueAmt" />
+                                                                    </td>
+                                                                    <td>
+
+                                                                        <input id="Subs_Amount" style="width:125px;" readonly type="number" value="@details.Subs_Amount" min="0.00" step="0.01" name="Subs_Amount" class="form-control Subs_Amount" />
+                                                                    </td>
+                                                                    <td>
+
+                                                                        <input id="Div_Amt" style="width:125px;" readonly type="number" value="@details.Div_Amt" min="0.00" step="0.01" name="Div_Amount" class="form-control Div_Amt" />
+                                                                    </td>
+                                                                    <td>
+
+                                                                        <input id="actchitsubamt" style="width:125px;" readonly type="number" value="@details.actchitsubamt" min="0.00" step="0.01" name="actchitsubamt" class="form-control actchitsubamt" />
+                                                                    </td>
+                                                                    <td>
+
+                                                                        <input id="ToBePaid_Amt" style="width:125px;" min="0.00" step="0.01" type="number" value="@details.ToBePaid_Amt" name="ToBePaid_Amt" readonly class="form-control ToBePaid_Amt" />
+                                                                    </td>
+
+                                                                    <td>
+
+                                                                        <input id="CollectionDt" style="width:95px;" readonly type="text" value="@details.collectiondt" name="CollectionDt" class="form-control CollectionDt" />
+                                                                    </td>
+                                                                    <td>
+
+                                                                        <input id="Credit" style="width:125px;" min="0.00" step="0.01" type="number" value="@details.Credit" readonly name="Credit" class="form-control Credit" />
+                                                                    </td>
+                                                                    <td>
+
+                                                                        <input id="colbalance" style="width:125px;" min="0.00" step="0.01" type="number" value="@details.colbalance" name="colbalance" class="form-control colbalance" readonly />
+                                                                    </td>
+                                                                    <td class=" col-md-1">
+
+                                                                        <input id="CollectionSts" readonly type="text" value="@details.CollectionSts" name="CollectionSts" class="form-control CollectionSts" readonly />
+
+                                                                    </td>
+
+                                                                </tr>
+
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane p-3" id="Address" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form action="@Url.Content("~/ChitSubscriptionManagement/SaveSAData")" method="post" data-flag="0" class="needs-validation ChitSubsAddressform" id="ChitSubsAddressform" name="ChitSubsAddressform" novalidate onsubmit="return ValidateChitSubsAddressform(this,event);">
+                                                <div class="row">
+                                                    <div class="col-lg-3 hide">
+                                                        <div class="form-group">
+                                                            <label>primary</label>
+                                                            <input class="form-control SubscriptionID" id="SubscriptionID" value="@ViewBag.SubscriptionID" name="SubscriptionID" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Linked Address <span class="text-danger">*</span></label>
+                                                            @*@Html.DropDownList("LinkedOfficeID", null, "Please select Status", new { @class = "form-control select2 custom-select  LinkedOfficeID", @data_val = "true", @required = "required", @id = "LinkedOfficeID", @style = "width:50%;" })*@
+                                                            <div class="invalid-feedback">
+                                                                Please Select Linked Address
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Line 1</label>
+                                                            @if (Model != null)
+                                                            {
+                                                                <input type="text" id="AddressLine1" name="AddressLine1" value="@ViewBag.AddressLine1" readonly class="form-control AddressLine1" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="text" id="AddressLine1" name="AddressLine1" value="" readonly class="form-control AddressLine1" />
+                                                            }
+                                                        </div>
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Line 2</label>
+                                                            @if (Model != null)
+                                                            {
+                                                                <input type="text" id="AddressLine2" name="AddressLine2" value="@ViewBag.AddressLine2" readonly class="form-control AddressLine2" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="text" id="AddressLine2" name="AddressLine2" value="" readonly class="form-control AddressLine2" />
+                                                            }
+
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Country</label>
+                                                            @if (Model != null)
+                                                            {
+                                                                <input type="text" id="Country" name="Country" value="@ViewBag.Country" readonly class="form-control Country" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="text" id="Country" name="Country" value="" readonly class="form-control Country" />
+                                                            }
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>City</label>
+                                                            @if (Model != null)
+                                                            {
+                                                                <input type="text" id="City" name="City" value="@ViewBag.City" readonly class="form-control City" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="text" id="City" name="City" value="" readonly class="form-control City" />
+                                                            }
+                                                        </div>
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Locality</label>
+                                                            @if (Model != null)
+                                                            {
+                                                                <input type="text" id="Locality" name="Locality" value="@ViewBag.Locality" readonly class="form-control Locality" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="text" id="Locality" name="Locality" value="" readonly class="form-control Locality" />
+                                                            }
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>PIN</label>
+                                                            @if (Model != null)
+                                                            {
+                                                                <input type="text" id="PIN" name="PIN" value="@ViewBag.PIN" readonly class="form-control PIN" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="text" id="PIN" name="PIN" value="" readonly class="form-control PIN" />
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+                                                        <a href="@Url.Action("Index", "ChitSubscriptionManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+                                                        <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                                            <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane p-3" id="Contacts" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form action="@Url.Content("~/ChitSubscriptionManagement/SaveSCData")" method="post" data-flag="0" class="needs-validation Contactsform" id="Contactsform" name="Contactsform" novalidate onsubmit="return ValidateEmployeeform(this,event);">
+                                                <div class="row">
+                                                    <div class="col-lg-3 hide">
+                                                        <div class="form-group">
+                                                            <label>primary</label>
+                                                            <input class="form-control SubscriptionID" id="SubscriptionID" value="@ViewBag.SubscriptionID" name="SubscriptionID" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Co Applicants</label>
+                                                            @Html.DropDownList("CoApplicants", null, new { @class = "form-control select2 custom-select  CoApplicants", @data_val = "true", @id = "CoApplicants", @style = "width:50%;", @multiple = "multiple" })
+
+                                                        </div>
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Nominee</label>
+                                                            @if (Model != null)
+                                                            {
+                                                                <input type="text" id="Nominee" name="Nominee" value="@ViewBag.Nominee" readonly class="form-control Nominee" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="text" id="Nominee" name="Nominee" value="" readonly class="form-control Nominee" />
+                                                            }
+                                                        </div>
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>
+                                                                Relationship
+                                                            </label>
+                                                            @Html.DropDownList("NomineeRelationshipTypeID", null, "Please select Relation", new { @class = "form-control select2 custom-select  NomineeRelationshipTypeID", @data_val = "true", @id = "NomineeRelationshipTypeID", @style = "width:50%;" })
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Witness 1</label>
+                                                            @if (Model != null)
+                                                            {
+                                                                <input type="text" id="Witness1Person" name="Witness1Person" readonly class="form-control Witness1Person" />
+                                                                <input type="text" id="Witness1PersonID" name="Witness1PersonID" value="@Model.chitsubs[0].Witness1PersonID" class="form-control hide Witness1PersonID" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="text" id="Witness1Person" name="Witness1Person" readonly class="form-control Witness1Person" />
+                                                                <input type="text" id="Witness1PersonID" name="Witness1PersonID" value="0" readonly class="form-control hide Witness1PersonID" />
+                                                            }
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                    <div class="row">
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Witness 2</label>
+                                                            @if (Model != null)
+                                                            {
+                                                                <input type="text" id="Witness2Person" name="Witness2Person" readonly class="form-control Witness2Person" />
+                                                                <input type="text" id="Witness2PresonID" name="Witness2PresonID" value="@Model.chitsubs[0].Witness2PresonID" class="form-control hide Witness2PresonID" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="text" id="Witness2Person" name="Witness2Person" readonly class="form-control Witness2Preson" />
+                                                                <input type="text" id="Witness2PresonID" name="Witness2PresonID" value="0" readonly class="form-control hide Witness2PresonID" />
+                                                            }
+                                                        </div>
+
+                                                        @*<div class="col-md-3 mb-3">
+                                        <label>Commission Agent1</label>
+                                        @if (Model != null)
+                                        {
+                                            <input type="text" id="CommisionAgentPerson" name="CommisionAgentPerson" readonly class="form-control CommisionAgentPerson" />
+                                            <input type="text" id="CommisionAgentPersonID" name="CommisionAgentPersonID" value="@Model.chitsubs[0].CommisionAgentPersonID" class="form-control hide CommisionAgentPersonID" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" id="CommisionAgentPerson" name="CommisionAgentPerson" readonly class="form-control CommisionAgentPerson" />
+                                            <input type="text" id="CommisionAgentPersonID" name="CommisionAgentPersonID" value="0" class="form-control hide CommisionAgentPersonID" />
+                                        }
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label>Commission Agent2</label>
+                                        @if (Model != null)
+                                        {
+                                            <input type="text" id="CommisionAgentPerson2" name="CommisionAgentPerson2" readonly class="form-control CommisionAgentPerson2" />
+                                            <input type="text" id="CommisionAgentPersonID2" name="CommisionAgentPersonID2" value="@Model.chitsubs[0].CommisionAgentPersonID2" class="form-control hide CommisionAgentPersonID2" />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" id="CommisionAgentPerson2" name="CommisionAgentPerson2" readonly class="form-control CommisionAgentPerson2" />
+                                            <input type="text" id="CommisionAgentPersonID2" name="CommisionAgentPersonID2" value="0" class="form-control hide CommisionAgentPersonID2" />
+                                        }
+                                    </div>*@
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Account Employee</label>
+                                                            @if (Model != null)
+                                                            {
+                                                                <input type="text" id="AccountEmployee" name="AccountEmployee" readonly class="form-control AccountEmployee" />
+                                                                <input type="text" id="AccountEmployeeID" name="AccountEmployeeID" value="@Model.chitsubs[0].AccountEmployeeID" class="form-control hide AccountEmployeeID" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="text" id="AccountEmployee" name="AccountEmployee" readonly class="form-control AccountEmployee" />
+                                                                <input type="text" id="AccountEmployeeID" name="AccountEmployeeID" value="0" class="form-control hide AccountEmployeeID" />
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+                                                        <a href="@Url.Action("Index", "ChitSubscriptionManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+                                                        <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                                            <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane p-4" id="ChitQRCode" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form target="_blank" action="@Url.Content("~/ChitSubscriptionManagement/PrintQRCode")" method="post" data-flag="0" class="needs-validation QRform" id="QRform" name="QRform" novalidate>
+
+                                                <div class="row fa-qrcode qrcode pull-right">
+                                                    <div class="col-md-3 mb-3">
+                                                        <div id="imgPreview" class="thumbnail pull-right">
+                                                            <img class="img-responsive targetImg @ViewBag.chk" id="targetImg" src="@ViewBag.qrcdsrc" style="width:500px;height:500px;" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+                                                        <input type="text" readonly id="QRSubsID" class="form-control hide QRSubsID" name="QRSubsID" value="@ViewBag.QRSubsID" />
+                                                        <input type="text" readonly id="ProdType" class="form-control hide ProdType" name="ProdType" value="@ViewBag.ProdType" />
+
+                                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Print QR Code</button>
+
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane p-3" id="Closure" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form action="@Url.Content("~/ChitSubscriptionManagement/SaveCloserData")" method="post" data-flag="0" class="needs-validation Closureform" id="Closureform" name="Closureform" novalidate onsubmit="return ValidateEmployeeform(this,event);">
+                                                <div class="row">
+                                                    <div class="col-lg-3 hide">
+                                                        <div class="form-group">
+                                                            <label>primary</label>
+                                                            <input class="form-control" id="ChitSchemeID" value="@ViewBag.ChitSchemeID" name="ChitSchemeID" />
+                                                        </div>
+                                                    </div>
+
+                                                    <table class="table table-striped table-bordered bootstrap-datatable" width="100%">
+                                                        <tr>
+                                                            <td style="width:20%;">
+                                                                Subscription Paid
+                                                            </td>
+                                                            <td style="width: 23%;">
+                                                                <input name="SubscriptionPaid" type="text" readonly="readonly" id="SubscriptionPaid" class="form-control SubscriptionPaid" style="border:black 1px solid !important" />
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 20%;">
+                                                                Dividend Paid
+                                                            </td>
+                                                            <td style="width: 23%;">
+                                                                <input name="DividendPaid" type="text" readonly="readonly" id="DividendPaid" class="form-control DividendPaid" style="border:black 1px solid !important" />
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 20%;">
+                                                                Payment Pending
+                                                            </td>
+                                                            <td style="width: 23%;">
+                                                                <input name="PaymentPending" type="text" readonly="readonly" id="PaymentPending" class="form-control paddingRight" style="border:black 1px solid !important" />
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 20%;">
+                                                                Waiver
+                                                            </td>
+                                                            <td style="width: 23%;">
+                                                                <input name="Waiver" type="text" id="Waiver" class="form-control Waiver" style="border:black 1px solid !important" />
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 20%;">
+                                                                Balance
+                                                            </td>
+                                                            <td style="width: 23%;">
+                                                                <input name="Balance" type="text" readonly="readonly" id="Balance" class="form-control Balance" style="border:black 1px solid !important" />
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                                &nbsp;
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 20%;">
+                                                                Closure Date
+                                                            </td>
+                                                            <td style="width: 23%;">
+                                                                <input name="ClosureDate" type="date" id="ClosureDate" class="form-control ClosureDate" style="border:black 1px solid !important" />
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+                                                        <a href="@Url.Action("Index", "ChitSubscriptionManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+                                                        <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                                            <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane p-3" id="Collection hide" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form id="Collectionform">
+                                                <div class="row">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            if ($('#SubscriptionID').val() == "") {
+                $('#SubscriptionID').val("0");                
+            }
+            else {
+                ClientNameChange();
+                edSchemeNameChange();
+                GetMemberDtl();
+                $('#edChitGroupID').val($('#ChitGroupID').val()); 
+                //CalcEndDt();
+            }
+
+            $("#mytab ul li a").addClass("hide");
+            //if (($('#SubscriptionID').val() == "0" || $('#SubscriptionID').val() == "")) {
+            //    //$("#mytab ul li a.tab1").addClass("disabled");
+            //    //$("#mytab ul li a.tab2").addClass("disabled");
+            //    $("#mytab ul li a").addClass("disabled");
+            //}
+            //else {
+            //    $("#mytab ul li a").removeClass("disabled");
+            //}
+
+            var smtblrowcount = $('#SMTDETAIL tbody tr').length;
+            $("#SMTDETAILIDX").val(smtblrowcount);
+
+            $("#smadd_detail").click(function () {
+                if ($("#SMTDETAILIDX").val() != 0) {
+
+                    var $tableBody = $('#SMTDETAIL').find("tbody"),
+                        $trLast = $tableBody.find("tr:last");
+
+                    $trNew = $trLast.clone();
+                    $trLast.after($trNew);
+
+                    $trNew.find("span").remove();
+
+                    $trNew.find("#ChitGroupRegisteredId").val("0");
+                    $trNew.find("#PriorSanctionNo").val("");
+                    $trNew.find("#ChitAgreementNo").val("");
+                    $trNew.find("#ChitRegistrationNo").val("");
+                    $trNew.find("#TotalTicket").val("0");
+                    $trNew.find("#ChitRegistrationYear").val("");
+                    $trNew.find("#RegistrarOfficeTypeId").val("");
+                    trow = 1;
+
+                    $('.SMTDETAIL_BODY tr').each(function () {
+                        var $crow = $tableBody.find("tr:eq(" + trow + ")");
+
+                        $crow.find("select").select2("destroy").select2();
+                        $crow.find("select").select2();
+                        trow++;
+                    });
+
+                    var row_idx = parseInt($("#SMTDETAILIDX").val());
+                    $("#SMTDETAILIDX").val(row_idx + 1);
+                    $("#SMTDETAIL_BODY").show();
+                }
+                else {
+                    $('#SMTDETAILIDX').val("1");
+                    $("#SMTDETAIL_BODY").show();
+                }
+                return false;
+            });
+
+            $(document).on("click", "#smdel_detail", function () {
+                var r = confirm("Are you sure to delete this record ?");
+                if (r == true) {
+
+                    row = this.parentNode.parentNode.rowIndex;
+                    row = row - 1;
+                    var $tableBody = $('#SMTDETAIL').find("tbody")
+
+                    $trCur = $tableBody.find("tr:eq(" + row + ")");
+                    var det_id = $trCur.find("#ChitGroupRegisteredId").val();
+
+                    idx = $("#SMTDETAILIDX").val();
+
+                    if (det_id != 0) {
+                        var baseUrl = $("#BaseUrl").data("baseurl");
+                        $.post(baseUrl + "/ChitSubscriptionManagement/SMDel",
+                            {
+                                id: idx, fld: "ChitSubscriptionManagement"
+                            },
+                            function (data, status) {
+
+                                if (data == "") {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'info',
+                                        title: 'You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 5500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "ChitSubscriptionManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+                                else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'success',
+                                        title: 'Scheme Pattern Details Deleted Successfully ..!', //You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 3500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "ChitSubscriptionManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+
+                            });
+                    }
+                    else {
+                        if (idx == 1) {
+
+                            var $tableBody = $('#SMTDETAIL').find("tbody")
+                            $trCur = $tableBody.find("tr:eq(0)");
+                            $trCur.find("input:text").val("");
+                            $("#SMTDETAILIDX").val(1);
+
+                            $trCur.find(".PatternID").val('0');
+
+                            var row_idx = parseInt($("#SMTDETAILIDX").val());
+
+                            $("#SMTDETAILIDX").val(row_idx + 1);
+
+                            $("#SMTDETAIL_BODY").show();
+                        }
+                        else {
+                            $("#SMTDETAIL_BODY").show();
+                            var row = this.parentNode.parentNode;
+                            $(this).parents('.item-row').remove();
+                            $("#SMTDETAILIDX").val($("#SMTDETAILIDX").val() - 1);
+                        }
+                    }
+                }
+            });
+        });
+
+        function CalcEndDt() {
+            var tdt = $(".CommencementDate").val();
+            var sdt= $(".StartDate").val();
+            //if (tdt == "")
+            //tdt= sdt;
+            //alert(tdt);
+            var dtparts = tdt.split("-");
+            var stdt = new Date(dtparts[0], dtparts[1], dtparts[2]);
+            //alert(stdt);
+            var durn = $(".ChitDuration").val();
+            var durnyr = eval(durn % 12);
+
+            //alert(durnyr);
+            var itmp = 1;
+            var ytmp=0
+            var eddt = new Date(dtparts[0], dtparts[1] , dtparts[2]);
+            //alert(eddt);
+            while (itmp < durn) {
+                eddt = new Date(dtparts[0] , dtparts[1] -1 + itmp, dtparts[2] );
+                //alert(eddt);
+                itmp++;
+            }
+
+            //alert(eddt);
+            //alert(eddt.toISOString());
+           var feddt = eddt.toISOString().substring(0, 10);
+            //alert(feddt);
+            $(".EndDate").val(feddt);
+        }
+        function ClientNameChange() {
+
+            var clientid = $(".FPersonID").val();
+            $(".PersonID").val(clientid);
+            //alert($(".PersonID").val());
+            $(".IntroducedBy").val("");
+            //alert(clientid);
+            if (clientid != null && clientid != "0" && clientid != "" ) {
+                  //alert(clientid);
+            $.ajax({
+                url: '@Url.Action("Get_Introduced_by_Name", "ChitSubscriptionManagement")/' + clientid , // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    //alert(data.length);
+                    if (data.length > 0) {
+                        //console.log(data);
+                        //alert(data[0].CLIENTNAME);
+                        $(".IntroducedBy").val(data[0].CLIENTNAME);
+                    }
+                },
+                complete: function () {
+                },
+                error: function (ex) {
+                    alert('Failed to data ' + ex);
+                }
+            });
+            }
+
+        }
+
+        function SchemeNameChange() {
+
+            var schemeid = $(".ChitSchemeID").val();
+
+            //alert(leadmid);
+            $(".SchemeName").val();
+            $(".ChitValue").val();
+            $(".ChitDuration").val();
+
+            if (schemeid != null && schemeid != "" && schemeid != "0") {
+                //alert(schemeid);
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("Get_Scheme_Name_Details", "ChitSubscriptionManagement")/' + schemeid , // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    var i = 0;
+                    $.each(data, function (k, v) {
+                        $(".SchemeName").val(v.ChitSchemeName);
+                        $(".ChitValue").val(v.ChitValue);
+                        $(".ChitDuration").val(v.ChitDuration);
+                        i++;
+                    })
+                },
+                complete: function () {
+                    $("#ChitGroupID").empty().trigger('change');
+                    $("#ChitGroupID").append('<option value="">Please Select Chit Group</option>');
+                    $.ajax({
+                        type: 'post',
+                        url: '@Url.Action("GetSchemeChitGroupsDtl", "ChitSubscriptionManagement")/' + schemeid, // we are calling json method
+                        dataType: 'json',
+                        success: function (data) {
+                            var i = 0;
+                            $.each(data, function (i, dataval) {
+                                if (i == 0)
+                                    $("#ChitGroupID").append('<option selected value="' + dataval.ChitGroupID + '">' + dataval.ChitGroupName + '</option>');
+                                else
+                                    $("#ChitGroupID").append('<option value="' + dataval.ChitGroupID + '">' + dataval.ChitGroupName + '</option>');
+                                i++;
+                            });
+                        },
+                        complete: function () {
+                            GetMemberDtl();
+                        }
+                    });
+                },
+                error: function (ex) {
+                    //alert('Failed to data ' + ex);
+                }
+            });
+            }
+
+        }
+        function edSchemeNameChange() {
+
+            var schemeid = $(".ChitSchemeID").val();
+
+            //alert(leadmid);
+            $(".SchemeName").val();
+            $(".ChitValue").val();
+            $(".ChitDuration").val();
+
+            if (schemeid != null && schemeid != "" && schemeid != "0") {
+                //alert(schemeid);
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("Get_Scheme_Name_Details", "ChitSubscriptionManagement")/' + schemeid , // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    var i = 0;
+                    $.each(data, function (k, v) {
+                        $(".SchemeName").val(v.ChitSchemeName);
+                        $(".ChitValue").val(v.ChitValue);
+                        $(".ChitDuration").val(v.ChitDuration);
+                        i++;
+                    })
+                },
+                error: function (ex) {
+                    //alert('Failed to data ' + ex);
+                }
+            });
+            }
+
+        }
+        function GetMemberDtl() {
+
+            var ChitGrpID = $(".ChitGroupID").val();
+
+            //alert(leadmid);
+            $(".GroupTypeID").val(0);
+            $(".GroupTypeDesc").val('');
+            $(".AlreadyJoined").val(0);
+            $(".BalanceMembersAvailable").val(0);
+            $(".TotalGroupMembers").val(0);
+
+            if (ChitGrpID != null && ChitGrpID != "0" ) {
+                //alert(schemeid);
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("GetChitGroupMemebersDtl", "ChitSubscriptionManagement")/' + ChitGrpID , // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    var i = 0;
+                    $.each(data, function (k, v) {
+                        $(".GroupTypeID").val(v.ChitGroupTypeID);
+                        $(".GroupTypeDesc").val(v.ChitGroupTypeDesc);
+                        $(".AlreadyJoined").val(v.GrpMembersCnt);
+                        $(".BalanceMembersAvailable").val(v.BalanceGrpMembersCnt);
+                        $(".TotalGroupMembers").val(v.MaxGrpMembers);
+                        i++;
+                    })
+                },
+                complete: function () {
+                },
+                error: function (ex) {
+                    //alert('Failed to data ' + ex);
+                }
+            });
+            }
+
+        }
+
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('ChitSubscriptionManagementform');
+            var clientid = $(".FPersonID").val();
+            if (clientid == "" || clientid == null) {
+                Swal.fire({
+                    title: "Client Selected?!",
+                    text: "Please Select Client!!",
+                    type: "error",
+                    position: "Center"
+                });
+                flag = false;
+
+            }
+
+            var form = document.getElementById('ChitSubscriptionMainform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            var balmemberscnt = $(".BalanceMembersAvailable").val();
+            var chitsubsid = $(".SubscriptionID").val();
+
+            if (balmemberscnt <= 0 && (chitsubsid == "" || chitsubsid=="0")) {
+                Swal.fire({
+                    title: "Check Members Count?!",
+                    text: "Members already alotted or Maximum members not defined!!",
+                    type: "error",
+                    position: "Center"
+                });
+                flag = false;
+            }
+            if (clientid == "" || clientid == null) {
+                Swal.fire({
+                    title: "Check Client Selected?!",
+                    text: "Please Select Client!!",
+                    type: "error",
+                    position: "Center"
+                });
+                flag = false;
+
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "ChitSubscriptionManagement";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#ChitSubscriptionMainform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+        function ValidateChitSubsAddressform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('ChitSubsAddressform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveCRData";
+                            var controllername = "ChitSubscriptionManagement";
+                            var pagetitle = "Address Info.";
+                            var formData = $('#ChitSubsAddressform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+
+
+}

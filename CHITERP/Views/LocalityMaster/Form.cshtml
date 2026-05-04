@@ -1,0 +1,177 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.LocalityMaster
+
+@{
+    ViewBag.Title = "Locality Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .spacer5 {
+        height: 15px;
+    }
+    /*   body {
+        font-family: Arial !important;
+    }*/
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                    <form action="@Url.Content("~/LocalityMaster/SaveData")" method="post" data-flag="0" class="needs-validation LocalityMasterform" id="LocalityMasterform" name="LocalityMasterform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                        <div class="row">
+                            <div class="col-md-2 mb-2 hide">
+                                <label for="LocalityID">Locality Id</label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="LocalityID" name="LocalityID" value="@Model.LocalityID" class="form-control LocalityID" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="LocalityID" name="LocalityID" value="0" class="form-control LocalityID" />
+                                }
+                            </div>
+                            @*<div class="col-md-2 mb-2 hide">
+                                    <label for="CountryID">Country <span class="text-danger">*</span></label>
+
+                                    @Html.DropDownList("CountryID", null, "Please Select Country", new { @class = "form-control custom-select select2  CountryID", @data_val = "true",  @id = "CountryID", @name = "CountryID",@tabindex = 1 })
+                                    <div class="invalid-feedback">
+                                        Please Select Country !!
+                                    </div>
+                                </div>*@
+                            <div class="col-md-2 mb-2">
+                                <label for="CityID">City <span class="text-danger">*</span></label>
+
+                                @Html.DropDownList("CityID", null, "Please Select City", new { @class = "form-control custom-select select2  CityID", @data_val = "true", @required = "required", @id = "CityID", @name = "CityID", @tabindex = 1 })
+                                <div class="invalid-feedback">
+                                    Please Select City !!
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-4">
+                                <div class="form-group">
+                                    <label for="LocalityName">Locality Name<span class="text-danger">*</span></label>
+
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="LocalityName" name="LocalityName" value="@Model.LocalityName" class="form-control LocalityName" placeholder="Client Name" required maxlength="150" tabindex="2" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Locality Name !!
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="LocalityName" name="LocalityName" class="form-control LocalityName" placeholder="Client Name" maxlength="150" required tabindex="2" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Locality Name !!
+                                        </div>
+                                    }
+
+                                </div>
+
+
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-12">
+                            <div class="d-md-flex align-items-center mt-3">
+
+                                <a href="@Url.Action("Index", "LocalityMaster")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="17">Go Back</a>
+
+                                <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                    <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="16">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            if ($('#LocalityID').val() == "") {
+                $('#LocalityID').val() = 0;
+            }
+
+        });
+
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('LocalityMasterform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "LocalityMaster";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#LocalityMasterform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+
+    </script>
+
+
+}

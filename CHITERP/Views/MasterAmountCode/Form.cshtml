@@ -1,0 +1,204 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.MasterAmountCode
+
+@{
+    ViewBag.Title = "Amount Code";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                    <form action="@Url.Content("~/MasterAmountCode/Savedata")" method="post" data-flag="0" class="needs-validation MasterAmountCodeform" id="MasterAmountCodeform" name="MasterAmountCodeform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                        <div class="row">
+                            <div class="col-md-2 mb-2 hide">
+                                <label for="AmountCodeID">Id</label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="AmountCodeID" name="AmountCodeID" value="@Model.AmountCodeID" class="form-control AmountCodeID" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="AmountCodeID" name="AmountCodeID" value="0" class="form-control AmountCodeID" />
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="AmountCode">Amount Code <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="AmountCode" name="AmountCode" value="@Model.AmountCode" class="form-control AmountCode" required placeholder="Amount Code" maxlength="20" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Amount Code !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="AmountCode" name="AmountCode" class="form-control AmountCode" required placeholder="Amount Code" maxlength="20" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Amount Code !!
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="AmountCodeName">Amount CodeName <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="AmountCodeName" name="AmountCodeName" value="@Model.AmountCodeName" class="form-control AmountCodeName" required placeholder="Amount CodeName" maxlength="50" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Amount CodeName !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="AmountCodeName" name="AmountCodeName" class="form-control AmountCodeName" required placeholder="Amount CodeName" maxlength="50" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Amount CodeName !!
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="AmountCodeConstant">Amount Code Constant <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="number" id="AmountCodeConstant" name="AmountCodeConstant" value="@Model.AmountCodeConstant" class="form-control AmountCodeConstant" required placeholder="Amount Code Constant" maxlength="20" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Amount Code Constant !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="number" id="AmountCodeConstant" name="AmountCodeConstant" class="form-control AmountCodeConstant" required placeholder="Amount Code Constant" maxlength="20" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Amount Code Constant !!
+                                    </div>
+                                }
+                            </div>
+
+
+                            <div class="col-md-2 mb-2">
+                                <label for="CustomerViewTypeID">Customer View<span class="text-danger">*</span></label>
+
+                                @Html.DropDownList("CustomerViewTypeID", null, "Select Customer View", new { @class = "form-control select2 custom-select  CustomerViewTypeID", @data_val = "true", @required = "required", @id = "CustomerViewTypeID", @style = "width:50%;" })
+                                <div class="invalid-feedback">
+                                    Please Select Customer View !!
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-2 mb-2">
+
+                                <label>Status <span class="text-danger">*</span></label>
+                                @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                <div class="invalid-feedback">
+                                    Please Select Status !!
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="d-md-flex align-items-center mt-3">
+
+                                    <a href="@Url.Action("Index", "MasterAmountCode")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#AmountCodeID').val() == "") {
+                $('#AmountCodeID').val() = 0;
+            }
+        });
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('MasterAmountCodeform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "MasterAmountCode";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#MasterAmountCodeform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+
+
+
+    </script>
+
+
+}
+
+

@@ -1,0 +1,179 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.DepartmentMaster
+
+@{
+    ViewBag.Title = "Department Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                    <form action="@Url.Content("~/DepartmentMaster/Savedata")" method="post" data-flag="0" class="needs-validation DepartmentMasterform" id="DepartmentMasterform" name="DepartmentMasterform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                        <div class="row">
+                            <div class="col-md-2 mb-2 hide">
+                                <label for="DEPTID">Id</label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="DEPTID" name="DEPTID" value="@Model.DEPTID" class="form-control DEPTID" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="DEPTID" name="DEPTID" value="0" class="form-control DEPTID" />
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="DEPTCODE">Short Description <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="DEPTCODE" name="DEPTCODE" value="@Model.DEPTCODE" class="form-control DEPTCODE" required placeholder="Short Description" maxlength="15" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Short Description !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="DEPTCODE" name="DEPTCODE" class="form-control DEPTCODE" required placeholder="Short Description" maxlength="15" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Short Description !!
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="DEPTDESC">Description <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="DEPTDESC" name="DEPTDESC" value="@Model.DEPTDESC" class="form-control DEPTDESC" required placeholder="Description" maxlength="50" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Description !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="DEPTDESC" name="DEPTDESC" class="form-control DEPTDESC" required placeholder="Description" maxlength="50" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Description !!
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="col-md-2 mb-2">
+
+                                <label>Status <span class="text-danger">*</span></label>
+                                @Html.DropDownList("DISPSTATUS", null, "Please select Status", new { @class = "form-control select2 custom-select  DISPSTATUS", @data_val = "true", @required = "required", @id = "DISPSTATUS", @style = "width:50%;" })
+                            </div>
+
+                            <div class="col-12">
+                                <div class="d-md-flex align-items-center mt-3">
+
+                                    <a href="@Url.Action("Index", "DepartmentMaster")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                        @*<button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">
+                                                <div class="d-flex align-items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send feather-sm fill-white me-2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                                    Submit
+                                                </div>
+                                            </button>*@
+                                        @*<button id="btnsave" type="button" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>*@
+                                        @*<input type="submit" id="btnCreate" onclick="Validate(this, event);" value="Submit"
+                                            class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4" />*@
+                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#DEPTID').val() == "") {
+                $('#DEPTID').val() = 0;
+            }
+        });
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('DepartmentMasterform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "DepartmentMaster";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#DepartmentMasterform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+
+
+
+    </script>
+
+
+}
+
+

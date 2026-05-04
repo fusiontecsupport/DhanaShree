@@ -1,0 +1,860 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.ChitGroupList
+
+@{
+    ViewBag.Title = "Chit Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .spacer5 {
+        height: 15px;
+    }
+    /*   body {
+        font-family: Arial !important;
+    }*/
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title </h4><a class="mb-0 text-white" style="margin-top:10px !important"> <strong> (@ViewBag.ChitGroupName) </strong></a>
+                </div>
+
+                <div class="card-body">
+                    <div id="mytab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" id="GroupParameters">
+                                <a class="nav-link d-flex active tab" data-bs-toggle="tab" href="#ChitGroupParameters" role="tab" aria-selected="true">
+                                    <span>
+                                        <i class="fa fa-tree"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Chit Group Parameters</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item" id="RegParameters">
+                                <a class="nav-link d-flex tab1" data-bs-toggle="tab" href="#RegistrationParameters" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-shipping-fast"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">
+                                        Registration Parameters
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item hide" id="Document">
+                                <a class="nav-link d-flex tab2" data-bs-toggle="tab" href="#Documents" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-file"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Documents</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item" id="Subscriber">
+                                <a class="nav-link d-flex tab3" data-bs-toggle="tab" href="#Subscribers" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-users"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Subscribers</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="ChitGroupParameters" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <br />
+                                        <form action="@Url.Content("~/ChitGroupManagement/Savedata")" method="post" data-flag="0" class="needs-validation ChitGroupManagementform" id="ChitGroupManagementform" name="ChitGroupManagementform" novalidate onsubmit="return ValidateMyform(this,event);">
+                                            <div class="row">
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="ChitSchemeID">Id</label>
+                                                    @if (Model.chitgroup.Count > 0)
+                                                    {
+                                                        <input type="text" id="ChitGroupID" name="ChitGroupID" value="@Model.chitgroup[0].ChitGroupID" class="form-control ChitGroupID" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="ChitGroupID" name="ChitGroupID" value="0" class="form-control ChitGroupID" />
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="ChitSchemeID">Chit Scheme Code <span class="text-danger">*</span></label>
+
+                                                    @Html.DropDownList("ChitSchemeID", null, "Please select", new { @class = "form-control select2 custom-select  ChitSchemeID", @data_val = "true", @required = "required", @id = "ChitSchemeID", @style = "width:50%;", @onchange="GetChitSchemeDtl();" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Scheme Code !!
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="SchemeName">Scheme Name</label>
+                                                    <input type="text" id="SchemeName" name="SchemeName" class="form-control SchemeName" readonly maxlength="150" tabindex="2" />
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="ChitValue">Chit Value (₹)</label>
+                                                    <input type="text" id="ChitValue" name="ChitValue" class="form-control ChitValue" readonly maxlength="150" tabindex="2" />
+                                                    <input type="text" id="ChitDuration" name="ChitDuration" class="form-control hide ChitDuration" readonly maxlength="150" tabindex="2" />
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="ChitGroupCode">Group Code <span class="text-danger">*</span></label>
+
+                                                    @if (Model.chitgroup.Count > 0)
+                                                    {
+                                                        <input type="text" id="ChitGroupCode" name="ChitGroupCode" value="@Model.chitgroup[0].ChitGroupCode" class="form-control ChitGroupCode" required maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Group Code !!
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="ChitGroupCode" name="ChitGroupCode" class="form-control ChitGroupCode" required maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Group Code !!
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="ChitSchemeName">Group Name<span class="text-danger">*</span></label>
+
+                                                    @if (Model.chitgroup.Count > 0)
+                                                    {
+                                                        <input type="text" id="ChitGroupName" name="ChitGroupName" value="@Model.chitgroup[0].ChitGroupName" class="form-control ChitGroupName" required maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Group Name !!
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="ChitGroupName" name="ChitGroupName" class="form-control ChitGroupName" required maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Group Name !!
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="OfficeID">Chit Group Office<span class="text-danger">*</span></label>
+
+                                                    @Html.DropDownList("OfficeID", null, "Please select", new { @class = "form-control select2 custom-select  OfficeID", @data_val = "true", @required = "required", @id = "OfficeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Chit Group Office !!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="MaxGrpMembers">Maximum Group Members<span class="text-danger">*</span></label>
+
+                                                    @if (Model.chitgroup.Count > 0)
+                                                    {
+                                                        <input type="number" id="MaxGrpMembers" name="MaxGrpMembers" value="@Model.chitgroup[0].MaxGrpMembers" class="form-control MaxGrpMembers" required maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Group Members !!
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="MaxGrpMembers" name="MaxGrpMembers" class="form-control MaxGrpMembers" required maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Group Members !!
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="CommencementDate">Commencement Date</label>
+                                                    @if (Model.chitgroup.Count != 0)
+                                                    {
+                                                        string pdatetime = Convert.ToString(Model.chitgroup[0].CommencementDate);
+                                                        if ((pdatetime != null && pdatetime != ""))
+                                                        {
+                                                            var param = pdatetime.Split(' ');
+                                                            DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                            <input id="CommencementDate" type="date" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",pdate)"  name="CommencementDate" class="form-control CommencementDate" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input id="CommencementDate" type="date" max="2099-12-31" name="CommencementDate"  class="form-control CommencementDate" />
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="CommencementDate" type="date" max="2099-12-31" name="CommencementDate"  class="form-control CommencementDate" />
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="CommencementTime">Commencement Time</label>
+                                                    @if (Model.chitgroup.Count != 0)
+                                                    {
+                                                        string pdatetime = Convert.ToString(Model.chitgroup[0].CommencementDate);
+                                                        if ((pdatetime != null && pdatetime != ""))
+                                                        {
+                                                            var param = pdatetime.Split(' ');
+                                                            string ptime = param[1];
+                                                            <input type="time" min="00:00" max="23:00" id="CommencementTime" value="@ptime" name="CommencementTime"  class="form-control CommencementTime" />
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="time" min="00:00" max="23:00" id="CommencementTime" name="CommencementTime"  class="form-control CommencementTime" />
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="time" min="00:00" max="23:00" id="CommencementTime" name="CommencementTime"  class="form-control CommencementTime" />
+                                                    }
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="FirstInstallmentDate">First Installment</label>
+                                                    @if (Model.chitgroup.Count != 0)
+                                                    {
+                                                        string pdatetime = Convert.ToString(Model.chitgroup[0].FirstInstallmentDate);
+                                                        if ((pdatetime != null && pdatetime != ""))
+                                                        {
+                                                            var param = pdatetime.Split(' ');
+                                                            DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                            <input id="FirstInstallmentDate" type="date" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",pdate)" name="FirstInstallmentDate" class="form-control FirstInstallmentDate" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input id="FirstInstallmentDate" type="date" max="2099-12-31" name="FirstInstallmentDate" class="form-control FirstInstallmentDate" />
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="FirstInstallmentDate" type="date" max="2099-12-31" name="FirstInstallmentDate" class="form-control FirstInstallmentDate" />
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="TerminationDate">Termination</label>
+                                                    @if (Model.chitgroup.Count != 0)
+                                                    {
+                                                        string pdatetime = Convert.ToString(Model.chitgroup[0].TerminationDate);
+                                                        if ((pdatetime != null && pdatetime != ""))
+                                                        {
+                                                            var param = pdatetime.Split(' ');
+                                                            DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                            <input id="TerminationDate" type="date" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",pdate)" name="TerminationDate" class="form-control TerminationDate" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input id="TerminationDate" type="date" max="2099-12-31" name="TerminationDate" class="form-control TerminationDate" />
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="TerminationDate" type="date" max="2099-12-31" name="TerminationDate" class="form-control TerminationDate" />
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label>Group Type <span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("GroupTypeID", null, "Please select Group Type", new { @class = "form-control select2 custom-select  GroupTypeID", @data_val = "true", @required = "required", @id = "GroupTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Group Type !!
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label>Status <span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Status !!
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <br />
+                                            <div class="row hide">
+                                                <table class='table table-striped table-bordered bootstrap-datatable'>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Install</th>
+                                                            <th>Auction Date & Time</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br />
+
+
+                                            <div class="col-12">
+                                                <div class="d-md-flex align-items-center mt-3">
+
+                                                    <a href="@Url.Action("Index", "ChitGroupManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane p-3" id="RegistrationParameters" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form action="@Url.Content("~/ChitGroupManagement/SaveRPData")" method="post" data-flag="0" class="needs-validation RegistrationParametersform" id="RegistrationParametersform" name="RegistrationParametersform" novalidate onsubmit="return ValidateRegistrationform(this,event);">
+                                                <div class="row">
+                                                    <div class="col-lg-3 hide">
+                                                        <div class="form-group">
+                                                            <label>primary</label>
+                                                            <input class="form-control rChitGroupID" id="rChitGroupID" value="@ViewBag.ChitGroupID" name="rChitGroupID" />
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" id="SMTDETAILIDX" value="0" name="SMTDETAILIDX" class="SMTDETAILIDX hide" />
+                                                    <table class='table table-striped table-bordered bootstrap-datatable' id="SMTDETAIL">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><label>Prior Sanction</label></th>
+                                                                <th><label>Agreement</label></th>
+                                                                <th><label>Registration</label></th>
+                                                                <th><label>Tickets</label></th>
+                                                                <th><label>Registrar</label></th>
+                                                                <th><label>Year</label></th>
+                                                                <th class="hide"> <a class="btn btn-success hide btn-sm" href="#" id="smadd_detail"><i class="fa fa-plus-square" style="color:white"></i></a></th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="SMTDETAIL_BODY" id="SMTDETAIL_BODY">
+                                                            @if (Model.chitgroupregistered.Count > 0)
+                                                            {
+                                                                var order = 0;
+                                                                foreach (ChitGroupRegistered details in Model.chitgroupregistered)
+                                                                {
+                                                                    order = ++order;
+                                                                    <tr class="item-row">
+
+                                                                        <td class="col-md-1 hide">
+                                                                            <input type="text" id="ChitGroupRegisteredId" class="ChitGroupRegisteredId hide" name="ChitGroupRegisteredId" value="@details.ChitGroupRegisteredId" />
+
+                                                                        </td>
+
+                                                                        <td class="col-md-2">
+
+                                                                            <input id="PriorSanctionNo" type="text" value="@details.PriorSanctionNo" name="PriorSanctionNo" class="form-control PriorSanctionNo" />
+                                                                        </td>
+
+                                                                        <td class="col-md-2">
+
+                                                                            <input id="ChitAgreementNo" type="text" value="@details.ChitAgreementNo" name="ChitAgreementNo" class="form-control ChitAgreementNo" />
+                                                                        </td>
+                                                                        <td class="col-md-2">
+
+                                                                            <input id="ChitRegistrationNo" type="text" value="@details.ChitRegistrationNo" name="ChitRegistrationNo" class="form-control ChitRegistrationNo" />
+                                                                        </td>
+
+                                                                        <td class="col-md-2">
+
+                                                                            <input id="TotalTicket" type="number" value="@details.TotalTicket" name="TotalTicket" class="form-control TotalTicket" />
+                                                                        </td>
+
+                                                                        <td class="col-md-2" style="width:15% !important">
+                                                                            @Html.DropDownListFor(model => Model.chitgroupregistered[0].RegistrarOfficeTypeId, new SelectList(ViewBag.RegistrarOfficeTypeId, "value", "text", @details.RegistrarOfficeTypeId), "Select Registrar", new { @class = "form-control custom-select select2   RegistrarOfficeTypeId", @id = "RegistrarOfficeTypeId", @name = "RegistrarOfficeTypeId" })
+                                                                        </td>
+
+                                                                        <td class="col-md-2">
+
+                                                                            <input id="ChitRegistrationYear" type="number" value="@details.ChitRegistrationYear" name="ChitRegistrationYear" class="form-control ChitRegistrationYear" />
+                                                                        </td>
+
+                                                                        <td class=" col-md-1 hide">
+
+                                                                            <a class="btn btn-danger btn-sm" id="smdel_detail"> <i class="fa fa-trash" style="color:white"></i></a>
+
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="item-row">
+
+                                                                    <td class="col-md-1 hide">
+                                                                        <input type="text" id="ChitGroupRegisteredId" class="ChitGroupRegisteredId hide" name="ChitGroupRegisteredId" value="0" />
+
+                                                                    </td>
+
+                                                                    <td class="col-md-2">
+
+                                                                        <input id="PriorSanctionNo" type="text" value="" name="PriorSanctionNo" class="form-control PriorSanctionNo" />
+                                                                    </td>
+
+                                                                    <td class="col-md-2">
+
+                                                                        <input id="ChitAgreementNo" type="text" value="" name="ChitAgreementNo" class="form-control ChitAgreementNo" />
+                                                                    </td>
+                                                                    <td class="col-md-2">
+
+                                                                        <input id="ChitRegistrationNo" type="text" value="" name="ChitRegistrationNo" class="form-control ChitRegistrationNo" />
+                                                                    </td>
+
+                                                                    <td class="col-md-2">
+
+                                                                        <input id="TotalTicket" type="number" value="0" name="TotalTicket" class="form-control TotalTicket" />
+                                                                    </td>
+
+                                                                    <td class="col-md-2" style="width:15% !important">
+                                                                        @Html.DropDownList("RegistrarOfficeTypeId", null, "Select Registrar", new { @class = "form-control custom-select select2   RegistrarOfficeTypeId", @id = "RegistrarOfficeTypeId", @name = "RegistrarOfficeTypeId" })
+
+                                                                        @*@Html.DropDownListFor(model => Model.chitgroupregistered[0].RegistrarOfficeTypeId, new SelectList(ViewBag.RegistrarOfficeTypeId, "value", "text"), "Select Registrar", new { @class = "form-control custom-select select2   RegistrarOfficeTypeId", @id = "RegistrarOfficeTypeId", @name = "RegistrarOfficeTypeId" })*@
+                                                                    </td>
+
+                                                                    <td class="col-md-2">
+
+                                                                        <input id="ChitRegistrationYear" type="number" value="" name="ChitRegistrationYear" class="form-control ChitRegistrationYear" />
+                                                                    </td>
+
+                                                                    <td class=" col-md-1 hide">
+
+                                                                        <a class="btn btn-danger btn-sm" id="smdel_detail"> <i class="fa fa-trash" style="color:white"></i></a>
+
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+
+                                                        <a href="@Url.Action("Form", "ChitGroupManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                                        <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                                            <button id="btnsmsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane p-3 hide" id="Documents" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form action="@Url.Content("~/ChitSchemeManagement/SaveDCData")" method="post" data-flag="0" class="needs-validation Documentsform" id="Documentsform" name="Documentsform" novalidate onsubmit="return ValidateEmployeeform(this,event);">
+                                                <div class="row">
+                                                    <div class="col-lg-3 hide">
+                                                        <div class="form-group">
+                                                            <label>primary</label>
+                                                            <input class="form-control dChitGroupId" id="dChitGroupId" value="@ViewBag.ChitGroupId" name="dChitGroupId" />
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" id="EMTDETAILIDX" value="0" name="EMTDETAILIDX" class="EMTDETAILIDX hide" />
+                                                    <table class='table table-striped table-bordered bootstrap-datatable' id="EMTDETAIL">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><label>Document</label></th>
+                                                                <th><label>Document Name</label></th>
+                                                                <th><label>Status</label></th>
+
+                                                                <th class="hide"> <a class="btn btn-success btn-sm" href="#" id="emadd_detail"><i class="fa fa-plus-square" style="color:white"></i></a></th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="EMTDETAIL_BODY" id="EMTDETAIL_BODY">
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+
+                                                        <a href="@Url.Action("Index", "ChitGroupManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                                        <div class="ms-auto mt-3 mt-md-1 pull-right hide">
+
+                                                            <button id="btnemsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane p-3" id="Subscribers" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            
+                                                <div class="row">
+                                                    <div class="col-lg-3 hide">
+                                                        <div class="form-group">
+                                                            <label>primary</label>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div id="chitsubscribersdtl" class="chitsubscribersdtl"></div>
+                                                    
+                                                </div>
+                                                
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            if ($('#ChitGroupID').val() == "") {
+                $('#ChitGroupID').val() = 0;
+            }
+            else {
+                GetChitSchemeDtl();
+                GetChitGroupSubscriberDtl();
+            }
+
+            //if (($('#ChitSchemeID').val() == "0" || $('#ChitSchemeID').val() == "")) {
+            //    //$("#mytab ul li a.tab1").addClass("disabled");
+            //    //$("#mytab ul li a.tab2").addClass("disabled");
+            //    $("#mytab ul li a").addClass("disabled");
+            //}
+            //else {
+            //    $("#mytab ul li a").removeClass("disabled");
+            //}
+
+            var smtblrowcount = $('#SMTDETAIL tbody tr').length;
+            $("#SMTDETAILIDX").val(smtblrowcount);
+
+            $("#smadd_detail").click(function () {
+                if ($("#SMTDETAILIDX").val() != 0) {
+
+                    var $tableBody = $('#SMTDETAIL').find("tbody"),
+                        $trLast = $tableBody.find("tr:last");
+
+                    $trNew = $trLast.clone();
+                    $trLast.after($trNew);
+
+                    $trNew.find("span").remove();
+
+                    $trNew.find("#ChitGroupRegisteredId").val("0");
+                    $trNew.find("#PriorSanctionNo").val("");
+                    $trNew.find("#ChitAgreementNo").val("");
+                    $trNew.find("#ChitRegistrationNo").val("");
+                    $trNew.find("#TotalTicket").val("0");
+                    $trNew.find("#ChitRegistrationYear").val("");
+                    $trNew.find("#RegistrarOfficeTypeId").val("");
+                    trow = 1;
+
+                    $('.SMTDETAIL_BODY tr').each(function () {
+                        var $crow = $tableBody.find("tr:eq(" + trow + ")");
+
+                        $crow.find("select").select2("destroy").select2();
+                        $crow.find("select").select2();
+                        trow++;
+                    });
+
+                    var row_idx = parseInt($("#SMTDETAILIDX").val());
+                    $("#SMTDETAILIDX").val(row_idx + 1);
+                    $("#SMTDETAIL_BODY").show();
+                }
+                else {
+                    $('#SMTDETAILIDX').val("1");
+                    $("#SMTDETAIL_BODY").show();
+                }
+                return false;
+            });
+
+            $(document).on("click", "#smdel_detail", function () {
+                var r = confirm("Are you sure to delete this record ?");
+                if (r == true) {
+
+                    row = this.parentNode.parentNode.rowIndex;
+                    row = row - 1;
+                    var $tableBody = $('#SMTDETAIL').find("tbody")
+
+                    $trCur = $tableBody.find("tr:eq(" + row + ")");
+                    var det_id = $trCur.find("#ChitGroupRegisteredId").val();
+
+                    idx = $("#SMTDETAILIDX").val();
+
+                    if (det_id != 0) {
+                        var baseUrl = $("#BaseUrl").data("baseurl");
+                        $.post(baseUrl + "/ChitGroupManagement/SMDel",
+                            {
+                                id: idx, fld: "ChitGroupManagement"
+                            },
+                            function (data, status) {
+
+                                if (data == "") {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'info',
+                                        title: 'You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 5500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "ChitGroupManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+                                else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'success',
+                                        title: 'Scheme Pattern Details Deleted Successfully ..!', //You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 3500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "ChitGroupManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+
+                            });
+                    }
+                    else {
+                        if (idx == 1) {
+
+                            var $tableBody = $('#SMTDETAIL').find("tbody")
+                            $trCur = $tableBody.find("tr:eq(0)");
+                            $trCur.find("input:text").val("");
+                            $("#SMTDETAILIDX").val(1);
+
+                            $trCur.find(".PatternID").val('0');
+
+                            var row_idx = parseInt($("#SMTDETAILIDX").val());
+
+                            $("#SMTDETAILIDX").val(row_idx + 1);
+
+                            $("#SMTDETAIL_BODY").show();
+                        }
+                        else {
+                            $("#SMTDETAIL_BODY").show();
+                            var row = this.parentNode.parentNode;
+                            $(this).parents('.item-row').remove();
+                            $("#SMTDETAILIDX").val($("#SMTDETAILIDX").val() - 1);
+                        }
+                    }
+                }
+            });
+        });
+
+
+        function GetChitSchemeDtl() {
+
+            var chitscmid = $(".ChitSchemeID option:selected").val();
+            $(".SchemeName").val("");
+            $(".ChitValue").val("0");
+            $(".ChitDuration").val("");
+
+            if (chitscmid > 0) {
+                 url = '@Url.Action("GetChitSchemeDtl", "ChitGroupManagement")/?id=' + chitscmid;
+
+            $.ajax({
+                type: 'post',
+                url: url,
+                dataType: 'json',
+                success: function (data) {
+                    if (data != "") {
+
+                        $(".SchemeName").val(data[0].ChitSchemeName);
+                        $(".ChitValue").val(data[0].ChitValue);
+                        $(".ChitDuration").val(data[0].ChitDuration);
+
+                    }
+
+                },
+                complete: function () {
+                    //alert('hi');
+                },
+                error: function (ex) {
+                    alert('Failed to Get Details due to Error: ' + ex);
+                }
+            });
+            }
+
+        }
+
+
+        function GetChitGroupSubscriberDtl() {
+
+            var chitgrpid = $(".ChitGroupID").val();
+            $("#chitsubscribersdtl").html("");
+            //alert(chitgrpid);
+            url = '@Url.Action("GetChitGroupSubscriberDtl", "ChitGroupManagement")/?id=' + chitgrpid;
+            if (chitgrpid > 0) {
+                $.ajax({
+                    type: 'post',
+                    url: url,                    
+                    success: function (data) {
+                        console.log(data);
+                        if (data != "") {
+
+                            $("#chitsubscribersdtl").html(data);
+                        }
+
+                    },
+                    complete: function () {
+                        //alert('hi');
+                    },
+                    error: function (ex) {
+                        alert('Failed to Get Details due to Error: ' + ex);
+                    }
+                });
+            }
+           
+        }
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('ChitGroupManagementform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "ChitGroupManagement";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#ChitGroupManagementform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+        function ValidateRegistrationform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('RegistrationParametersform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveRPData";
+                            var controllername = "ChitGroupManagement";
+                            var pagetitle = "Registration Parameters";
+                            var formData = $('#RegistrationParametersform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+
+
+}

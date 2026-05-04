@@ -1,0 +1,39 @@
+<FunctionImport Name="pr_Get_ChitGroup_MemberDtl" ReturnType="Collection(FinFusionModel.pr_Get_ChitGroup_MemberDtl_Result)">
+          <Parameter Name="ChitGrpid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Chit_Subscription_Organization_Name_Assgn" ReturnType="Collection(FinFusionModel.pr_Chit_Subscription_Organization_Name_Assgn_Result)" />
+          <FunctionImport Name="pr_Get_Chit_Group_Subscribers_Dtl" ReturnType="Collection(FinFusionModel.pr_Get_Chit_Group_Subscribers_Dtl_Result)">
+          <Parameter Name="chitgroupid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Client_Type" ReturnType="Collection(FinFusionModel.pr_Get_Client_Type_Result)">
+          <Parameter Name="dval" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Master_ClientMaster" ReturnType="Collection(FinFusionModel.pr_Search_Master_ClientMaster_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Master_ContactTypeMaster" ReturnType="Collection(FinFusionModel.pr_Search_Master_ContactTypeMaster_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Master_ContactMaster" ReturnType="Collection(FinFusionModel.pr_Search_Master_ContactMaster_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+          </FunctionImport>

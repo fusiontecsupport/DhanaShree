@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Loan Ledger Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title </h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="row col-md-12">
+                            <input type="text" id="SubscriptionID" name="SubscriptionID" value="@ViewBag.SubscriptionID" class="form-control hide SubscriptionID" />
+
+                            
+
+                            <div id="ledrpt" class="ledrpt">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var subsid = $(".SubscriptionID").val();
+            //alert(subsid);
+            $(".ledrpt").html("");
+            $(".preloader").show();
+
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("GetLoanLedgerRpt", "LoanSubscription")/' + subsid, // we are calling json method
+                /*dataType: 'json',*/
+                success: function (data) {
+                    $(".ledrpt").html(data);
+                },
+                error: function (ex) {
+                    //alert('Failed to data ' + ex);
+                }
+            });
+            $(".preloader").hide();
+        });
+    </script>
+}

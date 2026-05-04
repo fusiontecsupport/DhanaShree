@@ -1,0 +1,254 @@
+﻿@*@model IEnumerable<CHITERP.Models.AccountViewModel.EditUserViewModel>*@
+@model IEnumerable<CHITERP.Models.AppUser>
+@{ ViewBag.Title = "Users"; }
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="card-header border-bottom" style="background-color:white;">
+                            <div class="d-flex no-block align-items-center mb-0">
+                                <h3 class="card-title text-dark-primary"><i class="fa fa-bar-chart-o fa-fw"></i>@ViewBag.Title</h3>
+                                <div class="ms-auto">
+                                    <div class="btn-group">
+                                        <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("Create", "User")"><i class="fa fa-plus"></i>&nbsp; Create </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.LastName)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </th>
+
+                                <th></th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    @if (((Session["Group"].ToString() == "Admin") || (Session["Group"].ToString() == "SuperAdmin") || (Session["Group"].ToString() == "Manager" || Session["CUSRID"].ToString().ToLower() == "admin")))
+                                    {
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UserName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FirstName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LastName)
+                                        </td>
+                                        @*<td>
+                            @Html.DisplayFor(modelItem => item.DeptName)
+                        </td>*@
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Email)
+                                        </td>
+
+                                        <td>
+                                            @*@Html.ActionLink("Change Password", "ChangePassword", new { id = item.Id })|
+                                            @if (@Session["CUSRID"].ToString().ToLower() == "admin")
+                                            {
+                                                @Html.ActionLink("Reset Password", "ResetPassword", new { id = item.Id })
+                                            }
+                                            |*@
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+
+                                            @*@Html.ActionLink("Effective Permissions", "UserPermissions", new { id = item.Id }) ||*@
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        if (@Session["CUSRID"].ToString().ToUpper() == @item.UserName.ToUpper())
+                                        {
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UserName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FirstName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.LastName)
+                                            </td>
+                                            @*<td>
+                                @Html.DisplayFor(modelItem => item.DeptName)
+                            </td>*@
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Email)
+                                            </td>
+
+                                            <td>
+
+                                                @*@Html.ActionLink("Change Password", "Manage", new { id = item.UserName })|*@
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+
+                                            </td>
+                                        }
+
+                                    }
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="col-lg-12">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>  Users <a class="btn btn-danger btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("Create", "User")"><i class="fa fa-plus-square "></i> Add New </a> <div class="clearfix"> </div></h3>
+        </div>
+
+        <div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class=" ">
+                        <div class="panel-body">
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.UserName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FirstName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.LastName)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Email)
+                                    </th>
+
+                                    <th></th>
+                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        @if (((Session["Group"].ToString() == "Admin") || (Session["Group"].ToString() == "SuperAdmin") || (Session["Group"].ToString() == "Manager" || Session["CUSRID"].ToString().ToLower() == "admin")))
+                                        {
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UserName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FirstName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.LastName)
+                                            </td>
+                                          
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Email)
+                                            </td>
+
+                                            <td>
+                                                @Html.ActionLink("Change Password", "ChangePassword", new { id = item.Id })|
+                                                @if (@Session["CUSRID"].ToString().ToLower() == "admin")
+                                                {
+                                                    @Html.ActionLink("Reset Password", "ResetPassword", new { id = item.Id })
+                                                }
+                                                |
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+
+                                                @Html.ActionLink("Effective Permissions", "UserPermissions", new { id = item.Id }) ||
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            if (@Session["CUSRID"].ToString().ToUpper() == @item.UserName.ToUpper())
+                                            {
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.UserName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.LastName)
+                                                </td>
+                                              
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Email)
+                                                </td>
+
+                                                <td>
+
+                                                   
+                                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+
+                                                </td>
+                                            }
+
+                                        }
+                                    </tr>
+                                }
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+@*@model IEnumerable<CHITERP.Models.AppUser>
+
+    @{ ViewBag.Title = "Index"; }
+
+    <h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Designation)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Designation)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
+    </tr>}
+
+    </table>*@
+

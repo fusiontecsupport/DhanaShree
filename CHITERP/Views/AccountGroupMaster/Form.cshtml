@@ -1,0 +1,215 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.AccountGroupMaster
+@{
+    ViewBag.Title = "Ledger Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    .spacer5 {
+        height: 15px;
+    }
+    /*   body {
+        font-family: Arial !important;
+    }*/
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                    <form action="@Url.Content("~/AccountGroupMaster/SaveData")" method="post" data-flag="0" class="needs-validation AccountGroupMasterform" id="AccountGroupMasterform" name="AccountGroupMasterform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                        <div class="row">
+                            <div class="col-md-2 mb-2 hide">
+                                <label for="ACHEADGID">Account Group Id</label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="ACHEADGID" name="ACHEADGID" value="@Model.ACHEADGID" class="form-control ACHEADGID" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="ACHEADGID" name="ACHEADGID" value="0" class="form-control ACHEADGID" />
+                                }
+                            </div>
+
+
+                            <div class="col-md-4 mb-4">
+                                <div class="form-group">
+                                    <label for="ACHEADGCODE">Group Code<span class="text-danger">*</span></label>
+
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="ACHEADGCODE" name="ACHEADGCODE" value="@Model.ACHEADGCODE" class="form-control ACHEADGCODE" placeholder="Group Code" required maxlength="150" tabindex="2" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Group Code!!
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="ACHEADGCODE" name="ACHEADGCODE" class="form-control ACHEADGCODE" placeholder="Group Code" maxlength="150" required tabindex="2" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Group Code !!
+                                        </div>
+                                    }
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-4 mb-4">
+                                <div class="form-group">
+                                    <label for="ACHEADGDESC">Group Description<span class="text-danger">*</span></label>
+
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="ACHEADGDESC" name="ACHEADGDESC" value="@Model.ACHEADGDESC" class="form-control ACHEADGDESC" placeholder="Group Name" required maxlength="150" tabindex="2" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Group Description!!
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="ACHEADGDESC" name="ACHEADGDESC" class="form-control ACHEADGDESC" placeholder="Group Name" maxlength="150" required tabindex="2" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Group Description !!
+                                        </div>
+                                    }
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <div class="col-12 hide">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>CUSRID </label>
+                                    @Html.TextBoxFor(model => Model.CUSRID, new { @class = "form-control CUSRID", @id = "CUSRID" })
+                                    @Html.ValidationMessageFor(model => model.CUSRID)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>LMUSRID </label>
+                                    @Html.TextBoxFor(model => Model.LMUSRID, new { @class = "form-control  LMUSRID", @id = "LMUSRID" })
+                                    @Html.ValidationMessageFor(model => model.LMUSRID)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Status </label>
+                                    @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control DISPSTATUS", @id = "DISPSTATUS" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-md-flex align-items-center mt-3">
+
+                                <a href="@Url.Action("Index", "AccountGroupMaster")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="17">Go Back</a>
+
+                                <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                    <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="16">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            if ($('#ACHEADGID').val() == "") {
+                $('#ACHEADGID').val() = 0;
+            }
+
+        });
+
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('AccountGroupMasterform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "AccountGroupMaster";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#AccountGroupMasterform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        $('.msg').delay(1200).fadeOut(1000);
+
+        $(".ACHEADGCODE").keyup(function () {//...capitalize each
+
+            $(this).val($(this).val().toUpperCase());
+        });
+
+
+    </script>
+
+
+}
+
+
+

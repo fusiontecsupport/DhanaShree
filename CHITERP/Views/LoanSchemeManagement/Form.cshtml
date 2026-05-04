@@ -1,0 +1,979 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.LoanSchemeList
+
+@{
+    ViewBag.Title = "Loan Scheme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .spacer5 {
+        height: 15px;
+    }
+    /*   body {
+        font-family: Arial !important;
+    }*/
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title </h4><a class="mb-0 text-white" style="margin-top:10px !important"> <strong> (@ViewBag.LoanSchemeName) </strong></a>
+                </div>
+
+                <div class="card-body">
+                    <div id="mytab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" id="General">
+                                <a class="nav-link d-flex active tab" data-bs-toggle="tab" href="#home2" role="tab" aria-selected="true">
+                                    <span>
+                                        <i class="fa fa-tree"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">
+                                        Scheme Parameters
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item hide" id="VariableRangeDetails">
+                                <a class="nav-link d-flex tab1" data-bs-toggle="tab" href="#profile2" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-shipping-fast"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">
+                                        Variable Range
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item hide" id="FormulaDetails">
+                                <a class="nav-link d-flex tab2" data-bs-toggle="tab" href="#messages2" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-users"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Formula</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="home2" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <br />
+                                        <form action="@Url.Content("~/LoanSchemeManagement/Savedata")" method="post" data-flag="0" class="needs-validation LoanSchemeform" id="LoanSchemeform" name="LoanSchemeform" novalidate onsubmit="return ValidateMyform(this,event);">
+                                            <div class="row">
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="ChitSchemeID">Id</label>
+                                                    @if (Model.loanschemes.Count > 0)
+                                                    {
+                                                        <input type="text" id="LoanSchemeID" name="LoanSchemeID" value="@Model.loanschemes[0].LoanSchemeID" class="form-control LoanSchemeID" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="LoanSchemeID" name="LoanSchemeID" value="0" class="form-control LoanSchemeID" />
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-3 mb-3 hide">
+                                                    <label for="AmountCodeID">Amount Code <span class="text-danger">*</span></label>
+
+                                                    @Html.DropDownList("AmountCodeID", null, "Please select Amount Code", new { @class = "form-control select2 custom-select  AmountCodeID", @data_val = "true", @id = "AmountCodeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Amount Code !!
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="SchemeCode">Scheme Code <span class="text-danger">*</span></label>
+
+                                                    @if (Model.loanschemes.Count > 0)
+                                                    {
+                                                        <input type="text" id="SchemeCode" name="SchemeCode" value="@Model.loanschemes[0].SchemeCode" class="form-control SchemeCode" required maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Scheme Code !!
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="SchemeCode" name="SchemeCode" class="form-control SchemeCode" required maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Scheme Code !!
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="SchemeName">Scheme Name<span class="text-danger">*</span></label>
+                                                    @if (Model.loanschemes.Count > 0)
+                                                    {
+                                                        <input type="text" id="SchemeName" name="SchemeName" value="@Model.loanschemes[0].SchemeName" class="form-control SchemeName" required maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Scheme Name !!
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="SchemeName" name="SchemeName" class="form-control SchemeName" required maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Scheme Name !!
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="BookVerificationIntervalTypeID">Book Verification <span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("BookVerificationIntervalTypeID", null, "Please select", new { @class = "form-control select2 custom-select  BookVerificationIntervalTypeID", @data_val = "true", @required = "required", @id = "BookVerificationIntervalTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Book Verification !!
+                                                    </div>
+
+                                                </div>
+                                                
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="TenureBased">Tenure Based</label>
+                                                    @if (Model.loanschemes.Count > 0)
+                                                    {
+                                                        if (@Model.loanschemes[0].TenureBased == true)
+                                                        {
+                                                            <input type="checkbox" name="TenureBased" value="@Model.loanschemes[0].TenureBased" id="TenureBased" onchange="ChkTnr(this)" checked="checked" tabindex="2" />
+                                                            <input type="text" value="1" id="boolTenureBased" class="boolTenureBased hide" name="boolTenureBased" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" name="TenureBased" value="@Model.loanschemes[0].TenureBased" id="TenureBased" onchange="ChkTnr(this)" tabindex="2" />
+                                                            <input type="text" value="0" id="boolTenureBased" class="boolTenureBased hide" name="boolTenureBased" />
+                                                        }
+                                                        
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" name="TenureBased" value="1" id="TenureBased" tabindex="2" />
+                                                        <input type="text" value="1" id="boolTenureBased" class="boolTenureBased hide" name="boolTenureBased" />
+                                                    }
+
+
+                                                </div>
+
+                                                <div class="col-md-2 mb-2 hide">
+
+                                                    <label for="EMIBased">EMI Based</label>
+                                                    @if (Model.loanschemes.Count > 0)
+                                                    {
+                                                        if (Model.loanschemes[0].EMIBased == true)
+                                                        {
+                                                            <input type="checkbox" name="EMIBased" value="@Model.loanschemes[0].EMIBased" id="EMIBased" checked="checked" onchange="ChkEmi(this)" tabindex="2" />
+                                                            <input type="text" value="1" id="boolEMIBased" class="boolEMIBased hide" name="boolEMIBased" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" name="EMIBased" value="@Model.loanschemes[0].EMIBased" id="EMIBased" onchange="ChkEmi(this)" tabindex="2" />
+                                                            <input type="text" value="0" id="boolEMIBased" class="boolEMIBased hide" name="boolEMIBased" />
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" name="EMIBased" value="0" id="EMIBased" tabindex="2" />
+                                                        <input type="text" value="0" id="boolEMIBased" class="boolEMIBased hide" name="boolEMIBased" />
+                                                    }
+
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <label for="StatusTypeID" class="col-md-5 control-label">Status<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Status !!
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="d-md-flex align-items-center mt-3">
+
+                                                    <a href="@Url.Action("Index", "LoanSchemeManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane p-3" id="profile2" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form action="@Url.Content("~/LoanSchemeManagement/SaveLVData")" method="post" data-flag="0" class="needs-validation LoanVariableRangeform" id="LoanVariableRangeform" name="LoanVariableRangeform" novalidate onsubmit="return Validatestreamerform(this,event);">
+                                                <div class="row">
+                                                    <div class="col-lg-3 hide">
+                                                        <div class="form-group">
+                                                            <label>primary</label>
+                                                            <input class="form-control" id="LoanSchemeID" value="@ViewBag.LoanSchemeID" name="LoanSchemeID" />
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" id="SMTDETAILIDX" value="0" name="SMTDETAILIDX" class="SMTDETAILIDX hide" />
+                                                    <table class='table table-striped table-bordered bootstrap-datatable' id="SMTDETAIL">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><label>Secured</label></th>
+                                                                <th><label>Mode</label></th>
+                                                                <th><label>Variable</label></th>
+                                                                <th><label>Bottom</label></th>
+                                                                <th><label>Top</label></th>
+                                                                <th><label>Type</label></th>
+                                                                <th> <a class="btn btn-success btn-sm" href="#" id="smadd_detail"><i class="fa fa-plus-square" style="color:white"></i></a></th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="SMTDETAIL_BODY" id="SMTDETAIL_BODY">
+                                                            @if (Model.loanvariablerangs.Count > 0)
+                                                            {
+                                                                var order = 0;
+                                                                foreach (LoanVariableRange details in Model.loanvariablerangs)
+                                                                {
+                                                                    order = ++order;
+                                                                    <tr class="item-row">
+
+                                                                        <td class="col-md-1">
+                                                                            <input type="text" id="LoanVariableRangeID" class="LoanVariableRangeID hide" name="LoanVariableRangeID" value="@details.LoanVariableRangeID" />
+                                                                            @Html.DropDownListFor(model => Model.loanvariablerangs[0].LoanSecuredTypeId, new SelectList(ViewBag.LoanSecuredTypeId, "value", "text", @details.LoanSecuredTypeId), "-- Select --", new { @class = "form-control custom-select select2 LoanSecuredTypeId", @id = "LoanSecuredTypeId", @name = "LoanSecuredTypeId" })
+                                                                        </td>
+
+                                                                        <td class="col-md-3">
+                                                                            @Html.DropDownListFor(model => Model.loanvariablerangs[0].DisbursementModeTypeID, new SelectList(ViewBag.DisbursementModeTypeID, "value", "text", @details.DisbursementModeTypeID), "-- Select --", new { @class = "form-control custom-select select2 DisbursementModeTypeID", @id = "DisbursementModeTypeID", @name = "DisbursementModeTypeID" })
+                                                                        </td>
+
+                                                                        <td class="col-md-3">
+                                                                            @Html.DropDownListFor(model => Model.loanvariablerangs[0].VariableTypeId, new SelectList(ViewBag.VariableTypeId, "value", "text", @details.VariableTypeId), "-- Select --", new { @class = "form-control custom-select select2 VariableTypeId", @id = "VariableTypeId", @name = "VariableTypeId" })
+                                                                        </td>
+
+                                                                        <td class="col-md-3">
+                                                                            <input id="BottomLimit" type="number" value="@details.BottomLimit" name="BottomLimit" class="form-control BottomLimit" />
+                                                                        </td>
+
+                                                                        <td class="col-md-3">
+                                                                            <input id="TopLimit" type="number" value="@details.TopLimit" name="TopLimit" class="form-control TopLimit" />
+                                                                        </td>
+                                                                        <td class="col-md-3">
+                                                                            @Html.DropDownListFor(model => Model.loanvariablerangs[0].TermTypeID, new SelectList(ViewBag.TermTypeID, "value", "text", @details.TermTypeID), "-- Select --", new { @class = "form-control custom-select select2 TermTypeID", @id = "TermTypeID", @name = "TermTypeID" })
+                                                                        </td>
+
+                                                                        <td class=" col-md-1">
+                                                                            <a class="btn btn-danger btn-sm" id="smdel_detail"> <i class="fa fa-trash" style="color:white"></i></a>
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="item-row">
+
+                                                                    <td class="col-md-1">
+                                                                        <input type="text" id="LoanVariableRangeID" class="LoanVariableRangeID hide" name="LoanVariableRangeID" value="0" />
+                                                                        @Html.DropDownList("LoanSecuredTypeId", null, "-- Select --", new { @class = "form-control custom-select select2 LoanSecuredTypeId", @id = "LoanSecuredTypeId", @name = "LoanSecuredTypeId" })
+                                                                    </td>
+
+                                                                    <td class="col-md-3">
+                                                                        @Html.DropDownList("DisbursementModeTypeID", null, "-- Select --", new { @class = "form-control custom-select select2 DisbursementModeTypeID", @id = "DisbursementModeTypeID", @name = "DisbursementModeTypeID" })
+                                                                    </td>
+
+                                                                    <td class="col-md-3">
+                                                                        @Html.DropDownList("VariableTypeId", null, "-- Select --", new { @class = "form-control custom-select select2 VariableTypeId", @id = "VariableTypeId", @name = "VariableTypeId" })
+                                                                    </td>
+
+                                                                    <td class="col-md-3">
+                                                                        <input id="BottomLimit" type="number" value="0" name="BottomLimit" class="form-control BottomLimit" />
+                                                                    </td>
+
+                                                                    <td class="col-md-3">
+                                                                        <input id="TopLimit" type="number" value="0" name="TopLimit" class="form-control TopLimit" />
+                                                                    </td>
+
+                                                                    <td class="col-md-3">
+                                                                        @Html.DropDownList("TermTypeID", null, "-- Select --", new { @class = "form-control custom-select select2 TermTypeID", @id = "TermTypeID", @name = "TermTypeID" })
+                                                                    </td>
+
+                                                                    <td class=" col-md-1">
+                                                                        <a class="btn btn-danger btn-sm" id="smdel_detail"> <i class="fa fa-trash" style="color:white"></i></a>
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+
+                                                        <a href="@Url.Action("Form", "LoanSchemeManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                                        <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                                            <button id="btnsmsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane p-3" id="messages2" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form action="@Url.Content("~/LoanSchemeManagement/SaveLFData")" method="post" data-flag="0" class="needs-validation LoanFormulaform" id="LoanFormulaform" name="LoanFormulaform" novalidate onsubmit="return ValidateEmployeeform(this,event);">
+                                                <div class="row">
+                                                    <div class="col-lg-3 hide">
+                                                        <div class="form-group">
+                                                            <label>primary</label>
+                                                            <input class="form-control" id="LoanSchemeID" value="@ViewBag.LoanSchemeID" name="LoanSchemeID" />
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" id="EMTDETAILIDX" value="0" name="EMTDETAILIDX" class="EMTDETAILIDX hide" />
+                                                    <table class='table table-striped table-bordered bootstrap-datatable' id="EMTDETAIL">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><label>Type</label></th>
+                                                                <th><label>Interest</label></th>
+                                                                <th><label>Repayment</label></th>
+                                                                <th><label>Formula</label></th>
+
+                                                                <th> <a class="btn btn-success btn-sm" href="#" id="emadd_detail"><i class="fa fa-plus-square" style="color:white"></i></a></th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="EMTDETAIL_BODY" id="EMTDETAIL_BODY">
+                                                            @if (Model.loanformulas.Count > 0)
+                                                            {
+                                                                var order = 0;
+                                                                foreach (LoanFormula details in Model.loanformulas)
+                                                                {
+                                                                    order = ++order;
+                                                                    <tr class="item-row">
+
+                                                                        <td class="col-md-2">
+                                                                            <input type="text" id="LoanFormulaID" class="LoanFormulaID hide" name="LoanFormulaID" value="@details.LoanFormulaID" />
+                                                                            @Html.DropDownListFor(model => Model.loanformulas[0].LoanTransactionTypeID, new SelectList(ViewBag.LoanTransactionTypeID, "value", "text", @details.LoanTransactionTypeID), "-- Select --", new { @class = "form-control custom-select select2 LoanTransactionTypeID", @id = "LoanTransactionTypeID", @name = "LoanTransactionTypeID" })
+
+
+                                                                        </td>
+
+                                                                        <td class="col-md-3">
+                                                                            @Html.DropDownListFor(model => Model.loanformulas[0].InterestDeductionTypeID, new SelectList(ViewBag.InterestDeductionTypeID, "value", "text", @details.InterestDeductionTypeID), "-- Select --", new { @class = "form-control custom-select select2 InterestDeductionTypeID", @id = "InterestDeductionTypeID", @name = "InterestDeductionTypeID" })
+                                                                        </td>
+
+                                                                        <td class="col-md-3">
+                                                                            @Html.DropDownListFor(model => Model.loanformulas[0].RepaymentIntervalTypeID, new SelectList(ViewBag.RepaymentIntervalTypeID, "value", "text", @details.RepaymentIntervalTypeID), "-- Select --", new { @class = "form-control custom-select select2 RepaymentIntervalTypeID", @id = "RepaymentIntervalTypeID", @name = "RepaymentIntervalTypeID" })
+                                                                        </td>
+
+                                                                        <td class="col-md-3">
+                                                                            <textarea id="Formula" name="Formula" class="form-control Formula"> @details.Formula</textarea>
+                                                                        </td>
+
+                                                                        <td class=" col-md-1">
+
+                                                                            <a class="btn btn-danger btn-sm" id="emdel_detail"> <i class="fa fa-trash" style="color:white"></i></a>
+
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="item-row">
+
+                                                                    <td class="col-md-2">
+                                                                        <input type="text" id="LoanFormulaID" class="LoanFormulaID hide" name="LoanFormulaID" value="0" />
+                                                                        @Html.DropDownList("LoanTransactionTypeID", null, "-- Select --", new { @class = "form-control custom-select select2 LoanTransactionTypeID", @id = "LoanTransactionTypeID", @name = "LoanTransactionTypeID" })
+                                                                    </td>
+
+                                                                    <td class="col-md-3">
+                                                                        @Html.DropDownList("InterestDeductionTypeID", null, "-- Select --", new { @class = "form-control custom-select select2 InterestDeductionTypeID", @id = "InterestDeductionTypeID", @name = "InterestDeductionTypeID" })                                                                       
+                                                                    </td>
+
+                                                                    <td class="col-md-3">
+                                                                        @Html.DropDownList("RepaymentIntervalTypeID",null,"-- Select --", new { @class = "form-control custom-select select2 RepaymentIntervalTypeID", @id = "RepaymentIntervalTypeID", @name = "RepaymentIntervalTypeID" })
+                                                                    </td>
+
+                                                                    <td class="col-md-3">
+                                                                        <textarea id="Formula" name="Formula" class="form-control Formula"> </textarea>
+                                                                    </td>
+
+                                                                    <td class=" col-md-1">
+                                                                        <a class="btn btn-danger btn-sm" id="emdel_detail"> <i class="fa fa-trash" style="color:white"></i></a>
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+                                                <div class="row">
+                                                    <table style="width:30%" class="col-md-2 table-bordered frm_hide" id="F_GPWIDTHDES">
+                                                        <thead style="background-color:#e5497e;color:white;font-weight:bold">
+                                                            <tr>
+                                                                
+                                                                <th colspan="2">
+                                                                    Code&nbsp;&nbsp;Full Name
+
+                                                                </th>
+                                                                <th colspan="2"> Code&nbsp;&nbsp;Full Name</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody style="font-weight:bold">
+                                                            <tr>
+                                                                <td>PR</td>
+                                                                <td>Principle</td>
+                                                                <td>IR</td>
+                                                                <td>Interest Rate</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>TE</td>
+                                                                <td>Term</td>
+                                                                <td>PR</td>
+                                                                <td>Principle Repaid</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>PB</td>
+                                                                <td>Principle Balance</td>
+                                                                <td>IP</td>
+                                                                <td>Interest Paid</td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>IB</td>
+                                                                <td>Interest Balance</td>
+                                                                <td>TP</td>
+                                                                <td>Term Paid</td>
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td>TB</td>
+                                                                <td>Term Balance</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+
+                                                        <a href="@Url.Action("Index", "LoanSchemeManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                                        <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                                            <button id="btnemsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#LoanSchemeID').val() == "") {
+                $('#LoanSchemeID').val("0");
+            }
+
+            //if (($('#LoanSchemeID').val() == "0" || $('#LoanSchemeID').val() == "")) {
+            //    //$("#mytab ul li a.tab1").addClass("disabled");
+            //    //$("#mytab ul li a.tab2").addClass("disabled");
+            //    $("#mytab ul li a").addClass("disabled");
+            //}
+            //else {
+            //    $("#mytab ul li a").removeClass("disabled");
+            //}
+
+            var smtblrowcount = $('#SMTDETAIL tbody tr').length;
+            $("#SMTDETAILIDX").val(smtblrowcount);
+
+            $("#smadd_detail").click(function () {
+                if ($("#SMTDETAILIDX").val() != 0) {
+
+                    var $tableBody = $('#SMTDETAIL').find("tbody"),
+                        $trLast = $tableBody.find("tr:last");
+
+                    $trNew = $trLast.clone();
+                    $trLast.after($trNew);
+
+                    $trNew.find("span").remove();
+
+                    $trNew.find("#LoanVariableRangeID").val("0");
+                    $trNew.find("#LoanSecuredTypeId").val("");
+                    $trNew.find("#DisbursementModeTypeID").val("");
+                    $trNew.find("#VariableTypeId").val("");
+                    $trNew.find("#TopLimit").val("0.00");
+                    $trNew.find("#BottomLimit").val("0.00");
+                    $trNew.find("#TermTypeID").val("");
+
+                    trow = 1;
+
+                    $('.SMTDETAIL_BODY tr').each(function () {
+                        var $crow = $tableBody.find("tr:eq(" + trow + ")");
+
+                        $crow.find("select").select2("destroy").select2();
+                        $crow.find("select").select2();
+                        trow++;
+                    });
+
+                    var row_idx = parseInt($("#SMTDETAILIDX").val());
+                    $("#SMTDETAILIDX").val(row_idx + 1);
+                    $("#SMTDETAIL_BODY").show();
+                }
+                else {
+                    $('#SMTDETAILIDX').val("1");
+                    $("#SMTDETAIL_BODY").show();
+                }
+                return false;
+            });
+
+            $(document).on("click", "#smdel_detail", function () {
+                var r = confirm("Are you sure to delete this record ?");
+                if (r == true) {
+
+                    row = this.parentNode.parentNode.rowIndex;
+                    row = row - 1;
+                    var $tableBody = $('#SMTDETAIL').find("tbody")
+
+                    $trCur = $tableBody.find("tr:eq(" + row + ")");
+                    var det_id = $trCur.find("#LoanVariableRangeID").val();
+
+                    idx = $("#SMTDETAILIDX").val();
+
+                    if (det_id != 0) {
+                        var baseUrl = $("#BaseUrl").data("baseurl");
+                        $.post(baseUrl + "/LoanSchemeManagement/SMDel",
+                            {
+                                id: idx, fld: "LoanSchemeManagementVariableRange"
+                            },
+                            function (data, status) {
+
+                                if (data == "") {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'info',
+                                        title: 'You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 5500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "LoanSchemeManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+                                else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'success',
+                                        title: 'Loan Variable Range Details Deleted Successfully ..!', //You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 3500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "LoanSchemeManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+
+                            });
+                    }
+                    else {
+                        if (idx == 1) {
+
+                            var $tableBody = $('#SMTDETAIL').find("tbody")
+                            $trCur = $tableBody.find("tr:eq(0)");
+                            $trCur.find("input:text").val("");
+                            $("#SMTDETAILIDX").val(1);
+
+                            $trCur.find(".LoanVariableRangeID").val('0');
+
+                            var row_idx = parseInt($("#SMTDETAILIDX").val());
+
+                            $("#SMTDETAILIDX").val(row_idx + 1);
+
+                            $("#SMTDETAIL_BODY").show();
+                        }
+                        else {
+                            $("#SMTDETAIL_BODY").show();
+                            var row = this.parentNode.parentNode;
+                            $(this).parents('.item-row').remove();
+                            $("#SMTDETAILIDX").val($("#SMTDETAILIDX").val() - 1);
+                        }
+                    }
+                }
+            });
+
+            var emtblrowcount = $('#EMTDETAIL tbody tr').length;
+            $("#EMTDETAILIDX").val(emtblrowcount);
+
+            $("#emadd_detail").click(function () {
+                if ($("#EMTDETAILIDX").val() != 0) {
+
+                    var $tableBody = $('#EMTDETAIL').find("tbody"),
+                        $trLast = $tableBody.find("tr:last");
+
+                    $trNew = $trLast.clone();
+                    $trLast.after($trNew);
+
+                    $trNew.find("span").remove();
+
+                    $trNew.find("#LoanFormulaID").val("0");
+                    $trNew.find("#InterestDeductionTypeID").val("");
+                    $trNew.find("#LoanTransactionTypeID").val("");
+                    $trNew.find("#RepaymentIntervalTypeID").val("");
+                    $trNew.find("#Formula").val("");
+                    trow = 1;
+
+                    $('.EMTDETAIL_BODY tr').each(function () {
+                        var $crow = $tableBody.find("tr:eq(" + trow + ")");
+
+                        $crow.find("select").select2("destroy").select2();
+                        $crow.find("select").select2();
+                        trow++;
+                    });
+
+                    var row_idx = parseInt($("#EMTDETAILIDX").val());
+                    $("#EMTDETAILIDX").val(row_idx + 1);
+                    $("#EMTDETAIL_BODY").show();
+                }
+                else {
+                    $('#EMTDETAILIDX').val("1");
+                    $("#EMTDETAIL_BODY").show();
+                }
+
+                return false;
+            });
+
+            $(document).on("click", "#emdel_detail", function () {
+                var r = confirm("Are you sure to delete this record ?");
+                if (r == true) {
+
+                    row = this.parentNode.parentNode.rowIndex;
+                    row = row - 1;
+                    var $tableBody = $('#EMTDETAIL').find("tbody")
+
+                    $trCur = $tableBody.find("tr:eq(" + row + ")");
+
+                    var det_id = $trCur.find("#LoanFormulaID").val();
+
+                    idx = $("#EMTDETAILIDX").val();
+
+                    if (det_id != 0) {
+                        var baseUrl = $("#BaseUrl").data("baseurl");
+                        $.post(baseUrl + "/LoanSchemeManagement/EMDel",
+                            {
+                                id: idx, fld: "LoanSchemeManagementFormula"
+                            },
+                            function (data, status) {
+
+                                if (data == "") {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'info',
+                                        title: 'You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 5500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "LoanSchemeManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+                                else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'success',
+                                        title: 'Loan Formula Details Deleted Successfully ..!', //You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 3500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "LoanSchemeManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+
+                            });
+                    }
+                    else {
+                        if (idx == 1) {
+
+                            var $tableBody = $('#EMTDETAIL').find("tbody")
+                            $trCur = $tableBody.find("tr:eq(0)");
+                            $trCur.find("input:text").val("");
+                            $("#SEMTDETAILIDX").val(1);
+
+                            //$trCur.find(".LoanFormulaID").val('0');
+
+                            var row_idx = parseInt($("#EMTDETAILIDX").val());
+
+                            $("#EMTDETAILIDX").val(row_idx + 1);
+
+                            $("#SEMTDETAIL_BODY").show();
+                        }
+                        else {
+                            $("#EMTDETAIL_BODY").show();
+                            var row = this.parentNode.parentNode;
+                            $(this).parents('.item-row').remove();
+                            $("#EMTDETAILIDX").val($("#EEMTDETAILIDX").val() - 1);
+                        }
+                    }
+                }
+            });
+
+        });
+
+        function ChkTnr(obj) {
+            test = $(obj).prop("checked");
+            //alert(test);
+            $(obj).prop("checked", false);
+            $(".boolTenureBased").val("0");
+
+            if (test == true) {
+                $(obj).prop("checked", true);
+                $(".boolTenureBased").val("1");
+
+            }
+            else {
+                $(obj).prop("checked", false);
+                $(".boolTenureBased").val("0");
+
+            }
+
+        }
+
+        function ChkEmi(obj) {
+            test = $(obj).prop("checked");
+            //alert(test);
+            $(obj).prop("checked", false);
+            $(".boolEMIBased").val("0");
+
+            if (test == true) {
+                $(obj).prop("checked", true);
+                $(".boolEMIBased").val("1");
+
+            }
+            else {
+                $(obj).prop("checked", false);
+                $(".boolTenureBased").val("0");
+
+            }
+
+        }
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('LoanSchemeform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "LoanSchemeManagement";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#LoanSchemeform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+        function Validatestreamerform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('LoanVariableRangeform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveLVData";
+                            var controllername = "LoanSchemeManagement";
+                            var pagetitle = "Variable Range";
+                            var formData = $('#LoanVariableRangeform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+        function ValidateEmployeeform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('LoanFormulaform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveLFData";
+                            var controllername = "LoanSchemeManagement";
+                            var pagetitle = "Formula";
+                            var formData = $('#LoanFormulaform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+
+
+}

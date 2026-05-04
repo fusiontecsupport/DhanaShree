@@ -1,0 +1,187 @@
+﻿@{
+    ViewBag.Title = "Locality Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-header border-bottom" style="background-color:white;">
+                                <div class="d-flex no-block align-items-center mb-0">
+                                    <h3 class="card-title text-dark-primary"><i class="fa fa-bar-chart-o fa-fw"></i>@ViewBag.Title</h3>
+                                    <div class="ms-auto">
+                                        <div class="btn-group">
+                                            <a class="btn btn-success btn-sm pull-right" style="padding:3px;margin:0 0 10px" href="@Url.Action("Form", "LocalityMaster")"><i class="fa fa-plus"></i>&nbsp; Add New </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+
+                            <table id="zero_config_wrapper" class="table table-striped table-bordered dataTable" cellspacing="0" width="100%">
+                                <thead class="tblhead">
+                                    <tr>
+
+                                        <th>City Name</th>
+                                        <th>Locality Name</th>
+                                        <th class="hide">ID</th>
+                                        <th class="">Edit / Delete</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+
+                                        <th>City Name</th>
+                                        <th>Locality Name</th>
+                                        <th class="hide">ID</th>
+                                        <th class="">Edit / Delete</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript" class="init">
+
+        var editor; // use a global for the submit and return data rendering in the examples
+        $(document).ready(function () {
+
+
+            table = $('.dataTable').DataTable({
+                ajax: "@Url.Action("GetAjaxData", "LocalityMaster")",
+                dom: 'Blfrtip',
+                buttons: [
+                    "excel",
+                    "pdf",
+                    /*{ extent: "print", text: "<span class='glyphicon glyphicon-print'></span> Print" },*/
+                    //{ extent: "excelHtml5", text: "<span class='glyphicon glyphicon-th-list'></span> Excel HTML5 Export" },
+                    //{ extent: "pdfHtml5", text: "<span class='glyphicon glyphicon-save'></span> PDF HTML5 Export", title: "Filename" }
+                ],
+                "ordering": true,
+                "order": [[0, "asc"]],
+                "language": {
+                    "search": '<i class="fa fa-search"></i>',
+                    "searchPlaceholder": "search",
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-left"></i>',
+                        "next": '<i class="fa fa-angle-right"></i>'
+                    }
+                },
+                columns: [
+                    { data: "CityName" },
+                    { data: "LocalityName" },
+                    { data: "LocalityID", "visible": false },
+                    {
+
+                        mRender: function (data, type, row) {
+                            return '<a href="@Url.Action("Edit", "LocalityMaster")/' + row["LocalityID"] + '"   class="editor_edit btn btn-warning btn-sm" ><i class="fa fa-edit"></i></a>&nbsp;<a href="#" id="' + row["LocalityID"] + '\" class="editor_remove btn btn-danger btn-sm" ><i class="fa fa-trash"></i></a>'
+                        }
+                    }
+                ]
+            });
+
+            //          alert("4");
+            //--------------Delete Record----------------//
+            $(document).on("click", "a.editor_remove", function () {
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Are you sure to delete this record ? ",
+                    icon: 'warning',
+                    confirmButtonText: "Yes",
+                    showCancelButton: true,
+                    cancelButtonText: "No",
+                    showCloseButton: true
+                }).then((result) => {
+                    if (result.value) {
+                        var idx = $(this).attr('id');
+                        //base = window.location.origin;
+                        var baseUrl = $("#BaseUrl").data("baseurl");
+                        $.post(baseUrl + "/LocalityMaster/Del",
+                            {
+                                id: idx, fld: "LocalityMaster"
+                            },
+                            function (data, status) {
+
+                                if (data == "Deleted Successfully ...") {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'success',
+                                        title: 'Chit Group Details Deleted Successfully ..!', //You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 3500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "LocalityMaster")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+                                else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'danger',
+                                        title: data,
+                                        showConfirmButton: true,
+                                        //timer: 5500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "LocalityMaster")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+
+
+                            });
+                    }
+                    else if (result.dismiss === 'cancel') { return false; }
+                });
+
+                //var r = confirm("Are you sure to delete this record ?");
+                //if (r == true) {
+                //    var idx = $(this).attr('id');
+                //    //base = window.location.origin;
+                //    var baseUrl = $("#BaseUrl").data("baseurl");
+                //    $.post(baseUrl + "/LocalityMaster/Del",
+                //        {
+                //            id: idx, fld: "LocalityMaster"
+                //        },
+                //        function (data, status) {
+                //            if (data == "Deleted Successfully ...")
+                //                location.replace(base + "/LocalityMaster/Index");
+                //            else if (data == "") alert("You are not authorize to Delete..!");
+                //            else
+                //                alert(data);
+                //        });
+                //}
+                //return false;
+            });//end
+
+        });
+
+
+    </script>
+
+}
+
+
+
+
+
+

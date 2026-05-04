@@ -1,0 +1,495 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.CompanyMaster
+@{
+    ViewBag.Title = "Company Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title mb-3 pb-3 border-bottom">Company Master</h3>
+                    <form action="@Url.Content("~/CompanyMaster/SaveData")" method="post" data-flag="0" class="needs-validation CompanyMasterform" id="CompanyMasterform" name="CompanyMasterform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                        <div class="row">
+                            <div class="col-md-2 mb-2 hide">
+                                <label for="RESOURCESHRTDESC">Short Description <span class="text-danger">*</span></label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="COMPID" name="COMPID" value="@Model.COMPID" class="form-control COMPID" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="COMPID" name="COMPID" value="0" class="form-control COMPID" />
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="COMPCODE">Company Code <span class="text-danger">*</span></label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="COMPCODE" name="COMPCODE" value="@Model.COMPCODE" class="form-control COMPCODE" required placeholder="Enter Company Code" maxlength="15" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Company Code !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="COMPCODE" name="COMPCODE" class="form-control COMPCODE" required placeholder="Enter Company Code" maxlength="15" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Company Code !!
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="COMPNAME">Company Name<span class="text-danger">*</span></label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="COMPNAME" name="COMPNAME" value="@Model.COMPNAME" class="form-control COMPNAME" required placeholder="Enter Company Name" maxlength="100" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Company Name !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="COMPNAME" name="COMPNAME" class="form-control COMPNAME" required placeholder="Enter Company Name" maxlength="100" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Company Name !!
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="COMPDNAME">Printable Name <span class="text-danger">*</span></label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="COMPDNAME" name="COMPDNAME" value="@Model.COMPDNAME" class="form-control COMPDNAME" required placeholder="Enter Company Code" maxlength="100" tabindex="3" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Printable Name !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="COMPDNAME" name="COMPDNAME" class="form-control COMPDNAME" required placeholder="Enter Company Code" maxlength="100" tabindex="3" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Printable Name !!
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="COMPADDR">Communication Address  <span class="text-danger">*</span></label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="COMPADDR" name="COMPADDR" value="@Model.COMPADDR" class="form-control COMPADDR" required placeholder="Enter Communication Address" maxlength="250" tabindex="4" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Communication Address !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="COMPADDR" name="COMPADDR" class="form-control COMPADDR" required placeholder="Enter Communication Address" maxlength="250" tabindex="4" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Communication Address !!
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-2 mb-2">
+                                <label for="COMPPHN1">Landline 1 <span class="text-danger">*</span></label>
+                                @if (Model != null)
+                                {
+                                    <input type="number" id="COMPPHN1" name="COMPPHN1" value="@Model.COMPPHN1" class="form-control COMPPHN1" required placeholder="Enter Landline 1" maxlength="15" tabindex="5" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Landline 1 !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="number" id="COMPPHN1" name="COMPPHN1" class="form-control COMPPHN1" required placeholder="Enter Landline 1" maxlength="15" tabindex="5" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Landline 1 !!
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-2 mb-2">
+                                <label for="COMPPHN2">Landline 2</label>
+                                @if (Model != null)
+                                {
+                                    <input type="number" id="COMPPHN2" name="COMPPHN2" value="@Model.COMPPHN2" class="form-control COMPPHN2" placeholder="Enter Landline 2" maxlength="15" tabindex="6" />
+                                }
+                                else
+                                {
+                                    <input type="number" id="COMPPHN2" name="COMPPHN2" class="form-control COMPPHN2" placeholder="Enter Landline 2" maxlength="15" tabindex="6" />
+                                }
+
+                            </div>
+
+                            <div class="col-md-2 mb-2">
+                                <label for="COMPPHN3">Mobile No 1 <span class="text-danger">*</span></label>
+                                @if (Model != null)
+                                {
+                                    <input type="number" id="COMPPHN3" name="COMPPHN3" value="@Model.COMPPHN3" class="form-control COMPPHN3" required placeholder="Enter Mobile No 1" maxlength="12" tabindex="7" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Mobile No 1 !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="number" id="COMPPHN3" name="COMPPHN3" class="form-control COMPPHN3" required placeholder="Enter Mobile No 1" maxlength="12" tabindex="7" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Mobile No 1 !!
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="col-md-2 mb-2">
+                                <label for="COMPPHN4">Fax</label>
+                                @if (Model != null)
+                                {
+                                    <input type="number" id="COMPPHN4" name="COMPPHN4" value="@Model.COMPPHN4" class="form-control COMPPHN4" placeholder="Enter Fax No" maxlength="10" tabindex="8" />
+                                }
+                                else
+                                {
+                                    <input type="number" id="COMPPHN4" name="COMPPHN4" class="form-control COMPPHN4" placeholder="Enter Fax No" maxlength="10" tabindex="8" />
+                                }
+
+                            </div>
+
+                            <div class="col-md-4 mb-4">
+                                <label for="COMPMAIL">Email<span class="text-danger">*</span></label>
+                                @if (Model != null)
+                                {
+
+                                    <input type="email" name="COMPMAIL" class="form-control COMPMAIL" id="COMPMAIL" value="@Model.COMPMAIL" placeholder="Enter Email" onblur="checkemail(this.value)" required maxlength="100" tabindex="9">
+                                    <div class="invalid-feedback">
+                                        Please Enter E-Mail !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="email" name="COMPMAIL" class="form-control COMPMAIL" id="COMPMAIL" placeholder="Enter Email" onblur="checkemail(this.value)" required maxlength="100" tabindex="9">
+                                    <div class="invalid-feedback">
+                                        Please Enter E-Mail !!
+                                    </div>
+                                }
+                                @*<input type="email" id="COMPMAIL" name="COMPMAIL" value="@Model.COMPMAIL" class="form-control COMPMAIL" required placeholder="Enter E-Mail" maxlength="100" tabindex="9" />
+                                    <div class="invalid-feedback">
+                                        Please Enter E-Mail !!
+                                    </div>*@
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+
+                                <label>Contact Person</label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="COMPCPRSN" name="COMPCPRSN" value="@Model.COMPCPRSN" class="form-control COMPCPRSN" placeholder="Contact Person" maxlength="100" tabindex="10" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="COMPCPRSN" name="COMPCPRSN" class="form-control COMPCPRSN" placeholder="Contact Person" maxlength="100" tabindex="10" />
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3 hide">
+                                <label>VT Cut off Time </label>
+                                @if (Model != null)
+                                {
+                                    <input type="datetime-local" id="COMPCOFFTIME" name="COMPCOFFTIME" value="@String.Format("{0:yyyy-MM-dd HH:mm:ss}",Model.COMPCOFFTIME)" class="form-control COMPCOFFTIME" placeholder="VT Cut off Time" tabindex="11" />
+                                }
+                                else
+                                {
+                                    <input type="datetime-local" id="COMPCOFFTIME" name="COMPCOFFTIME" class="form-control COMPCOFFTIME" placeholder="VT Cut off Time" tabindex="11" />
+                                }
+                            </div>
+
+
+                            <div class="col-md-3 mb-3">
+
+                                <label>Bill Print Description 1   </label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="COMPPDESC1" name="COMPPDESC1" value="@Model.COMPPDESC1" class="form-control COMPPDESC1" placeholder="Bill Print Description 1" maxlength="100" tabindex="12" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="COMPPDESC1" name="COMPPDESC1" class="form-control COMPPDESC1" placeholder="Bill Print Description 1" maxlength="100" tabindex="12" />
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+
+                                <label>Bill Print Description 2 </label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="COMPPDESC2" name="COMPPDESC2" value="@Model.COMPPDESC2" class="form-control COMPPDESC2" placeholder="Bill Print Description 2" maxlength="100" tabindex="13" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="COMPPDESC2" name="COMPPDESC2" class="form-control COMPPDESC2" placeholder="Bill Print Description 2" maxlength="100" tabindex="12" />
+                                }
+
+
+                            </div>
+                            <div class="col-md-2 mb-2">
+
+                                <label>GST No.  </label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="COMPGSTNO" name="COMPGSTNO" value="@Model.COMPGSTNO" class="form-control COMPGSTNO" placeholder="GST No" maxlength="15" tabindex="14" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="COMPGSTNO" name="COMPGSTNO" class="form-control COMPGSTNO" placeholder="GST No" maxlength="15" tabindex="14" />
+                                }
+                            </div>
+                            <div class="col-md-2 mb-2">
+
+                                <label>Status <span class="text-danger">*</span></label>
+                                @Html.DropDownList("DISPSTATUS", null, "Please select Status", new { @class = "form-control select2 custom-select  DISPSTATUS", @data_val = "true", @required = "required", @id = "DISPSTATUS", @style = "width:50%;" })
+                            </div>
+
+                            <div class="col-12">
+                                <div class="d-md-flex align-items-center mt-3">
+
+                                    <a href="@Url.Action("Index", "CompanyMaster")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                        @*<button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">
+                                                <div class="d-flex align-items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send feather-sm fill-white me-2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                                    Submit
+                                                </div>
+                                            </button>*@
+                                        @*<button id="btnsave" type="button" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>*@
+                                        @*<input type="submit" id="btnCreate" onclick="Validate(this, event);" value="Submit"
+                                            class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4" />*@
+                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#COMPID').val() == "") {
+
+                $('#COMPID').val() = 0;
+
+            }
+            else {
+
+            }
+
+        });
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('CompanyMasterform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+                    var formData = $('#CompanyMasterform').serialize();
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            $.ajax({
+                                url: "@Url.Action("SaveData", "CompanyMaster")",
+                                data: formData,
+                                type: "POST",
+                                success: function (status) {
+                                    //alert(status);
+                                    if (status == "Success") {
+                                        Swal.fire({
+                                            position: 'center',
+                                            type: 'success',
+                                            title: 'Company Master Details Saved Successfully',
+                                            showConfirmButton: true,
+                                            //timer: 3500
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                var returnurl = "@Url.Action("Index", "CompanyMaster")";
+                                                window.location.href = returnurl;
+                                            }
+                                        });
+                                    }
+                                    else if (status == "Existing") {
+                                        Swal.fire({
+                                            position: 'center',
+                                            type: 'info',
+                                            title: 'Company Master Details Already Existed',
+                                            showConfirmButton: true,
+                                            //timer: 3500
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                var returnurl = "@Url.Action("Form", "CompanyMaster")";
+                                                window.location.href = returnurl;
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        Swal.fire({
+                                            position: 'center',
+                                            type: 'error',
+                                            title: 'Company Master Details Not Saved',
+                                            showConfirmButton: true,
+                                            //timer: 3500
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                var returnurl = "@Url.Action("Form", "CompanyMaster")";
+                                                window.location.href = returnurl;
+                                            }
+                                        });
+                                    }
+                                },
+                                error: function (errormessage) {
+                                    alert(errormessage.responseText);
+                                }
+                            });
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+        @*$('#btnsave').click(function () {
+
+            if ($('#CSHRTDESC').val() == "") {
+                alert('Please Enter Code !!');
+                $('#CSHRTDESC').focus();
+                return false;
+            }
+
+            if ($('#COUNTRYDESC').val() == "") {
+                alert('Please Enter Description !!');
+                $('#COUNTRYDESC').focus();
+                return false;
+            }
+
+            var tab = {
+                COUNTRYID: $("#COUNTRYID").val(),
+                CSHRTDESC: $('#CSHRTDESC').val(),
+                COUNTRYDESC: $('#COUNTRYDESC').val(),
+                DISPSTATUS: $('#DISPSTATUS').val(),
+                CreatedBy: $('#CreatedBy').val(),
+                CreatedDt: $('#CreatedDt').val(),
+                UpdatedBy: $('#UpdatedBy').val(),
+                UpdatedDt: $('#UpdatedDt').val()
+
+            };
+
+            $.ajax({
+                url: "@Url.Action("SaveData", "CountryMaster")",
+                data: JSON.stringify(tab),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (status) {
+                    if (status == "Update") {
+                        Swal.
+                        alert('County Master Details Updated Successfully !! ');
+
+                        var returnurl = "@Url.Action("Index", "CountryMaster")";
+                        window.location.href = returnurl;
+                    }
+                    else if (status == "Success") {
+                        alert('Country Master Details Inserted Successfully !! ');
+                        var returnurl = "@Url.Action("Index", "CountryMaster")";
+                        window.location.href = returnurl;
+                    }
+                    else if (status == "Existing") {
+                        alert('Country Master Details Already Inserted !! ');
+                        $('#CSHRTDESC').val("");
+                        $('#COUNTRYDESC').val("");
+                        var returnurl = "@Url.Action("Form", "CountryMaster")";
+                        window.location.href = returnurl;
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+
+        });*@
+
+        function checkemail(email) {
+            //alert(email);
+            if (email != "") {
+                //var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                var regex = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+                if (!regex.test(email)) {
+                    Swal.fire({
+                        text: 'Please Enter Valid e MailId',
+                        icon: 'warning',
+                        //timer: 2500,
+                        showConfirmButton: true
+                    }).then(function () {
+                        $('.COMPMAIL').focus();
+                    });
+                }
+            }
+        }
+
+    </script>
+
+
+}
+
+

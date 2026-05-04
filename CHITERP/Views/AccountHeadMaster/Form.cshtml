@@ -1,0 +1,249 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.AccountHeadMaster
+@{
+    ViewBag.Title = "Ledger";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    .spacer5 {
+        height: 15px;
+    }
+    /*   body {
+        font-family: Arial !important;
+    }*/
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                    <form action="@Url.Content("~/AccountHeadMaster/SaveData")" method="post" data-flag="0" class="needs-validation AccountHeadMasterform" id="AccountHeadMasterform" name="AccountHeadMasterform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                        <div class="row">
+                            <div class="col-md-2 mb-2 hide">
+                                <label for="ACHEADID">Ledger Id</label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="ACHEADID" name="ACHEADID" value="@Model.ACHEADID" class="form-control ACHEADID" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="ACHEADID" name="ACHEADID" value="0" class="form-control ACHEADID" />
+                                }
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Code<span class="req"> *</span> </label>
+                                    @Html.TextBoxFor(model => Model.ACHEADCODE, new { @class = "form-control ACHEADCODE caps", @id = "ACHEADCODE", required = "required", MaxLength = "15" })
+                                    @Html.ValidationMessageFor(mode => Model.ACHEADCODE)
+                                    <input type="text" value="@Model.ACHEADCODE" name="i_ACHEADCODE" hidden>
+                                    @Html.TextBoxFor(model => Model.CATEID, new { @class = "form-control hide CATEID", @id = "CATEID", MaxLength = "15" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Description <span class="req"> *</span></label>
+                                    @Html.TextBoxFor(model => Model.ACHEADDESC, new { @class = "form-control  ACHEADDESC", @id = "ACHEADDESC", @required = "required" })
+                                    @Html.ValidationMessageFor(mode => Model.ACHEADDESC)
+                                    <input type="text" value="@Model.ACHEADDESC" name="i_ACHEADDESC" hidden>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Account Group <span class="req"> *</span> </label>
+                                    @Html.DropDownList("ACHEADGID", null, "Please select", new { @class = "form-control  ACHEADGID", @data_val = "true", @data_val_required = "Field is required", @id = "ACHEADGID", @required = "required" })
+                                    @Html.ValidationMessageFor(mode => Model.ACHEADGID)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 hide">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Bill Wise </label>
+                                    @Html.DropDownList("ACHEADTYPE", null, new { @class = "form-control ACHEADTYPE", @id = "ACHEADTYPE" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 ">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Opening Balance</label>
+                                    @Html.TextBoxFor(model => Model.OPENINGBAL, new { @class = "form-control  OPENINGBAL", @id = "OPENINGBAL", @required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 ">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Opening Bal. As On Date </label>
+                                    @if (Model != null)
+                                    {
+                                        string pdatetime = Convert.ToString(Model.OPNBALASONDT);
+                                        if ((pdatetime != null && pdatetime != ""))
+                                        {
+                                            var param = pdatetime.Split(' ');
+                                            DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                            <input id="OPNBALASONDT" type="date" max="2099-12-31" min="2015-01-01" value="@String.Format("{0:yyyy-MM-dd}",pdate)" required name="OPNBALASONDT" class="form-control OPNBALASONDT" />
+                                            <div class="invalid-feedback">
+                                                Please Select Date !!
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <input id="OPNBALASONDT" type="date" max="2099-12-31" min="2015-01-01" name="OPNBALASONDT" required class="form-control OPNBALASONDT" />
+                                            <div class="invalid-feedback">
+                                                Please Select Date !!
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <input id="OPNBALASONDT" type="date" max="2099-12-31" min="2015-01-01" name="OPNBALASONDT" required class="form-control OPNBALASONDT" />
+                                        <div class="invalid-feedback">
+                                            Please Select Date !!
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Status </label>
+                                    @Html.DropDownList("DISPSTATUS", null, new { @class = "form-control DISPSTATUS", @id = "DISPSTATUS" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 hide">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>CUSRID </label>
+                                    @Html.TextBoxFor(model => Model.CUSRID, new { @class = "form-control CUSRID", @id = "CUSRID" })
+                                    @Html.ValidationMessageFor(model => model.CUSRID)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>LMUSRID </label>
+                                    @Html.TextBoxFor(model => Model.LMUSRID, new { @class = "form-control  LMUSRID", @id = "LMUSRID" })
+                                    @Html.ValidationMessageFor(model => model.LMUSRID)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="d-md-flex align-items-center mt-3">
+
+                                <a href="@Url.Action("Index", "AccountHeadMaster")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="17">Go Back</a>
+
+                                <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                    <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="16">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            if ($('#ACHEADID').val() == "") {
+                $('#ACHEADID').val() = 0;
+            }
+
+        });
+
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('AccountHeadMasterform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "AccountHeadMaster";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#AccountHeadMasterform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        $('.msg').delay(1200).fadeOut(1000);
+
+        $(".ACHEADCODE").keyup(function () {//...capitalize each
+
+            $(this).val($(this).val().toUpperCase());
+        });
+
+
+    </script>
+
+
+}
+
+
+

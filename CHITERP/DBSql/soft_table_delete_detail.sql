@@ -1,0 +1,21 @@
+USE [FinFusion]
+GO
+
+/****** Object:  Table [dbo].[SOFT_TABLE_DELETE_DETAIL]    Script Date: 01-06-2022 16:32:54 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[SOFT_TABLE_DELETE_DETAIL](
+	[TABDID] [int] NOT NULL,
+	[OPTNSTR] [varchar](100) NULL,
+	[TABNAME] [varchar](250) NULL,
+	[PFLDNAME] [varchar](100) NULL,
+	[DCONDTNSTR] [varchar](250) NULL,
+	[DISPDESC] [varchar](250) NULL
+) ON [PRIMARY]
+GO
+
+

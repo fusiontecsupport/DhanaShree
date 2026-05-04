@@ -1,0 +1,161 @@
+﻿@model CHITERP.Models.AccountViewModel.EditUserViewModel
+
+@{ ViewBag.Title = "Edit"; }
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title mb-3 pb-3 border-bottom">Edit User </h3>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.Id)
+
+                <div class="form-group mb-3 row pb-3">
+                    <div class="col-md-4 mb-4">
+                        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @required = "required" })
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+                        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                        <div class="form-group mb-3 row pb-3">
+                            
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 row pb-3">
+                            <div class="col-md-9 mb-9">
+
+                                @if (Model.GroupsList != null)
+                                {
+                                    @Html.Label("This User belongs to the following selected Groups", new { @class = "control-label col-md-6" })
+                                    foreach (var item in Model.GroupsList)
+                                    {
+                                        <div>
+                                            <input type="checkbox" name="selectedGroups" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />
+                                            @Html.Label(item.Text, new { @class = "control-label" })
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="d-md-flex align-items-center mt-3">
+
+                                <a href="@Url.Action("Index", "User")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Back to List</a>
+
+                                <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                    <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4">Save</button>
+                                    @*<input type="submit" value="Create" class="btn btn-info font-weight-medium rounded-pill px-4" />*@
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@*<h2>Edit.</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Edit User Form.</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.UserName)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.FirstName)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LastName)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <span class=" col-md-10">
+                    @if (Model.GroupsList != null)
+                    {
+                        @Html.Label("This User belongs to the following selected Groups", new { @class = "control-label col-md-2" })
+                        foreach (var item in Model.GroupsList)
+
+
+                        {
+                            <div>
+                                <input type="checkbox" name="selectedGroups" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />
+                                @Html.Label(item.Text, new { @class = "control-label" })
+                            </div>}
+                    }
+                </span>
+
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>}
+
+    <div>
+        @Html.ActionLink("Back to List", "ManageUsers")
+    </div>*@
+
+

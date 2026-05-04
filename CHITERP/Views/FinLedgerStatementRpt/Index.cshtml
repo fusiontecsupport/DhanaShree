@@ -1,0 +1,246 @@
+﻿@{
+    ViewBag.Title = "Finance - Day Book Statement Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/themes/base/ui.multiselect.css" rel="stylesheet" />
+<style>
+    .multiselect ul li.k-button {
+        float: right;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-header border-bottom" style="background-color:white;">
+                                <div class="d-flex no-block align-items-center mb-0">
+                                    <h3 class="card-title text-dark-primary"><i class="fa fa-bar-chart-o fa-fw"></i>@ViewBag.Title</h3>
+                                    <div class="ms-auto">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br />
+                            <form target="_blank" action="@Url.Action("showrpt", "FinLedgerStatementRpt")" method="post" accept-charset="utf-8" id="exportcartingorderform" data-ng-controller="myController" name="exportcartingorderform">
+                                <div class="col-lg-12" style="margin-top:10px">
+                                    <div class="row">
+
+                                        <div class="col-md-2 mb-2 hide">
+                                            <label for="F_KUSRID">User Group</label>
+
+                                            <input type="text" value="@System.Web.HttpContext.Current.Session["Group"]" id="F_KUSRID" class="hide" />
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="RptType">Report Type<span class="text-danger">*</span></label>
+
+                                            @Html.DropDownList("RptType", null, "Please select", new { @class = "form-control select2 custom-select  RptType", @data_val = "true", @required = "required", @id = "RptType", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Report Type!!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="LinkedOfficeID">Linked Office<span class="text-danger">*</span></label>
+
+                                            @Html.DropDownList("LinkedOfficeID", null, "Please select", new { @class = "form-control select2 custom-select  LinkedOfficeID", @data_val = "true", @required = "required", @id = "LinkedOfficeID", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Linked Office !!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="from">From</label>
+
+                                            <input id="from" type="date" max="2099-12-31" min="2015-01-01" value="@String.Format("{0:yyyy-MM-dd}",Session["SDATE"])" required name="from" class="form-control from" />
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="to">To</label>
+
+                                            <input id="to" type="date" max="2099-12-31" min="2015-01-01" value="@String.Format("{0:yyyy-MM-dd}",Session["EDATE"])" required name="to" class="form-control to" />
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="prnttype">Show as </label>
+
+                                            <input type="radio" value="1" name="prnttype" />  Excel <input type="radio" value="2" name="prnttype" checked />   Pdf
+                                        </div>
+                                        <div class="col-md-2 mb-2 row center-block centered">
+                                            <br />
+
+                                            <input type="submit" name="submit" value="Show Report" style="text-align:center" class="btn btn-primary  btn-sm" />
+                                        </div>
+                                        <div>
+                                            <div id="tab1" class="col-md-12">
+                                                <br />
+                                                @*<label>Select Option</label> &nbsp;&nbsp;
+                                                    <input type="radio" value="0" name="gentype" checked />  Consolidated &nbsp;&nbsp;<input type="radio" value="1" name="gentype" />   Detailed &nbsp;&nbsp;*@
+                                                <div id="SOADIV"></div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="clearfix"> </div>
+                                        <div class="row">
+                                            <div class="col-xs-1"> </div>
+
+
+
+
+                                        </div>
+                                        <br />
+
+                                        <div class="clearfix"> </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class=" ">
+                                            <div class="panel-body">
+
+
+
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+
+    <script src="~/Scripts/ui.multiselect.js"></script>
+
+    <script type="text/javascript" class="init">
+
+
+
+var editor; // use a global for the submit and return data rendering in the examples
+
+$(document).ready(function() {
+
+    var roleid = '@Session["OPFRoleId"]';
+    var emplid = '@Session["EMPLID"]';
+    var regnid = '@Session["REGNID"]';
+
+    //$('#myTabs a').click(function (e) {
+    //    e.preventDefault()
+    //    $(this).tab('show')
+    //})
+    var baseUrl = $("#BaseUrl").data("baseurl");
+    var url = baseUrl+"/FinLedgerStatementRpt/GetCustomerList?ids=" + roleid + "~" + emplid + "~" + regnid;
+    idx = 1;//$("#rpttype").val(); //alert(idx)
+
+    if (idx == 1) {
+        //alert(idx)
+        $("#SOADIV").empty();
+        $("#SOADIV").html('<select id="LDGRID" name="LDGRID" class="multiselect LDGRID form-control" multiple="multiple" style="height:350px;"></select>');
+        $.ajax({
+            type: 'get',
+            url: url,// we are calling json method
+            dataType: 'json',
+            success: function (data) {//alert(data)
+                //console.log(data);
+                $.each(data, function (i, dataval) {
+                    $(".LDGRID").append('<option value="' + dataval.CATEID + '">' + dataval.CLIENTNAME + '</option>');
+                });
+                $(".multiselect").multiselect();
+            }
+        });
+    }
+
+
+            //$("#from").datepicker({
+            //    defaultDate: "+1w",
+            //    changeMonth: true,
+            //    numberOfMonths: 3,
+            //    dateFormat: 'dd-mm-yy',
+            //    onClose: function (selectedDate) {
+            //        $("#to").datepicker("option", "minDate", selectedDate);
+            //    }
+            //});
+            //$("#to").datepicker({
+            //    defaultDate: "+1w",
+            //    changeMonth: true,
+            //    numberOfMonths: 3,
+            //    dateFormat: 'dd-mm-yy',
+            //    onClose: function (selectedDate) {
+            //        $("#from").datepicker("option", "maxDate", selectedDate);
+            //    }
+            //});
+
+
+
+
+});
+
+
+
+    function Check() {
+
+        rtype = $("#rpttype").val();
+    //    alert(rtype);
+    //    alert($(".CATEID").val());
+
+        switch(rtype) {
+            case "1":
+                if ($(".LDGRID").val() == null) {
+                    alert("Please Select the Supplier");
+                    return false;
+                }
+                //return true;
+                break;
+            case "2":
+                if ($(".CATEID").val() == null) {
+                    alert("Please Select the Supplier");
+                    return false;
+                }
+                break;
+            case "3":
+                if ($(".MTRLGID").val() == null) {
+                    alert("Please Select the Material Group");
+                    return false;
+                }
+                break;
+            case "4":
+                if ($(".MTRLID").val() == null) {
+                    alert("Please Select the Material");
+                    return false;
+                }
+                break;
+            default:
+                //code block
+        }
+
+
+    }
+
+
+
+    </script>
+
+
+
+
+}
+

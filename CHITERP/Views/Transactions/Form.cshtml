@@ -1,0 +1,412 @@
+﻿
+@{
+    ViewBag.Title = "Transaction Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title </h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                </div>
+                <form action="@Url.Content("~/Transactions/Savedata")" method="post" data-flag="0" class="needs-validationTransactionsform" id="Transactionsform" name="Transactionsform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="row col-md-12">
+
+                                <div class="row">
+                                    <div class="row col-md-12">
+                                        <div class="col-md-2 mb-2 hide">
+                                            <label for="CollectionListID">Transaction Id</label>
+
+                                            <input type="text" id="CollectionListID" name="CollectionListID" value="0" class="form-control CollectionListID" />
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="ProductTypeID">Product<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("ProductTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select  ProductTypeID", @data_val = "true", @required = "required", @id = "ProductTypeID", @style = "width:50%;", @onchange = "LoadSubTrnTypsNPrdSubs();" })
+                                            <div class="invalid-feedback">
+                                                Please Select Product !!
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4 mb-4">
+                                            <label for="SubscriptionID">Subscription<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("SubscriptionID", null, "-- Select --", new { @class = "form-control select2 custom-select  SubscriptionID", @data_val = "true", @required = "required", @id = "SubscriptionID", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Subscription Details!!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="TransactionCategory">Transaction Category<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("TransactionCategory", null, "-- Select --", new { @class = "form-control select2 custom-select  TransactionCategory", @data_val = "true", @required = "required", @id = "TransactionCategory", @onchange = "LoadSubTrnTyps();", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Transaction Category !!
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2 mb-2">
+                                            <label for="SubsTranCategory">Sub Category<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("SubsTranCategory", null, "-- Select --", new { @class = "form-control select2 custom-select  SubsTranCategory", @data_val = "true", @required = "required", @id = "SubsTranCategory", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Category !!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="TransactionType">Transaction Type<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("TransactionType", null, "-- Select --", new { @class = "form-control select2 custom-select  TransactionType", @data_val = "true", @required = "required", @id = "TransactionType", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Transaction Type !!
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row col-md-12">
+
+
+                                        <div class="col-md-2 mb-2">
+                                            <label for="InstallmentNo">Installment No.<span class="text-danger">*</span></label>
+
+                                            
+                                                <input type="number" id="InstallmentNo" min="0" name="InstallmentNo" class="form-control InstallmentNo" required maxlength="100" tabindex="2" />
+                                                <div class="invalid-feedback">
+                                                    Please Enter Installement No.!!
+                                                </div>
+                                            
+                                        </div>
+
+                                        <div class="col-md-2 mb-2">
+                                            <label for="PaymentDate">Payment Date</label>
+
+                                           
+                                           
+                                                <input type="date" min="2015-01-01"  max="2099-03-31" id="PaymentDate" name="PaymentDate" class="form-control PaymentDate" maxlength="100" tabindex="2" />
+                                            
+                                        </div>
+
+                                        <div class="col-md-3 mb-3">
+                                            <label for="PaymentMode">Payment Mode<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("PaymentMode", null, "-- Select --", new { @class = "form-control select2 custom-select  PaymentMode", @data_val = "true", @required = "required", @id = "PaymentMode", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Payment Mode !!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="PaymentAmount">Amount<span class="text-danger">*</span></label>
+
+                                            
+                                            
+                                                <input type="number" id="PaymentAmount" min="0" name="PaymentAmount" class="form-control PaymentAmount" required maxlength="100" tabindex="2" />
+                                                <div class="invalid-feedback">
+                                                    Please Enter Payment Amount!!
+                                                </div>
+                                            
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="StatusTypeID">Status<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Status !!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12">
+                                        <div class="col-md-12 mb-12">
+                                            <label for="Remarks">Remarks </label>
+
+                                            
+                                            
+                                                <input type="text" id="Remarks" name="Remarks" class="form-control Remarks" required maxlength="250"  />
+                                                
+                                            
+                                        </div>
+                                    </div>
+                                        <div class="row col-md-12 hide">
+
+
+                                            <div class="col-md-3 mb-3">
+                                                <label for="LinkedOfficeID">Different Office<span class="text-danger">*</span></label>
+                                                @Html.DropDownList("LinkedOfficeID", null, "Please select Linked Office", new { @class = "form-control select2 custom-select  LinkedOfficeID", @data_val = "true", @id = "LinkedOfficeID", @style = "width:50%;" }) @*@required = "required",*@
+                                                <div class="invalid-feedback">
+                                                    Please Select Linked Office !!
+                                                </div>
+                                            </div>
+
+                                            <div class="card-header bg-info">
+                                                <h4 class="mb-0 text-white">Fund Transfer to Another Product / Account</h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                                            </div>
+                                            <div class="row col-md-12">
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="TransferToProductID">Transfer to Product</label>
+                                                    @Html.DropDownList("TransferToProductID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToProductID", @data_val = "true", @id = "TransferToProductID", @style = "width:50%;" })
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="TransferToCategory">Category</label>
+                                                    @Html.DropDownList("TransferToCategory", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToCategory", @data_val = "true", @id = "TransferToCategory", @style = "width:50%;" })
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="TransferToSubscriptionID">Subscription A/c</label>
+                                                    @Html.DropDownList("TransferToSubscriptionID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToSubscriptionID", @data_val = "true", @id = "TransferToSubscriptionID", @style = "width:50%;" })
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="TransferToFundAccountID">Fund A/c</label>
+                                                    @Html.DropDownList("TransferToFundAccountID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToFundAccountID", @data_val = "true", @id = "TransferToFundAccountID", @style = "width:50%;" })
+                                                </div>
+
+
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="d-md-flex align-items-center mt-3">
+
+                                                <a href="@Url.Action("Index", "Transactions")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                                <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                                    <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#CollectionListID').val() == "") {
+                $('#CollectionListID').val() = 0;
+            }
+            else {
+                id = $('#CollectionListID').val();
+                catg= $('#TransactionCategory').val();
+            }
+        });
+        function LoadSubTrnTyps() {
+            var trncatg = $(".TransactionCategory option:selected").val();
+            var prod = $(".ProductTypeID option:selected").val();
+
+
+            if (prod > 0 && trncatg != null && trncatg != "") {
+                url = '@Url.Action("GetProductSubTrnTypDtl", "Transactions")/?id=' + trncatg + '~' + prod;
+
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        $("#SubsTranCategory").empty().trigger('change');
+                        $("#SubsTranCategory").append('<option value="">Please Select Sub Tran Category</option>');
+                        var i = 0;
+                        $.each(data, function (i, dataval) {
+                            $("#SubsTranCategory").append('<option value="' + dataval.TypeID + '">' + dataval.Type + '</option>');
+
+                        });
+
+                    },
+                    complete: function () {
+                        //alert('hi');
+                    },
+                    error: function (ex) {
+                        alert('Failed to Get Details due to Error: ' + ex);
+                    }
+                });
+            }
+
+        }
+
+        function LoadSubTrnTypsNPrdSubs() {
+            var trncatg = $(".TransactionCategory option:selected").val();
+            var prod = $(".ProductTypeID option:selected").val();
+
+
+            if (prod > 0 && trncatg != null && trncatg != "") {
+                url = '@Url.Action("GetProductSubTrnTypDtl", "Transactions")/?id=' + trncatg + '~' + prod;
+
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        $("#SubsTranCategory").empty().trigger('change');
+                        $("#SubsTranCategory").append('<option value="">Please Select Sub Tran Category</option>');
+                        var i = 0;
+                        $.each(data, function (i, dataval) {
+                            $("#SubsTranCategory").append('<option value="' + dataval.TypeID + '">' + dataval.Type + '</option>');
+
+                        });
+
+                    },
+                    complete: function () {
+                        url = '@Url.Action("GetProductSubsDtl", "Transactions")/?id=' + trncatg + '~' + prod;
+                        $.ajax({
+                            type: 'post',
+                            url: url,
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log(data);
+                                $("#SubscriptionID").empty().trigger('change');
+                                $("#SubscriptionID").append('<option value="">Please Select Subscription</option>');
+                                var i = 0;
+                                $.each(data, function (i, dataval) {
+                                    $("#SubscriptionID").append('<option value="' + dataval.subscriptionid + '">' + dataval.subscriptioncode + '</option>');
+
+                                });
+
+                            },
+                            complete: function () {
+                                //alert('hi');
+                            },
+                            error: function (ex) {
+                                alert('Failed to Get Details due to Error: ' + ex);
+                            }
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to Get Details due to Error: ' + ex);
+                    }
+                });
+            }
+
+        }
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('Transactionsform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "Transactions";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#Transactionsform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+
+
+
+    </script><script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#TypeId').val() == "") {
+                $('#TypeId').val() = 0;
+            }
+        });
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('Transactionsform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "Transactions";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#Transactionsform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+
+
+
+</script>

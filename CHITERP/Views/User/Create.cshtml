@@ -1,0 +1,239 @@
+﻿@model CHITERP.Models.RegisterViewModel
+@{ ViewBag.Title = "Create"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title mb-3 pb-3 border-bottom">Create a new user</h3>
+                    <form action="@Url.Content("~/User/Create")" method="post" data-flag="0" class="needs-validation Userform" id="Userform" name="Userform" novalidate>
+                        @*@using (Html.BeginForm("Create", "User", FormMethod.Post, new { @class = "form-horizontal r-separator needs-validation", novalidate, role = "form" }))
+                            {*@
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group mb-3 row pb-3">
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(m => m.EmpId, "Employee Name", new { @class = "col-md-3 control-label" })
+
+                                @Html.DropDownList("EmpId", (IEnumerable<SelectListItem>)ViewBag.EmpId, "Select Employee", new { @class = "form-control select2 custom-select  EmpId", @data_val = "true", @required = "required", @id = "EmpId", @style = "width:50%;" })
+
+                                @*@Html.DropDownList("EmpId", null, "Please Select", new { @class = "form-control select2 custom-select  EmpId", @data_val = "true", @required = "required", @id = "EmpId", @style = "width:50%;" })*@
+
+                                @Html.ValidationMessageFor(mode => Model.EmpId)
+                                
+                                @Html.TextBoxFor(m => m.NPassword, new { @class = "form-control hide" })
+                            </div>
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 row pb-3">
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @required = "required" })
+                            </div>
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-3 control-label" })
+
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @onchange = "NPass()", @required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 row pb-3">
+
+
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @required = "required" })
+                            </div>
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 row pb-3">
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email", @required = "required" })
+                            </div>
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(m => m.EPassword, new { @class = "col-md-3 control-label" })
+
+                                @Html.TextBoxFor(m => m.EPassword, new { @class = "form-control", @type = "password" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 row pb-3">
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(m => m.DeptName, new { @class = "col-md-2 control-label" })
+                                @Html.DropDownList("DeptId", null, "Please Select", new { @class = "form-control select2 custom-select  DeptId", @data_val = "true", @required = "required", @id = "DeptId", @style = "width:50%;" })
+
+                            </div>
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(m => m.Designation, new { @class = "col-md-3 control-label" })
+                                @Html.TextBoxFor(m => m.Designation, new { @class = "form-control Designation", @id = "Designation" })
+                               
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 row pb-3">
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(m => m.Signature, new { @class = "col-md-3 control-label" })
+
+                                @Html.TextAreaFor(m => m.Signature, new { rows = "10", style = "resize:none;width:400px;", placeholder = Html.DisplayNameFor(m => m.Signature), @class = "form-control input-lg textarea-editor" })
+                            </div>
+
+                            <div class="col-md-6 mb-6">
+                                <label class="col-md-3 control-label">
+                                    Select User Group
+                                </label>
+                                @foreach (var item in (SelectList)ViewBag.GroupsList)
+                                {
+                                    <div>
+                                        <input type="checkbox" name="selectedGroups" value="@item.Value" class="checkbox-inline" />
+                                        @Html.Label(item.Text, new { @class = "control-label" })
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="d-md-flex align-items-center mt-3">
+
+                                <a href="@Url.Action("Index", "User")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Back to List</a>
+
+                                <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                    <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4">Create</button>
+                                    @*<input type="submit" value="Create" class="btn btn-info font-weight-medium rounded-pill px-4" />*@
+
+                                </div>
+                            </div>
+                        </div>
+                        @*//}*@
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+
+
+
+            $("#EmpId").on("change", function () {
+                var Empid = $("#EmpId").val();
+               // alert(Empid);
+
+                //var url = "/Account/EmployeeDetDesgDetails/?id=" + Empid;
+
+                var url ='@Url.Action("EmployeeDetDesgDetails", "Account")/' + Empid;
+                $('.DeptId').empty().trigger('change');
+                $('.DeptId').append('<option value="">Please Select</option>');
+                $.ajax({
+                    type: 'get',
+                    url: url, // we are calling json method
+
+                    dataType: 'json',
+
+                    success: function (data) {
+                        //console.log(data);
+                        $.each(data, function (i, dataval) {
+                            $('.DeptId').append('<option selected value="' + dataval.DEPTID + '">' + dataval.DEPTDESC + '</option>');
+                            $('.DeptId').trigger('change');
+                            $('.Designation').val(dataval.DSGNDESC);
+                        });
+                    }
+                });
+
+                var bname = $('#EmpId :selected').text();
+
+               //$("#Designation").val($(this).find("option:selected").text());
+               $("#FirstName").val($(this).find("option:selected").text());//
+               $("#LastName").val(".");
+            });
+
+            $("#DEmpId").on("change", function () {
+                var bname = $('#DEmpId :selected').text();
+                $("#DeptName").val($(this).find("option:selected").text());
+            });
+
+
+
+        });
+
+
+        function BranchChange() {
+
+        //    var bname = $('#EmpId :selected').text();
+          //  $("#Designation").val($(this).find("option:selected").text());
+
+            EmpId = $('#EmpId :selected').val();// $(".EmpId").val();
+            //alert(EmpId);
+            base = window.location.origin;
+            @*var url = "@Url.Action("BranchDepartment", "Account")/" + EmpId;
+            $(".DEmpId").empty();
+            $.getJSON(url, function (data) {
+                var i = 0; $(".DEmpId").append("<option value=''>select</option>");
+                $.each(data, function (key, val) {
+                    $(".DEmpId").append("<option value=" + val.DEmpId + ">" + val.DDEPTDESC + "</option>")
+                   // if (i == 0) $(".BCOUNT").val(val.BCOUNT);
+
+                    i++;
+                })
+
+
+
+            });*@
+
+            var bid = $('#EmpId :selected').val();
+            var url = '@Url.Action("EmployeeDesignation", "Account")/' + bid; // we are calling json method //"/PharmacyGoodsReceiptNote/HSNCodeExpr/" + $trCur.find(".HSNID option:selected").val();
+            $.ajax({
+                url: url,
+                async: false,
+                success: function (data) {
+                    //alert(data);
+                    $("#DeptName").val(data[0].DSGNDESC);
+                }
+
+            });//---End of Post--------
+
+        }//.....end
+
+
+        function NPass () {//...capitalize each
+         //   alert($('#ConfirmPassword').val());
+            $("#NPassword").val($('#ConfirmPassword').val());
+        };
+
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

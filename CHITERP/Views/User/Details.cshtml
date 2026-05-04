@@ -1,0 +1,114 @@
+﻿@model CHITERP.Models.AppUser
+
+@{ ViewBag.Title = "Details"; }
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id)
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                @Html.Raw(ViewBag.msg)
+
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title mb-3 pb-3 border-bottom">User Details</h3>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
+                            @Html.DisplayFor(model => model.UserName)
+                        </div>
+
+                        <div class="col-md-6 mb-6">
+                            @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+                            @Html.DisplayFor(model => model.FirstName)
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <h4 class="card-title mb-3 pb-3 border-bottom">List ofGroups this user belongs to:</h4>
+
+                        @if (ViewBag.GroupNames.Count == 0)
+                        {
+                            <hr />
+                            <p>No GRoups found for this user.</p>
+                        }
+                        <table class="table">
+
+                            @foreach (var item in ViewBag.GroupNames)
+                            {
+                                <tr>
+                                    <td>
+                                        @item
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+
+                    </div>
+
+                    <div class="col-12">
+                        <div class="d-md-flex align-items-center mt-3">
+
+                            <a href="@Url.Action("Index", "User")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Back to List</a>
+
+
+                            <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+    @*<h2>Details.</h2>
+
+    <div>
+        <h4>User</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+        </dl>
+    </div>
+    <h4>List ofGroups this user belongs to:</h4>
+    @if (ViewBag.GroupNames.Count == 0)
+    {
+        <hr />
+        <p>No GRoups found for this user.</p>}
+
+    <table class="table">
+
+        @foreach (var item in ViewBag.GroupNames)
+        {
+            <tr>
+                <td>
+                    @item
+                </td>
+            </tr>
+        }
+    </table>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@
+
+
+
+

@@ -1,0 +1,1 @@
+sqlcmd -S 45.35.169.89,1092 -i D:\Fusiontec\SQLJob\Dhanashree_Chits_Ledger_Data_Update_Schedule.sql

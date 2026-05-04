@@ -1,0 +1,251 @@
+﻿@model CHITERP.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+@*<link href="~/Content/ckeditor/samples.css" rel="stylesheet" />*@
+<div class="col-lg-12">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>  User Registration  <div class="clearfix"> </div></h3>
+        </div>
+
+        @Html.Raw(ViewBag.msg)
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-body">
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @*<h4>Create a new account.</h4>
+                            <hr />*@
+                        @Html.ValidationSummary()
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.EmpId, "Employee Name", new { @class = "col-md-2 control-label" })
+                            <div class="col-md-6">
+                                @*@Html.DropDownList("EmpId", (IEnumerable<SelectListItem>)ViewBag.EmpId, "Select Employee", new { @class = "form-control  EmpId", @data_val = "true", @required = "required", @data_val_required = "Field is required", @id = "EmpId" })*@ @*, @onchange = "BranchChange()"*@
+                                @*@Html.DropDownList("EmpId", null, new { @class = "form-control EmpId", @id = "EmpId", tabindex = "2" })*@
+                                @Html.DropDownList("EmpId", null, "Please select", new { @class = "form-control  EmpId", @data_val = "true", @required = "required", @data_val_required = "Field is required", @id = "EmpId" }) @*, @onchange = "BranchChange()"*@
+                                @Html.ValidationMessageFor(mode => Model.EmpId)
+                                @Html.TextBoxFor(m => m.Designation, new { @class = "form-control hide" })
+                                @Html.TextBoxFor(m => m.NPassword, new { @class = "form-control hide" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-6">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-6">
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @onchange = "NPass()" })
+                            </div>
+                        </div>
+
+                        //Add the LastName, FirstName, and Email Properties:
+                        <div class="form-group hide">
+                            @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group hide">
+                            @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.EPassword, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.EPassword, new { @class = "form-control", @type = "password" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @*@Html.LabelFor(m => m.DEmpId, "Department Name", new { @class = "col-md-2 control-label" })*@
+                            <div class="col-md-6">
+                                @*@Html.DropDownList("DEmpId", null, "Select Department", new { @class = "form-control DEmpId", @id = "DEmpId", @required = "required" })
+                                    @Html.ValidationMessageFor(mode => Model.DEmpId)*@
+                                @Html.TextBoxFor(m => m.DeptName, new { @class = "form-control hide" })
+                            </div>
+                        </div>
+                        <!--Infologia Code-26-01-2021- Add Email Signature parameter-->
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Signature, new { @class = "col-md-2 control-label" })
+                            <div ass="col-md-6">
+                                <div class="input-group">
+                                    @Html.TextAreaFor(m => m.Signature, new { rows = "20", style = "resize:none;width:400px;", placeholder = Html.DisplayNameFor(m => m.Signature), @class = "form-control input-lg textarea-editor" })
+                                </div>
+                            </div>
+                        </div>
+                        <!--Infologia Code-26-01-2021- Add Email Signature parameter-->
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" class="btn btn-success" value="Register" />
+                            </div>
+                        </div>
+                    }
+                    <div>
+                        @Html.ActionLink("Back to List", "Index")
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @*<script src="~/Scripts/Cost_factor_estimate.js"></script>*@
+    @*<script src="~/Scripts/ckeditor.js"></script>
+        <script src="~/Scripts/sample.js"></script>
+        <script src="~/Scripts/config.js"></script>*@
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <script src="~/Scripts/fusion.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+    <script src="~/Scripts/script-custom-editor.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+
+
+            $("#EmpId").on("change", function () {
+                var bname = $('#EmpId :selected').text();
+               $("#Designation").val($(this).find("option:selected").text());
+               $("#FirstName").val($(this).find("option:selected").text());//
+               $("#LastName").val(".");
+
+
+
+
+            });
+
+            $("#DEmpId").on("change", function () {
+                var bname = $('#DEmpId :selected').text();
+                $("#DeptName").val($(this).find("option:selected").text());
+            });
+
+
+
+        });
+
+
+        function BranchChange() {
+
+        //    var bname = $('#EmpId :selected').text();
+          //  $("#Designation").val($(this).find("option:selected").text());
+
+            EmpId = $('#EmpId :selected').val();// $(".EmpId").val();
+            //alert(EmpId);
+            base = window.location.origin;
+            @*var url = "@Url.Action("BranchDepartment", "Account")/" + EmpId;
+            $(".DEmpId").empty();
+            $.getJSON(url, function (data) {
+                var i = 0; $(".DEmpId").append("<option value=''>select</option>");
+                $.each(data, function (key, val) {
+                    $(".DEmpId").append("<option value=" + val.DEmpId + ">" + val.DDEPTDESC + "</option>")
+                   // if (i == 0) $(".BCOUNT").val(val.BCOUNT);
+
+                    i++;
+                })
+
+
+
+            });*@
+
+            var bid = $('#EmpId :selected').val();
+            var url = '@Url.Action("EmployeeDesignation", "Account")/' + bid; // we are calling json method //"/PharmacyGoodsReceiptNote/HSNCodeExpr/" + $trCur.find(".HSNID option:selected").val();
+            $.ajax({
+                url: url,
+                async: false,
+                success: function (data) {
+                    //alert(data);
+                    $("#DeptName").val(data[0].DSGNDESC);
+                }
+
+            });//---End of Post--------
+
+        }//.....end
+
+
+        function NPass () {//...capitalize each
+         //   alert($('#ConfirmPassword').val());
+            $("#NPassword").val($('#ConfirmPassword').val());
+        };
+
+    </script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+
+
+
+
+
+@*<h2>@ViewBag.Title.</h2>
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h4>Create a new account.</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.NPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.NPassword, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Register" />
+            </div>
+        </div>
+    }*@

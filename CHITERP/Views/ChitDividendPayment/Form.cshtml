@@ -1,0 +1,660 @@
+﻿@using CHITERP.Models;
+@using CHITERP.Data;
+@model CHITERP.Models.ChitTransSS
+
+@{
+    ViewBag.Title = "Chit Dividend Issue / Paid Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .spacer5 {
+        height: 15px;
+    }
+    /*   body {
+        font-family: Arial !important;
+    }*/
+    .total {
+        background-color: lightgreen !important;
+        color: navy !important;
+        font-weight: bold !important;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title </h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-6">
+                            <div class="mb-6 row">
+                                <label class="col-sm-6 text-end control-label col-form-label">Organization/Person</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownList("FPersonID", null, "Please Select Organization/Person", new
+                                    {
+                                        @class = "form-control select2 custom-select  FPersonID",
+                                        @data_val = "true",
+                                        @required = "required",
+                                        @id = "FPersonID",
+                                        @onchange = "ClientNameChange();"@*, @style = "width:50%;"*@})
+                                    <div class="invalid-feedback">
+                                        Please Select Organization/Person !!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-6">
+                            <div class="mb-3 row">
+                                <label class="col-sm-3 text-end control-label col-form-label">Introduced By	</label>
+                                <div class="col-sm-6">
+                                    <input type="text" readonly id="IntroducedBy" class="form-control IntroducedBy" name="IntroducedBy" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="mytab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" id="Subscriptions">
+                                <a class="nav-link d-flex active tab" data-bs-toggle="tab" href="#Subscription" role="tab" aria-selected="true">
+                                    <span>
+                                        <i class="fa fa-rocket"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Subscription</span>
+                                </a>
+                            </li>
+
+
+
+
+                        </ul>
+
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="Subscription" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <br />
+                                        <form action="@Url.Content("~/ChitDividendPayment/Savedata")" method="post" data-flag="0" class="needs-validation ChitDividendPaymentform" id="ChitDividendPaymentform" name="ChitDividendPaymentform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                                            <div class="row">
+
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="SubscriptionID">Id</label>
+                                                    @if (Model != null)
+                                                    {
+                                                        <input type="text" id="SubscriptionID" name="SubscriptionID" value="@Model.chitsubs[0].SubscriptionID" class="form-control SubscriptionID" />
+                                                        <input type="text" id="PersonID" name="PersonID" value="@Model.chitsubs[0].PersonID" class="form-control PersonID" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="SubscriptionID" name="SubscriptionID" value="0" class="form-control SubscriptionID" />
+                                                        <input type="text" id="PersonID" name="PersonID" value="" class="form-control PersonID" />
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="ChitSchemeID">Chit Scheme <span class="text-danger">*</span></label>
+
+                                                    @Html.DropDownList("ChitSchemeID", null, "Please select", new
+                                               {
+                                                   @class = "form-control select2 custom-select  ChitSchemeID",
+                                                   @data_val = "true",
+                                                   @required = "required",
+                                                   @id = "ChitSchemeID",
+                                                   @onchange = "edSchemeNameChange();"
+                                               })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Scheme Code !!
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="SchemeName">Scheme Name</label>
+                                                    <input type="text" id="SchemeName" name="SchemeName" class="form-control SchemeName" readonly maxlength="150" tabindex="2" />
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="ChitValue">Chit Value (₹)</label>
+                                                    <input type="text" id="ChitValue" name="ChitValue" class="form-control ChitValue" readonly maxlength="150" tabindex="2" />
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="ChitDuration">Duration</label>
+                                                    <input type="text" id="ChitDuration" name="ChitDuration" class="form-control ChitDuration" readonly maxlength="150" tabindex="2" />
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="ChitGroupID">Group <span class="text-danger">*</span></label>
+                                                    <input type="text" id="edChitGroupID" name="edChitGroupID" class="form-control hide edChitGroupID" value="@ViewBag.edChitGroupID" readonly maxlength="150" tabindex="2" />
+                                                    @Html.DropDownList("ChitGroupID", null, "Please select", new { @class = "form-control select2 custom-select  ChitGroupID", @data_val = "true", @required = "required", @id = "ChitGroupID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Group !!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-3 hide">
+                                                                <div class="form-group">
+                                                                    <label>primary</label>
+                                                                    <input class="form-control" id="ChitSchemeID" value="@ViewBag.ChitSchemeID" name="ChitSchemeID" />
+                                                                </div>
+                                                            </div>
+                                                            <input type="text" id="CHITSCHEDULEDETAILIDX" value="0" name="CHITSCHEDULEDETAILIDX" class="CHITSCHEDULEDETAILIDX hide" />
+                                                            <table class='table table-striped table-bordered bootstrap-datatable dataTable' id="CHITSCHEDULEDETAIL">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="6"><h3>Planned</h3></th>
+                                                                        <th colspan="4"><h3>Actuals</h3></th>
+
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th><label>Inst. No</label></th>
+                                                                        <th><label>Inst. Date</label></th>
+                                                                        <th><label>Subs.Amt</label></th>
+                                                                        <th><label>Div.Amt</label></th>
+                                                                        <th><label>Due.Amt</label></th>
+                                                                        <th><label>To Be Paid Amt</label></th>
+
+                                                                        <th><label>Collection</label></th>
+                                                                        <th><label>Dividend Paid</label></th>
+                                                                        <th><label>Issued/To be Issued</label></th>
+                                                                        <th><label>Dividend Sts</label></th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody class="CHITSCHEDULEDETAIL_BODY" id="CHITSCHEDULEDETAIL_BODY">
+                                                                    @if (Model != null)
+                                                                    {
+                                                                        var order = 0;
+                                                                        var substot = 0.0;
+                                                                        var divtot = 0.0;
+                                                                        var duetot = 0.0;
+                                                                        var colntot = 0.0;
+                                                                        var divpaidtot = 0.0;
+                                                                        foreach (pr_Get_Chit_Dividend_Schedule_n_Actuals_Details_Result details in Model.chitdividendschedules)
+                                                                        {
+                                                                            var divamt = details.Dividend;
+                                                                            var divsts = details.Dividend_Sts;
+                                                                            substot = substot + Convert.ToDouble(details.Subs_Amount);
+                                                                            divtot = divtot + Convert.ToDouble(details.Div_Amt);
+                                                                            duetot = duetot + Convert.ToDouble(details.actchitsubamt);
+                                                                            colntot = colntot + Convert.ToDouble(details.Credit);
+                                                                            divpaidtot = divpaidtot + Convert.ToDouble(details.Dividend);
+                                                                            order = ++order;
+                                                                            <tr class="item-row">
+
+                                                                                <td>
+
+                                                                                    <input id="InstNo" type="number" style="width:60px;" readonly value="@details.InstNo" name="InstNo" class="form-control InstNo" required />
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input id="InsttDt" readonly style="width:95px;" type="text" value="@details.InsttDt" name="InsttDt" class="form-control DtlDueAmt" />
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input id="Subs_Amount" style="width:125px;" readonly type="number" value="@details.Subs_Amount" min="0.00" step="0.01" name="Subs_Amount" class="form-control Subs_Amount" />
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input id="Div_Amt" style="width:125px;" type="number" readonly value="@details.Div_Amt" min="0.00" step="0.01" name="Div_Amount" class="form-control Div_Amt" />
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input id="actchitsubamt" style="width:125px;" readonly type="number" value="@details.actchitsubamt" min="0.00" step="0.01" name="actchitsubamt" class="form-control actchitsubamt" />
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input id="ToBePaid_Amt" style="width:125px;" readonly type="number" value="@details.ToBePaid_Amt" min="0.00" step="0.01" name="ToBePaid_Amt" class="form-control ToBePaid_Amt" />
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input id="Credit" style="width:125px;" min="0.00" step="0.01" type="number" value="@details.Credit" name="Credit" readonly class="form-control Credit" />
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input id="Dividend" style="width:125px;" min="0.00" step="0.01" type="number" value="@details.Dividend" name="Dividend" readonly class="form-control Dividend" />
+                                                                                </td>
+                                                                                <td>                                                                                    
+                                                                                    @if (divsts == "Paid")
+                                                                                    {
+                                                                                        <input type="checkbox" id="DIVPYMTFLG" class="DIVPYMTFLG chkreadonly" name="DIVPYMTFLG" checked readonly />
+                                                                                        <input type="text" value="2" id="boolDIVPYMTFLG" class="boolDIVPYMTFLG hide" name="boolDIVPYMTFLG" />
+                                                                                    }
+                                                                                    else if (divsts == "No Dividend" || divsts == "Yet to Pay")
+                                                                                    {
+                                                                                        <input type="checkbox" id="DIVPYMTFLG" class="DIVPYMTFLG chkreadonly" name="DIVPYMTFLG" readonly />
+                                                                                        <input type="text" value="0" id="boolDIVPYMTFLG" class="boolDIVPYMTFLG hide" name="boolDIVPYMTFLG" />
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <input type="checkbox" id="DIVPYMTFLG" class="DIVPYMTFLG" name="DIVPYMTFLG" onchange="ChkDivFlg(this)" />
+                                                                                        <input type="text" value="0" id="boolDIVPYMTFLG" class="boolDIVPYMTFLG hide" name="boolDIVPYMTFLG" />
+                                                                                    }
+
+                                                                                </td>
+
+
+                                                                                <td class=" col-md-1">
+
+                                                                                    <input id="DividendSts" style="width:125px;" readonly type="text" value="@details.Dividend_Sts" name="DividendSts" class="form-control DividendSts" />
+
+                                                                                </td>
+
+                                                                            </tr>
+
+                                                                        }
+                                                                        <tr class="total">
+
+                                                                            <th>
+
+
+                                                                            </th>
+                                                                            <td>
+
+                                                                                Total
+                                                                            </td>
+                                                                            <td align="center">
+
+                                                                                @substot
+                                                                            </td>
+                                                                            <td align="right">
+
+                                                                                @divtot
+                                                                            </td>
+                                                                            <td align="center">
+
+                                                                                @duetot
+                                                                            </td>
+                                                                            <td>
+                                                                            </td>
+                                                                            <td align="center">
+
+                                                                                @colntot
+                                                                            </td>
+                                                                            <td align="center">
+
+                                                                                @divpaidtot
+                                                                            </td>
+                                                                            <td>
+                                                                            </td>
+
+
+                                                                            <td class=" col-md-1">
+                                                                            </td>
+
+                                                                        </tr>
+                                                                    }
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="d-md-flex align-items-center mt-3">
+                                                    <a href="@Url.Action("Index", "ChitSubscriptionManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+                                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane p-4" id="ChitQRCode" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form target="_blank" action="@Url.Content("~/ChitDividendPayment/PrintQRCode")" method="post" data-flag="0" class="needs-validation QRform" id="QRform" name="QRform" novalidate>
+
+                                                <div class="row fa-qrcode qrcode pull-right">
+                                                    <div class="col-md-3 mb-3">
+                                                        <div id="imgPreview" class="thumbnail pull-right">
+                                                            <img class="img-responsive targetImg @ViewBag.chk" id="targetImg" src="@ViewBag.qrcdsrc" style="width:150px;height:150px;" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+                                                        <input type="text" readonly id="QRSubsID" class="form-control hide QRSubsID" name="QRSubsID" value="@ViewBag.QRSubsID" />
+                                                        <input type="text" readonly id="ProdType" class="form-control hide ProdType" name="ProdType" value="@ViewBag.ProdType" />
+
+                                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Print QR Code</button>
+
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="tab-pane p-3" id="Collection hide" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form id="Collectionform">
+                                                <div class="row">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('.chkreadonly').attr('readonly', true);
+            $('.chkreadonly').attr('disabled', 'disabled');
+            if ($('#SubscriptionID').val() == "") {
+                $('#SubscriptionID').val("0");
+            }
+            else {
+                ClientNameChange();
+                edSchemeNameChange();
+
+            }
+             function ClientNameChange() {
+
+            var clientid = $(".FPersonID").val();
+            $(".PersonID").val(clientid);
+            //alert($(".PersonID").val());
+            $(".IntroducedBy").val("");
+            //alert(clientid);
+            if (clientid != null && clientid != "0" && clientid != "" ) {
+                  //alert(clientid);
+            $.ajax({
+                url: '@Url.Action("Get_Introduced_by_Name", "ChitSubscriptionManagement")/' + clientid , // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    //alert(data.length);
+                    if (data.length > 0) {
+                        //console.log(data);
+                        //alert(data[0].CLIENTNAME);
+                        $(".IntroducedBy").val(data[0].CLIENTNAME);
+                    }
+                },
+                complete: function () {
+                },
+                error: function (ex) {
+                    alert('Failed to data ' + ex);
+                }
+            });
+            }
+
+        }
+           $("#mytab ul li a").addClass("hide");
+            //if (($('#SubscriptionID').val() == "0" || $('#SubscriptionID').val() == "")) {
+            //    //$("#mytab ul li a.tab1").addClass("disabled");
+            //    //$("#mytab ul li a.tab2").addClass("disabled");
+            //    $("#mytab ul li a").addClass("disabled");
+            //}
+            //else {
+            //    $("#mytab ul li a").removeClass("disabled");
+            //}
+
+            var smtblrowcount = $('#SMTDETAIL tbody tr').length;
+            $("#SMTDETAILIDX").val(smtblrowcount);
+
+            $("#smadd_detail").click(function () {
+                if ($("#SMTDETAILIDX").val() != 0) {
+
+                    var $tableBody = $('#SMTDETAIL').find("tbody"),
+                        $trLast = $tableBody.find("tr:last");
+
+                    $trNew = $trLast.clone();
+                    $trLast.after($trNew);
+
+                    $trNew.find("span").remove();
+
+                    $trNew.find("#ChitGroupRegisteredId").val("0");
+                    $trNew.find("#PriorSanctionNo").val("");
+                    $trNew.find("#ChitAgreementNo").val("");
+                    $trNew.find("#ChitRegistrationNo").val("");
+                    $trNew.find("#TotalTicket").val("0");
+                    $trNew.find("#ChitRegistrationYear").val("");
+                    $trNew.find("#RegistrarOfficeTypeId").val("");
+                    trow = 1;
+
+                    $('.SMTDETAIL_BODY tr').each(function () {
+                        var $crow = $tableBody.find("tr:eq(" + trow + ")");
+
+                        $crow.find("select").select2("destroy").select2();
+                        $crow.find("select").select2();
+                        trow++;
+                    });
+
+                    var row_idx = parseInt($("#SMTDETAILIDX").val());
+                    $("#SMTDETAILIDX").val(row_idx + 1);
+                    $("#SMTDETAIL_BODY").show();
+                }
+                else {
+                    $('#SMTDETAILIDX').val("1");
+                    $("#SMTDETAIL_BODY").show();
+                }
+                return false;
+            });
+
+        });
+         function ChkDivFlg(obj) {
+
+                i = 0; j = 0;
+                //CHCK_ALL = $("#CHCK_ALL").is(':checked');
+                var tbl = $("#CHITSCHEDULEDETAIL").find('tbody');
+
+                row = obj.parentNode.parentNode.rowIndex;
+                row = row - 2;
+                i = row;
+             $trcur = tbl.find("tr:eq(" + i + ")");
+             test = $trcur.find("#DIVPYMTFLG").prop("checked");
+             //alert(test);
+             $trcur.find(".DIVPYMTFLG").prop("checked", false);
+             $(".boolDIVPYMTFLG")[i].value = "0";
+
+             if (test == true) {
+                 $trcur.find(".DIVPYMTFLG").prop("checked", true);
+                 $(".boolDIVPYMTFLG")[i].value = "1";
+             }
+             else {
+                 $trcur.find(".DIVPYMTFLG").prop("checked", false);
+                 $(".boolDIVPYMTFLG")[i].value = "0";
+
+             }
+             //alert($trcur.find(".boolDIVPYMTFLG").val());
+
+            }
+
+
+            function edSchemeNameChange() {
+
+            var schemeid = $(".ChitSchemeID").val();
+
+            //alert(leadmid);
+            $(".SchemeName").val();
+            $(".ChitValue").val();
+            $(".ChitDuration").val();
+
+            if (schemeid != null && schemeid != "" && schemeid != "0") {
+                //alert(schemeid);
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("Get_Scheme_Name_Details", "ChitSubscriptionManagement")/' + schemeid , // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    var i = 0;
+                    $.each(data, function (k, v) {
+                        $(".SchemeName").val(v.ChitSchemeName);
+                        $(".ChitValue").val(v.ChitValue);
+                        $(".ChitDuration").val(v.ChitDuration);
+                        i++;
+                    })
+                },
+                error: function (ex) {
+                    //alert('Failed to data ' + ex);
+                }
+            });
+            }
+
+        }
+
+        function ClientNameChange() {
+
+            var clientid = $(".FPersonID").val();
+            $(".PersonID").val(clientid);
+            //alert($(".PersonID").val());
+            $(".IntroducedBy").val("");
+            //alert(clientid);
+            if (clientid != null && clientid != "0" && clientid != "" ) {
+                  //alert(clientid);
+            $.ajax({
+                url: '@Url.Action("Get_Introduced_by_Name", "ChitDividendPayment")/' + clientid , // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    //alert(data.length);
+                    if (data.length > 0) {
+                        //console.log(data);
+                        //alert(data[0].CLIENTNAME);
+                        $(".IntroducedBy").val(data[0].CLIENTNAME);
+                    }
+                },
+                complete: function () {
+                },
+                error: function (ex) {
+                    alert('Failed to data ' + ex);
+                }
+            });
+            }
+
+        }
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('ChitDividendPaymentform');
+            var clientid = $(".FPersonID").val();
+            if (clientid == "" || clientid == null) {
+                Swal.fire({
+                    title: "Client Selected?!",
+                    text: "Please Select Client!!",
+                    type: "error",
+                    position: "Center"
+                });
+                flag = false;
+
+            }
+
+            var form = document.getElementById('ChitDividendPaymentform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+
+            var chitsubsid = $(".SubscriptionID").val();
+
+
+            if (clientid == "" || clientid == null) {
+                Swal.fire({
+                    title: "Check Client Selected?!",
+                    text: "Please Select Client!!",
+                    type: "error",
+                    position: "Center"
+                });
+                flag = false;
+
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Initiate Dividend Payment(s)?!",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "GenerateDividendPayments";
+                            var controllername = "ChitSubscriptionManagement";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#ChitDividendPaymentform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+
+    </script>
+
+
+}

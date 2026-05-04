@@ -1,0 +1,256 @@
+﻿
+@{
+    ViewBag.Title = "Chit Ledger Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<link href='https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
+    <link href='https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css' rel='stylesheet' type='text/css'>*@
+
+<!-- jQuery Library -->
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>*@
+
+<!-- Datatable JS -->
+@*<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>*@
+<style>
+    /*.bvfcnchkbx {
+        appearance: none;
+        background-color: #fff;
+        margin: 0;
+        font: inherit;
+        color: currentColor;
+        width: 1.15em;
+        height: 1.15em;
+        border: 0.15em solid currentColor;
+        border-radius: 0.15em;
+        transform: translateY(-0.075em);
+    }*/
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title </h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="row col-md-12">
+                            <input type="text" id="SubscriptionID" name="SubscriptionID" value="@ViewBag.SubscriptionID" class="form-control hide SubscriptionID" />
+
+                            @*<table id="tblCustomerdetails" width="70%" runat="server">
+                                    <tr>
+                                        <td>Account Code : </td>
+                                        <td>
+                                            <input type="text" readonly id="lblCode" class="lblCode" runat="server" value="@ViewBag.AcCode" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Customer Name : </td>
+                                        <td>
+                                            <input type="text" readonly id="lblName" class="lblName" runat="server" value="@ViewBag.ClientName" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Customer Address : </td>
+                                        <td>
+                                            <input type="text" readonly id="lblAddress" class="lblName" runat="server" value="@ViewBag.Address" />
+                                        </td>
+                                    </tr>
+                                    <tr id="lblChitValue" runat="server">
+                                        <td>Value : </td>
+                                        <td>
+                                            <input type="text" readonly id="lblValue" class="lblValue" runat="server" value="@ViewBag.Value" />
+                                        </td>
+                                    </tr>
+                                    <tr id="lblLoanScheme" runat="server">
+                                        <td>Scheme : </td>
+                                        <td>
+                                            <input type="text" readonly id="lblScheme" class="lblScheme" runat="server" value="@ViewBag.Scheme" />
+                                        </td>
+                                    </tr>
+
+                                    <tr class="hide">
+                                        <td>Ticket Number : </td>
+                                        <td>
+                                            <input type="text" readonly id="lblTicketNumber" class="lblTicketNumber" runat="server" value="@ViewBag.TicketNumber" />
+
+                                        </td>
+                                    </tr>
+                                    <tr id="lblchitgroup" runat="server">
+                                        <td>Chit Group Code : </td>
+                                        <td>
+                                            <input type="text" readonly id="lblChitGroupCode" class="lblChitGroupCode" runat="server" value="@ViewBag.ChitGroupCode" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr id="lblStatusDesc" runat="server">
+                                        <td>Status : </td>
+                                        <td>
+                                            <input type="text" readonly id="lblStatus" class="lblStatus" runat="server" value="@ViewBag.AcStatus" />
+
+                                        </td>
+                                    </tr>
+                                </table>
+                                                        <table id="chitledrpt" class="chitledrpt table dataTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>title-1</th>
+                                                                <th>title-2</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>data-1</td>
+                                                                <td>data-2</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>*@
+
+                            <div id="ledrpt" class="ledrpt">
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" />*@
+    @*Since we have already added the JQuery reference in the Layout page, there is no need to add it again.
+        If you doesn't add the jquery reference before, remember to add it.*@
+    @*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+    @*<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>*@
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            var subsid = $(".SubscriptionID").val();
+            //alert(subsid);
+            $(".ledrpt").html("");
+            $(".preloader").show();
+
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("GetChitLedgerRpt", "ChitSubscriptionManagement")/' + subsid, // we are calling json method
+                /*dataType: 'json',*/
+                success: function (data) {
+                    $(".ledrpt").html(data);
+                },
+                complete: function () {
+                    //$('.chitledrpt').DataTable({
+                    //    dom: 'Blfrtip',
+                    //    buttons: [
+                    //        "excel",
+                    //        "pdf",
+                    //        /*{ extent: "print", text: "<span class='glyphicon glyphicon-print'></span> Print" },*/
+                    //        //{ extent: "excelHtml5", text: "<span class='glyphicon glyphicon-th-list'></span> Excel HTML5 Export" },
+                    //        //{ extent: "pdfHtml5", text: "<span class='glyphicon glyphicon-save'></span> PDF HTML5 Export", title: "Filename" }
+                    //    ]
+                    //});
+                },
+                error: function (ex) {
+                    //alert('Failed to data ' + ex);
+                }
+            });
+            $(".preloader").hide();
+        });
+        function CheckBVFCn(obj) {
+            $(".preloader").show();
+            var tbl = $("#LedgerDT").find('tbody');
+
+            row = obj.parentNode.parentNode.rowIndex;
+            row = row - 1;
+            i = row;
+            $trcur = tbl.find("tr:eq(" + i + ")");
+            test = $trcur.find(".bvfcnchkbx").prop("checked");
+            //alert(test);
+            $trcur.find(".bvfcnchkbx").prop("checked", false);
+            //$(".boolbvfcnchkbx")[i].value = "0";
+            var bkvsts = "Authoized Successfully!!!";
+            var trtyp = "";
+            var trid = "";
+            trid = $trcur.find(".bvtrnid").val();
+            trtyp = $trcur.find(".bvtrtype").val();
+            obkvsts = $trcur.find(".bvsts").val();
+
+            if (test == true) {
+                $trcur.find(".bvfcnchkbx").prop("checked", true);
+
+                //$(".boolbvfcnchkbx")[i].value = "1";
+                //alert("true");
+            }
+            else {
+                $trcur.find(".bvfcnchkbx").prop("checked", false);
+                //$(".boolbvfcnchkbx")[i].value = "0";
+                //alert("false");
+                bkvsts = "Authoization Cancelled!!!";
+            }
+            var turls = trtyp + '~' + trid + '~' + bkvsts;
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("UpdateBVSts", "ChitSubscriptionManagement")/' + turls, // we are calling json method
+                /*dataType: 'json',*/
+                success: function (data) {
+                    if (bkvsts = "Authoized Successfully!!!") {
+                        Swal.fire({
+                            title: "Book Verification Status!",
+                            text: bvsts,
+                            type: "success",
+                            position: "Center"
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            title: "Book Verification Status?",
+                            text: bvsts,
+                            type: "error",
+                            position: "Center"
+                        });
+                    }
+
+                },
+                complete: function () {
+                    //$('.chitledrpt').DataTable({
+                    //    dom: 'Blfrtip',
+                    //    buttons: [
+                    //        "excel",
+                    //        "pdf",
+                    //        /*{ extent: "print", text: "<span class='glyphicon glyphicon-print'></span> Print" },*/
+                    //        //{ extent: "excelHtml5", text: "<span class='glyphicon glyphicon-th-list'></span> Excel HTML5 Export" },
+                    //        //{ extent: "pdfHtml5", text: "<span class='glyphicon glyphicon-save'></span> PDF HTML5 Export", title: "Filename" }
+                    //    ]
+                    //});
+                },
+                error: function (ex) {
+                    //alert('Failed to data ' + ex);
+                }
+            });
+            $(".preloader").hide();
+        }
+    </script>
+}

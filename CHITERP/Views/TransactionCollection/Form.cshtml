@@ -1,0 +1,741 @@
+﻿@using CHITERP.Models;
+@using CHITERP.Data;
+@model CHITERP.Models.TransactionCollectionList
+@{
+    ViewBag.Title = "Transaction Collection Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title </h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                </div>
+                <form action="@Url.Content(" ~ /TransactionCollection/Savedata")" method="post" data-flag="0" class="needs-validation TransactionCollectionform" id="TransactionCollectionform" name="TransactionCollectionform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="row col-md-12">
+
+                                <div class="row">
+                                    <div class="row col-md-12">
+                                        <div class="col-md-2 mb-2 hide">
+                                            <label for="CollectionListID">Transaction Id</label>
+                                            @if (Model != null)
+                                            {
+
+                                                <input type="text" id="CollectionListID" name="CollectionListID" value="@Model.CollectionListID" class="form-control CollectionListID" />
+                                            }
+                                            else
+                                            {
+                                                <input type="text" id="CollectionListID" name="CollectionListID" value="@ViewBag.TranID" class="form-control CollectionListID" />
+                                            }
+
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="ProductTypeID">Product<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("ProductTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select  ProductTypeID", @data_val = "true", @required = "required", @id = "ProductTypeID", @style = "width:50%;", @onchange = "LoadSubTrnTypsNPrdSubs();" })
+                                            <div class="invalid-feedback">
+                                                Please Select Product !!
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4 mb-4">
+                                            <label for="SubscriptionID">Subscription<span class="text-danger">*</span></label>
+                                            <input id="F_SubsID" type="text" value="@ViewBag.F_SubsID" name="F_SubsID" class="hide form-control F_SubsID" />
+                                            @Html.DropDownList("SubscriptionID", null, "-- Select --", new { @class = "form-control select2 custom-select  SubscriptionID", @data_val = "true", @required = "required", @id = "SubscriptionID", @style = "width:50%;", @onchange = "LoadSchedule();" })
+                                            <div class="invalid-feedback">
+                                                Please Select Subscription Details!!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="TransactionCategory">Transaction Category<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("TransactionCategory", null, "-- Select --", new { @class = "form-control select2 custom-select  TransactionCategory", @data_val = "true", @required = "required", @id = "TransactionCategory", @onchange = "LoadSubTrnTyps();", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Transaction Category !!
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2 mb-2">
+                                            <label for="SubsTranCategory">Sub Category<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("SubsTranCategory", null, "-- Select --", new { @class = "form-control select2 custom-select  SubsTranCategory", @data_val = "true", @required = "required", @id = "SubsTranCategory", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Category !!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="GeneratedDate">Collection Date</label>
+
+
+                                            @if (Model != null)
+                                            {
+                                                string pdatetime = Convert.ToString(Model.GeneratedDate);
+                                                if ((pdatetime != null && pdatetime != ""))
+                                                {
+                                                    var param = pdatetime.Split(' ');
+                                                    DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                    <input id="GeneratedDate" type="date" min="2015-01-01" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",pdate)" required name="GeneratedDate" class="form-control GeneratedDate" />
+                                                    <div class="invalid-feedback">
+                                                        Please Select Date !!
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <input id="GeneratedDate" type="date" min="2015-01-01" max="2099-12-31" name="GeneratedDate" required class="form-control GeneratedDate" />
+                                                    <div class="invalid-feedback">
+                                                        Please Select Date !!
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <input id="GeneratedDate" type="date" min="2015-01-01" max="2099-12-31" name="GeneratedDate" required class="form-control GeneratedDate" />
+                                                <div class="invalid-feedback">
+                                                    Please Select Date !!
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="col-md-2 mb-2 hide">
+                                            <label for="TransactionType">Transaction Type</label>
+                                            @Html.DropDownList("TransactionType", null, "-- Select --", new { @class = "form-control select2 custom-select  TransactionType", @data_val = "true", @id = "TransactionType", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Transaction Type !!
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row col-md-12">
+                                        <div class="col-md-2 mb-2 hide">
+                                            <label for="Installment">Installment No.<span class="text-danger">*</span></label>
+
+                                            @if (Model != null)
+                                            {
+                                                <input type="number" id="Installment" min="0" name="Installment" class="form-control Installment" maxlength="10" value="@Model.Installment" tabindex="2" />
+                                            }
+                                            else
+                                            {
+                                                <input type="number" id="Installment" min="0" name="Installment" class="form-control Installment" maxlength="10" tabindex="2" />
+                                            }
+
+
+                                            <div class="invalid-feedback">
+                                                Please Enter Installement No.!!
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="TransactionModeTypeID"> Mode<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("TransactionModeTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransactionModeTypeID", @data_val = "true", @required = "required", @onchange = "ChkChequeDtl();", @id = "TransactionModeTypeID", @style = "width:50%;" });
+                                            <div class="invalid-feedback">
+                                                Please Select Payment Mode !!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="GeneratedAmount">Amount<span class="text-danger">*</span></label>
+
+                                            @if (Model != null)
+                                            {
+                                                <input type="number" id="GeneratedAmount" min="0.00" step="0.01" name="GeneratedAmount" class="form-control GeneratedAmount" required maxlength="100" value="@Model.GeneratedAmount" tabindex="2" />
+                                            }
+                                            else
+                                            {
+                                                <input type="number" id="GeneratedAmount" min="0.00" step="0.01" name="GeneratedAmount" class="form-control GeneratedAmount" required maxlength="100" tabindex="2" />
+                                            }
+
+                                            <div class="invalid-feedback">
+                                                Please Enter Amount!!
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-2 mb-2 chqdtl">
+                                            <label for="ChequeNo">Cheque Number </label>
+                                            @if (Model != null)
+                                            {
+
+                                                <input type="text" id="ChequeNo" name="ChequeNo" value="@Model.ChequeNo" maxlength="20" class="form-control ChequeNo" />
+                                            }
+                                            else
+                                            {
+                                                <input type="text" id="ChequeNo" name="ChequeNo" maxlength="20" class="form-control ChequeNo" />
+                                            }
+
+                                        </div>
+                                        <div class="col-md-2 mb-2 chqdtl">
+                                            <label for="ChequeDate">Cheque Date </label>
+                                            @if (Model != null)
+                                            {
+                                                string pdatetime = Convert.ToString(Model.ChequeDate);
+                                                if ((pdatetime != null && pdatetime != ""))
+                                                {
+                                                    var param = pdatetime.Split(' ');
+                                                    DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                    <input id="ChequeDate" type="date" min="2015-01-01" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",pdate)" name="ChequeDate" class="form-control ChequeDate" />
+                                                    <div class="invalid-feedback">
+                                                        Please Select Date !!
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <input id="ChequeDate" type="date" min="2015-01-01" max="2099-12-31" name="ChequeDate" class="form-control ChequeDate" />
+                                                    <div class="invalid-feedback">
+                                                        Please Select Date !!
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <input id="ChequeDate" type="date" min="2015-01-01" max="2099-12-31" name="ChequeDate" class="form-control ChequeDate" />
+                                                <div class="invalid-feedback">
+                                                    Please Select Date !!
+                                                </div>
+                                            }
+
+                                        </div>
+                                        <div class="col-md-4 mb-4 chqdtl">
+                                            <label for="ChequeBankName">Cheque Issued Bank </label>
+                                            @if (Model != null)
+                                            {
+
+                                                <input type="text" id="ChequeBankName" name="ChequeBankName" value="@Model.ChequeBankName" maxlength="50" class="form-control ChequeBankName" />
+                                            }
+                                            else
+                                            {
+                                                <input type="text" id="ChequeBankName" name="ChequeBankName" maxlength="50" class="form-control ChequeBankName" />
+                                            }
+
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="StatusTypeID">Status<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Status !!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12">
+                                        <div class="col-md-12 mb-12">
+                                            <label for="Remarks">Remarks </label>
+
+
+                                            @if (Model != null)
+                                            {
+
+                                                <input type="text" id="Remarks" name="Remarks" value="@Model.Remarks" maxlength="50" class="form-control Remarks" />
+                                            }
+                                            else
+                                            {
+                                                <input type="text" id="Remarks" name="Remarks" maxlength="50" class="form-control Remarks" />
+                                            }
+                                            
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12 hide">
+
+
+                                        <div class="col-md-3 mb-3">
+                                            <label for="LinkedOfficeID">Different Office<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("LinkedOfficeID", null, "Please select Linked Office", new { @class = "form-control select2 custom-select  LinkedOfficeID", @data_val = "true", @id = "LinkedOfficeID", @style = "width:50%;" }) @*@required = "required",*@
+                                            <div class="invalid-feedback">
+                                                Please Select Linked Office !!
+                                            </div>
+                                        </div>
+
+                                        <div class="card-header bg-info">
+                                            <h4 class="mb-0 text-white">Fund Transfer to Another Product / Account</h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                                        </div>
+                                        <div class="row col-md-12">
+
+                                            <div class="col-md-3 mb-3">
+                                                <label for="TransferToProductID">Transfer to Product</label>
+                                                @Html.DropDownList("TransferToProductID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToProductID", @data_val = "true", @id = "TransferToProductID", @style = "width:50%;" })
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="TransferToCategory">Category</label>
+                                                @Html.DropDownList("TransferToCategory", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToCategory", @data_val = "true", @id = "TransferToCategory", @style = "width:50%;" })
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="TransferToSubscriptionID">Subscription A/c</label>
+                                                @Html.DropDownList("TransferToSubscriptionID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToSubscriptionID", @data_val = "true", @id = "TransferToSubscriptionID", @style = "width:50%;" })
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="TransferToFundAccountID">Fund A/c</label>
+                                                @Html.DropDownList("TransferToFundAccountID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToFundAccountID", @data_val = "true", @id = "TransferToFundAccountID", @style = "width:50%;" })
+                                            </div>
+
+
+
+                                        </div>
+
+
+                                    </div>
+                                    <br />
+                                    <div class="row col-12">
+                                        <div class="d-md-flex align-items-center mt-3">
+
+                                            <a href="@Url.Action("Index", "TransactionCollection")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                            <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                                <input type="text" id="subcont" value="" name="subcont" class="subcont hide" />
+                                                <button id="btnsavencont" type="button" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4" onclick="SubmitFrm();">Submit & Continue</button>
+                                                <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br /><br />
+                                    <div class="row col-12">
+
+                                        <div id="colschdultab">
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li class="nav-item " id="tabCollectionSchedule">
+                                                    <a class="nav-link active d-flex tab1" data-bs-toggle="tab" href="#CollectionSchedule" role="tab" aria-selected="false">
+                                                        <span>
+                                                            <i class="fa fa-book"></i>
+                                                        </span>
+                                                        <span class="d-none d-md-block  ms-2">
+                                                            Collection Schedule & Receipts
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-pane p-3" id="CollectionSchedule" role="tabpanel">
+
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="row">
+
+                                                            <div class="subscollist" id="subscollist"></div>
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row col-12  TodayColln">
+
+                                        <div id="todaycolntab">
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li class="nav-item " id="tabTodayCollectionDtl">
+                                                    <a class="nav-link active d-flex tab1" data-bs-toggle="tab" href="#TodayCollectionDtl" role="tab" aria-selected="false">
+                                                        <span>
+                                                            <i class="fa fa-book"></i>
+                                                        </span>
+                                                        <span class="d-none d-md-block ms-2">
+                                                            Today's Collection Detail
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-pane p-3" id="TodayCollectionDtl" role="tabpanel">
+
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="row">
+
+                                                            <div class="todaycollist" id="todaycollist"></div>
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            ChkChequeDtl();
+            if ($('#CollectionListID').val() == "") {
+                $('#CollectionListID').val("0");
+     var now = new Date();
+
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+                $('#GeneratedDate').val(today);
+
+                LoadSubTrnTyps();
+                LoadSubTrnTypsNPrdSubs();
+            }
+            else {
+
+                //LoadSubTrnTyps();
+            }
+            $(".subcont").val("");
+
+            LoadSchedule();
+
+
+        });
+
+    function ChkChequeDtl() {
+        var tmode = $(".TransactionModeTypeID option:selected").text();
+        if (tmode == "Cheque") {
+            $(".chqdtl").show();
+            $(".ChequeNo").attr("required", true)
+            $(".ChequeDate").attr("required", true)
+            $(".ChequeBankName").attr("required", true)
+        }
+        else {
+            $(".chqdtl").hide();
+            $(".ChequeNo").removeAttr("required", true)
+            $(".ChequeDate").removeAttr("required", true)
+            $(".ChequeBankName").removeAttr("required", true)
+        }
+
+    }
+
+        function LoadSubsDefVals() {
+
+            var collstid = $('#CollectionListID').val();
+            var prod = $(".ProductTypeID option:selected").val();
+            var subsid = $(".SubscriptionID option:selected").val();
+            if ((collstid = "" || collstid == "0") && (prod != "" && prod != null && prod != undefined && subsid != "" && subsid != null && subsid != undefined))
+            {
+                url = '@Url.Action("GetProductSubscriptionDefValsDtl", "TransactionCollection")/?id=' + subsid + "~" + prod;
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        $("#TransactionType").val(data[0].Deftrantypeid).trigger('change');
+                        $("#TransactionModeTypeID").val(data[0].Deftranmodeid).trigger('change');
+                        //$("#DefIntervalId").val(data[0].DefIntervalId);
+                        $("#GeneratedAmount").val(data[0].DefAmt);
+                    },
+                    complete: function () {
+                        //alert('hi');
+                    },
+                    error: function (ex) {
+                        //alert('Failed to Get Details due to Error: ' + ex);
+                    }
+                });
+            }
+        }
+
+        function LoadSchedule() {
+            var prod = $(".ProductTypeID option:selected").val();
+            var subsid = $(".SubscriptionID option:selected").val();
+            //alert(prod);
+            $(".subscollist").html("");
+            $(".todaycollist").html("");
+
+            LoadSubsDefVals();
+
+            url = '@Url.Action("GetTodayCollection", "TransactionCollection")/?id=' + prod;
+            $.ajax({
+
+                url: url,
+                success: function (data) {
+                    //console.log(data);
+                    $("#todaycollist").html(data);
+                },
+                complete: function () {
+                    //alert('hi');
+                },
+                error: function (ex) {
+                    //alert('Failed to Get Details of Todays Collection due to Error: ' + ex);
+                }
+            });
+
+            if (prod == 29) {
+                //alert('chit');
+                //alert(subsid);
+                if (subsid != "" && subsid != undefined) {
+
+
+
+                    url = '@Url.Action("GetScheduleDtl", "ChitSubscriptionManagement")/?id=' + subsid;
+                    $(".subscollist").html("");
+                    $.ajax({
+
+                        url: url,
+
+                        success: function (data) {
+                            //console.log(data);
+                            $(".subscollist").html(data);
+                        },
+                        complete: function () {
+                            //alert('hi');
+                        },
+                        error: function (ex) {
+                            //alert('Failed to Get Details of Chit Schedule due to Error: ' + ex);
+                        }
+                    });
+
+
+
+                }
+
+            }
+            else if (prod == 30) {
+                //alert('loan');
+                if (subsid != "" && subsid != undefined) {
+
+
+                    url = '@Url.Action("GetScheduleDtl", "LoanSubscription")/?id=' + subsid;
+
+                    $.ajax({
+
+                        url: url,
+                        success: function (data) {
+                            //console.log(data);
+                            $(".subscollist").html(data);
+                        },
+                        complete: function () {
+                            //alert('hi');
+                        },
+                        error: function (ex) {
+                            //alert('Failed to Get Details of Loan Schedule due to Error: ' + ex);
+                        }
+                    });
+                        @*table = $('.loanschdldataTable').DataTable({
+                            ajax: "@Url.Action("GetScheduleDtl", "LoanSubscription")" + "?id=" + subsid,
+                            "ordering": true,
+                            "order": [[0, "asc"]],
+                            "language": {
+                                "search": '<i class="fa fa-search"></i>',
+                                "searchPlaceholder": "search",
+                                "paginate": {
+                                    "previous": '<i class="fa fa-angle-left"></i>',
+                                    "next": '<i class="fa fa-angle-right"></i>'
+                                }
+                            },
+                            columns: [
+                                { data: "InstNo" },
+                                { data: "InsttDt" },
+                                { data: "EMI_Amount" },
+                                { data: "Loan_Balance", "visible": false },
+                                { data: "CollectionDt", "visible": false },
+                                { data: "Credit" },
+                                { data: "colbalance" },
+                                { data: "CollectionSts" }
+                            ]
+                        });*@
+                }
+            }
+
+
+        }
+
+        function LoadTodayCollection() {
+            var prod = $(".ProductTypeID option:selected").val();
+            $("#todaycollist").html("");
+
+            url = '@Url.Action("GetTodayCollection", "TransactionCollection")/?id=' + prod;
+            $.ajax({
+                type: 'post',
+                url: url,
+                dataType: 'json',
+                success: function (data) {
+                    //console.log(data);
+                    $("#todaycollist").html(data);
+                },
+                complete: function () {
+                    //alert('hi');
+                },
+                error: function (ex) {
+                    //alert('Failed to Get Details due to Error: ' + ex);
+                }
+            });
+        }
+
+        function LoadSubTrnTyps() {
+            var trncatg = $(".TransactionCategory option:selected").text().substr(1, 1);;
+            var prod = $(".ProductTypeID option:selected").val();
+            var colstid = $(".CollectionListID").val();
+            //alert(colstid);
+            if (prod > 0 && trncatg != null && trncatg != "" && (colstid = "" || colstid == "0")) {
+                url = '@Url.Action("GetProductSubTrnTypDtl", "TransactionCollection")/?id=' + trncatg + '~' + prod;
+
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        //console.log(data);
+                        $("#SubsTranCategory").empty().trigger('change');
+                        $("#SubsTranCategory").append('<option value="">Please Select Sub Tran Category</option>');
+                        var i = 0;
+                        $.each(data, function (i, dataval) {
+                            $("#SubsTranCategory").append('<option value="' + dataval.TypeID + '">' + dataval.Type + '</option>');
+
+                        });
+
+                    },
+                    complete: function () {
+                        //alert('hi');
+                    },
+                    error: function (ex) {
+                        alert('Failed to Get Details due to Error: ' + ex);
+                    }
+                });
+            }
+
+        }
+
+        function LoadSubTrnTypsNPrdSubs() {
+            var colstid = $(".CollectionListID").val();
+            var trncatg = $(".TransactionCategory option:selected").val();
+            var prod = $(".ProductTypeID option:selected").val();
+            //alert(colstid);
+
+            if (prod > 0 && trncatg != null && trncatg != "" && (colstid = "" || colstid =="0")) {
+                url = '@Url.Action("GetProductSubTrnTypDtl", "TransactionCollection")/?id=' + trncatg + '~' + prod;
+
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        //console.log(data);
+                        $("#SubsTranCategory").empty().trigger('change');
+                        $("#SubsTranCategory").append('<option value="">Please Select Sub Tran Category</option>');
+                        var i = 0;
+                        $.each(data, function (i, dataval) {
+                            $("#SubsTranCategory").append('<option value="' + dataval.TypeID + '">' + dataval.Type + '</option>');
+
+                        });
+
+                    },
+                    complete: function () {
+                        url = '@Url.Action("GetProductSubsDtl", "TransactionCollection")/?id=' + trncatg + '~' + prod;
+                        $.ajax({
+                            type: 'post',
+                            url: url,
+                            dataType: 'json',
+                            success: function (data) {
+                                //console.log(data);
+                                $("#SubscriptionID").empty().trigger('change');
+                                $("#SubscriptionID").append('<option value="">Please Select Subscription</option>');
+                                var i = 0;
+                                $.each(data, function (i, dataval) {
+                                    $("#SubscriptionID").append('<option value="' + dataval.subscriptionid + '">' + dataval.subscriptioncode + '</option>');
+
+                                });
+
+                            },
+                            complete: function () {
+                                //alert('hi');
+                                var subsid = $(".F_SubsID").val();
+                                if (subsid != "") {
+                                    $(".F_SubsID").val("");
+                                    $("#SubscriptionID").val(subsid).trigger('change');
+                                    $("#SubsTranCategory").val(857).trigger('change');
+                                    $("#StatusTypeID").val(1032).trigger('change');
+                                }
+                            },
+                            error: function (ex) {
+                                alert('Failed to Get Details due to Error: ' + ex);
+                            }
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to Get Details due to Error: ' + ex);
+                    }
+                });
+            }
+
+            }
+        function SubmitFrm() {
+                ChkChequeDtl();
+                var scnt = $(".subcont").val('Continue');
+                $("#TransactionCollectionform").submit();
+
+            }
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            subcont
+            var scnt = $(".subcont").val();
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('TransactionCollectionform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "TransactionCollection";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#TransactionCollectionform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+
+
+
+    </script>
+
+}

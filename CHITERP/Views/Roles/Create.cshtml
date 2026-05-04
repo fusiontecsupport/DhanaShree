@@ -1,0 +1,61 @@
+﻿@model CHITERP.Models.RoleViewModel
+
+@{ 
+    ViewBag.Title = "Create Role";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+ }
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                @Html.Raw(ViewBag.msg)
+               
+                <div class="card">
+                    <div class="card-body">
+
+                        <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                        <div class="row">
+                            @Html.ValidationSummary(true)
+                            <div class="col-md-2 mb-2">
+                                <label for="Name">Role Name</label>
+                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Name)
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="Description">Description <span class="text-danger">*</span></label>
+                                @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Description)
+                            </div>
+
+                            <div class="col-12">
+                                <div class="d-md-flex align-items-center mt-3">
+
+                                    <a href="@Url.Action("Index", "Roles")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Back to List</a>
+
+                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                        <input type="submit" value="Create" class="btn btn-info font-weight-medium rounded-pill px-4" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

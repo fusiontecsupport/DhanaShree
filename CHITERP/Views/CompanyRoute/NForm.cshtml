@@ -1,0 +1,348 @@
+﻿
+@using CHITERP.Models;
+@using CHITERP.Data;
+@model CHITERP.Models.CompanyRouteList
+
+@{
+    ViewBag.Title = "Route Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                    <form action="@Url.Content("~/CompanyRoute/NSaveData")" method="post" data-flag="0" class="needs-validation NewCompanyRouteMasterform" id="NewCompanyRouteMasterform" name="NewCompanyRouteMasterform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                        <div class="row">
+                            <div class="col-md-2 mb-2 hide">
+                                <label for="RouteID">Id</label>
+                                @if (Model.cr_masterdata != null)
+                                {
+                                    <input type="text" id="RouteID" name="RouteID" value="@Model.cr_masterdata[0].RouteID" class="form-control RouteID" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="RouteID" name="RouteID" value="0" class="form-control RouteID" />
+                                }
+                            </div>
+
+                            <div class="col-md-4 mb-4">
+                                <label for="RouteCode">Code <span class="text-danger">*</span></label>
+
+                                @if (Model.cr_masterdata != null)
+                                {
+                                    <input type="text" id="RouteCode" value="@Model.cr_masterdata[0].RouteCode" name="RouteCode" class="form-control RouteCode" placeholder="Route Code" required maxlength="25" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Route Code !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="RouteCode" name="RouteCode" class="form-control RouteCode" required placeholder="Route Code" maxlength="25" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Route Code !!
+                                    </div>
+                                }
+
+                            </div>
+
+
+                            <div class="col-md-4 mb-4">
+                                <label for="RouteName">Name <span class="text-danger">*</span></label>
+
+                                @if (Model.cr_masterdata != null)
+                                {
+                                    <input type="text" id="RouteName" value="@Model.cr_masterdata[0].RouteName" name="RouteName" class="form-control RouteName" placeholder="Route Name" required maxlength="25" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Route Code !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="RouteName" name="RouteName" class="form-control RouteName" required placeholder="Route Name" maxlength="25" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Route Name !!
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <label for="LinkedOfficeID">Linked Office <span class="text-danger">*</span></label>
+                                @Html.DropDownList("LinkedOfficeID", null, "Please Select Linked", new { @class = "form-control custom-select select2  LinkedOfficeID", @data_val = "true", @required = "required", @id = "LinkedOfficeID", @name = "LinkedOfficeID" })
+                            </div>
+                            <div class="col-md-4 mb-4">
+
+                                <label>Status <span class="text-danger">*</span></label>
+                                @Html.DropDownList("DISPSTATUS", null, "Please select Status", new { @class = "form-control select2 custom-select  DISPSTATUS", @data_val = "true", @required = "required", @id = "DISPSTATUS", @tabindex = "10", @style = "width:50%;" })
+                                <div class="invalid-feedback">
+                                    Please Select Status !!
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-primary" id="access_job_list">
+                                    <div class="panel-heading panel-primary">
+                                        Company Route Details
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="table-responsive" id="access_job_list_inner">
+                                                <input type="text" id="TDETAIL_IDX" name="TDETAIL_IDX[]" class="TDETAIL_IDX" style="display:none" />
+                                                <table class='table table-striped table-bordered bootstrap-datatable' id="TDETAIL">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hide">ID</th>
+                                                            <th>Locality</th>
+                                                            <th><a class="btn btn-success btn-sm" href="#" id="add_detail"><i class="fa fa-plus-square"></i></a></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="TDETAIL_BODY" id="TDETAIL_BODY">
+                                                        @if (Model.crd_detaildata != null)
+                                                        {
+                                                            var i = 0;
+                                                            foreach (CompanyRouteDetail details in Model.crd_detaildata)
+                                                            {
+
+                                                                <tr class="item-row">
+                                                                    <td class="hide">
+                                                                        <input type="text" id="RoutelDetailID" class="RoutelDetailID hide" name="RoutelDetailID" value="@details.RoutelDetailID" />
+                                                                    </td>
+                                                                    <td class="col-lg-6" >
+                                                                        @Html.DropDownListFor(model => Model.crd_detaildata[0].LocalityID, new SelectList(ViewBag.LocalityID, "value", "text", @details.LocalityID), new { @id = "LocalityID", @class = "form-control  custom-select select2 LocalityID", @name = "LocalityID", @required = "required" })
+                                                                        @*@Html.DropDownListFor(model => Model.empad[0].MACHNESNO, new SelectList(ViewBag.MACHNESNO, "value", "text", @details.MACHNESNO), "-- Select Machine No --", new { @class = "form-control custom-select select2 MACHNESNO", @required = "required", @id = "MACHNESNO", @name = "[" + @details.MACHNESNO + "]" })*@
+
+                                                                        <div class="invalid-feedback">
+                                                                            Please Select Locality !!
+                                                                        </div>
+                                                                    </td>
+                                                                    <td><a class="btn btn-danger btn-sm del_detail" id="del_detail"> <i class="fa fa-trash"></i></a></td>
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <tr class="item-row">
+                                                                <td class="hide">
+                                                                    <input type="text" id="RoutelDetailID" class="RoutelDetailID hide" name="RoutelDetailID" value="0" />
+                                                                </td>
+                                                                <td class="col-lg-6">
+                                                                    @*@Html.DropDownList("LocalityID", null, "Please Select Location", new { @class = "form-control custom-select select2  LocalityID", @data_val = "true", @required = "required", @id = "LocalityID", @name = "LocalityID" })*@
+                                                                    @Html.DropDownList("LocalityID", null, "Please Select Location", new { @class = "form-control custom-select select2  LocalityID", @id = "LocalityID", @name = "LocalityID", @required = "required" })
+                                                                    <div class="invalid-feedback">
+                                                                        Please Select Locality !!
+                                                                    </div>
+                                                                </td>
+                                                                <td><a class="btn btn-danger btn-sm del_detail" id="del_detail"> <i class="fa fa-trash"></i></a></td>
+                                                            </tr>
+
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-md-flex align-items-center mt-3">
+
+                                    <a href="@Url.Action("Index", "CompanyRoute")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($(".RouteID").val() == "") {
+                $(".RouteID").val("0");
+            }
+
+            var rowcount = $('#TDETAIL tbody tr').length;//....Cloning
+            $("#TDETAIL_IDX").val(rowcount);
+
+
+            $("#add_detail").click(function () {
+                if ($("#TDETAIL_IDX").val() != 0) {
+                    var $tableBody = $('#TDETAIL').find("tbody"),
+                        $trLast = $tableBody.find("tr:last");
+
+                    $trNew = $trLast.clone();
+                    $trLast.after($trNew);
+
+                    var row_idx = parseInt($("#TDETAIL_IDX").val());
+                    $trNew.find("span").remove();
+                    $trNew.find('#RoutelDetailID').val("0");
+                    //$trNew.find("td:eq(1)").html("<select class='form-control custom-select select2 LocalityID select2-hidden-accessible' data-val='true' id='LocalityID' name='LocalityID' required='required' data-select2-id='LocalityID' tabindex='-1' aria-hidden='true'><option value='' data-select2-id='6'>Please Select Location</option>");
+
+                    var trow = 1;
+                    $('.TDETAIL_BODY tr').each(function () {
+                        var $crow = $tableBody.find("tr:eq(" + trow + ")");
+
+                        $crow.find("select").select2("destroy").select2();
+                        $crow.find("select").select2();
+                        trow++;
+                    });
+
+
+                    var row_idx = parseInt($("#TDETAIL_IDX").val());
+
+                    $("#TDETAIL_IDX").val(row_idx + 1);
+
+                    $("#TDETAIL_BODY").show();
+                }
+
+                else {
+                    $('#TDETAIL_IDX').val("1");
+                    $("#TDETAIL_BODY").show();
+
+                }
+            });
+
+
+            $(document).on("click", "#del_detail", function () {
+
+                var r = confirm("Are you sure to delete this record ?");
+
+                if (r == true) {
+
+                    row = this.parentNode.parentNode.rowIndex;
+                    row = row - 1;
+                    var $tableBody = $('#TDETAIL').find("tbody")
+
+                    $trCur = $tableBody.find("tr:eq(" + row + ")");
+                    var det_id = $trCur.find("#RoutelDetailID").val();
+
+
+                    idx = $("#TDETAIL_IDX").val();
+
+                    if (det_id != 0) {
+
+
+                    }
+                    else {
+                        if (idx == 1) {
+
+                            var $tableBody = $('#TDETAIL').find("tbody")
+                            $trCur = $tableBody.find("tr:eq(0)");
+                            $trCur.find("input:text,select").val("");
+                            $("#TDETAIL_IDX").val(1);
+
+                            $trCur.find(".RoutelDetailID").val('0');
+
+                        }
+                        else {
+                            $("#TDETAIL_BODY").show();
+                            var row = this.parentNode.parentNode;
+                            $(this).parents('.item-row').remove();
+                            $("#TDETAIL_IDX").val($("#TDETAIL_IDX").val() - 1);
+
+                        }
+                    }
+
+                }
+            });
+
+        });
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('NewCompanyRouteMasterform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                //alert(flag);
+                if (frmflag == 0) {
+                    event.preventDefault();
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                        //timer:3500
+                    }).then((result) => {
+                        if (result.value) {
+
+                            //$("#NewCompanyRouteMasterform").submit();
+                            var ActionName = "NSaveData";
+                            var controllername = "CompanyRoute";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#NewCompanyRouteMasterform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        } else if (result.dismiss === 'cancel') {
+
+
+                            return false;
+
+                        }
+                    });
+
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+       
+
+    </script>
+}

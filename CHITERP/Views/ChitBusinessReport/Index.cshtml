@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Chit - Business Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-header border-bottom" style="background-color:white;">
+                        <div class="d-flex no-block align-items-center mb-0">
+                            <h3 class="card-title text-dark-primary"><i class="fa fa-dashboard fa-fw"></i>@ViewBag.Title</h3>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="col-lg-12" style="margin-top:10px">
+                        <form target="_blank" action="@Url.Action("ChitBusinessXLRpt", "ChitBusinessReport")/" method="post" accept-charset="utf-8" id="FinExcelRptForm" data-ng-controller="myController" name="FinExcelRptForm">
+                            <div class="row">
+                                <div class="col-md-2 mb-2 hide">
+                                    <label for="from">Product</label>
+
+                                    @Html.DropDownList("ProductType", null, "-- Select --", new { @class = "form-control select2 custom-select  ProductType", @data_val = "true", @id = "ProductType", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Product !!
+                                    </div>
+                                </div>
+                                <div class="col-md-2 mb-2">
+                                    <label for="from">From Date</label>
+
+                                    <input id="from" type="date" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",System.Web.HttpContext.Current.Session["SDATE"])" required name="from" class="form-control from" />
+                                    <div class="invalid-feedback">
+                                        Please Select From Date !!
+                                    </div>
+                                </div>
+                                <div class="col-md-2 mb-2">
+                                    <label for="from">To Date</label>
+
+                                    <input id="to" type="date" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",System.Web.HttpContext.Current.Session["EDATE"])" required name="to" class="form-control to" />
+                                    <div class="invalid-feedback">
+                                        Please Select To Date !!
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-2 mb-2">
+                                    <br />
+                                    <input type="submit" name="submit" value="Download Excel Report" class="btn btn-info btn-sm" />
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <br />
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+        });
+
+
+
+    </script>
+
+}

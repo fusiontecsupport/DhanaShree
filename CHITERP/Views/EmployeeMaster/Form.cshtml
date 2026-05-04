@@ -1,0 +1,468 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.EmployeeMaster
+
+@{
+    ViewBag.Title = "Employee Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                    <form action="@Url.Content("~/EmployeeMaster/Savedata")" method="post" data-flag="0" class="form-horizontal r-separator needs-validation EmployeeMasterform" id="EmployeeMasterform" name="EmployeeMasterform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                        <div class="row">
+                            <div class="form-group mb-3 row pb-3">
+                                <div class="col-md-2 mb-2 hide">
+                                    <label for="CATEID">Id</label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="CATEID" name="CATEID" value="@Model.CATEID" class="form-control CATEID" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="CATEID" name="CATEID" value="0" class="form-control CATEID" />
+                                    }
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="CATENAME">Name <span class="text-danger">*</span></label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="CATENAME" name="CATENAME" value="@Model.CATENAME" class="form-control CATENAME" required placeholder="Name" maxlength="100" tabindex="1" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Name !!
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="CATENAME" name="CATENAME" class="form-control CATENAME" required placeholder="Name" maxlength="100" tabindex="1" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Name !!
+                                        </div>
+                                    }
+
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="CATEADDR1">Address 1<span class="text-danger">*</span></label>
+
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="CATEADDR1" name="CATEADDR1" value="@Model.CATEADDR1" class="form-control CATEADDR1" required placeholder="Address 1" maxlength="100" tabindex="2" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Address 1 !!
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="CATEADDR1" name="CATEADDR1" class="form-control CATEADDR1" required placeholder="Address 1" maxlength="100" tabindex="2" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Address 1 !!
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="CATEADDR2">Address 2</label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="CATEADDR2" name="CATEADDR2" value="@Model.CATEADDR2" class="form-control CATEADDR2" placeholder="Address 2" maxlength="100" tabindex="3" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="CATEADDR2" name="CATEADDR2" class="form-control CATEADDR2" placeholder="Address 2" maxlength="100" tabindex="3" />
+                                    }
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="CATEADDR3">Address 3</label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="CATEADDR3" name="CATEADDR3" value="@Model.CATEADDR3" class="form-control CATEADDR3" placeholder="Address 3" maxlength="100" tabindex="4" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="CATEADDR3" name="CATEADDR3" class="form-control CATEADDR3" placeholder="Address 3" maxlength="100" tabindex="4" />
+                                    }
+                                </div>
+
+                            </div>
+
+                            <div class="form-group mb-3 row pb-3">
+                                <div class="col-md-3 mb-3">
+                                    <label for="CATEEMAIL">E Mail </label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="email" id="CATEEMAIL" name="CATEEMAIL" value="@Model.CATEEMAIL" class="form-control CATEEMAIL" placeholder="E Mail" maxlength="100" tabindex="5" />
+                                    }
+                                    else
+                                    {
+                                        <input type="email" id="CATEEMAIL" name="CATEEMAIL" class="form-control CATEEMAIL" placeholder="E Mail" maxlength="100" tabindex="5" />
+                                    }
+
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="CATECPNAME">Contact Person</label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="CATECPNAME" name="CATECPNAME" value="@Model.CATECPNAME" class="form-control CATECPNAME" placeholder="Address 1" maxlength="100" tabindex="6" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="CATECPNAME" name="CATECPNAME" class="form-control CATECPNAME" placeholder="Description" maxlength="100" tabindex="6" />
+                                    }
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="CATEPHN3">Contact No 1<span class="text-danger">*</span></label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="number" id="CATEPHN3" name="CATEPHN3" value="@Model.CATEPHN3" class="form-control CATEPHN3" required placeholder="Contact No 1" maxlength="12" tabindex="7" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Contact No 1 !!
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="number" id="CATEPHN3" name="CATEPHN3" class="form-control CATEPHN3" required placeholder="Contact No 1" maxlength="12" tabindex="7" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Contact No 1 !!
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="CATEPHN4">Contact No 2</label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="number" id="CATEPHN4" name="CATEPHN4" value="@Model.CATEPHN4" class="form-control CATEPHN4" placeholder="Contact No 2" maxlength="12" tabindex="8" />                                    }
+                                    else
+                                    {
+                                        <input type="number" id="CATEPHN4" name="CATEPHN4" class="form-control CATEPHN4" placeholder="Contact No 2" maxlength="12" tabindex="8" />
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3 row pb-3">
+                                <div class="col-md-3 mb-3">
+                                    <label for="CATEPHN1">LandLine No 1 </label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="number" id="CATEPHN1" name="CATEPHN1" value="@Model.CATEPHN1" class="form-control CATEPHN1" placeholder="LandLine No 1" maxlength="15" tabindex="9" />
+                                    }
+                                    else
+                                    {
+                                        <input type="number" id="CATEPHN1" name="CATEPHN1" class="form-control CATEPHN1" placeholder="LandLine No 1" maxlength="15" tabindex="9" />
+                                    }
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="CATEPHN2">LandLine No 2</label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="number" id="CATEPHN2" name="CATEPHN2" value="@Model.CATEPHN2" class="form-control CATEPHN2" placeholder="LandLine No 2" maxlength="15" tabindex="10" />
+                                    }
+                                    else
+                                    {
+                                        <input type="number" id="CATEPHN2" name="CATEPHN2" class="form-control CATEPHN2" placeholder="LandLine No 2" maxlength="15" tabindex="10" />
+                                    }
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="DEPTID">Department<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("DEPTID", null, "Select Department", new { @class = "form-control select2 custom-select  DEPTID", @data_val = "true", @required = "required", @id = "DEPTID", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Department !!
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="DSGNID">Designation<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("DSGNID", null, "Select Designation", new { @class = "form-control select2 custom-select  DSGNID", @data_val = "true", @required = "required", @id = "DSGNID", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Designation !!
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group mb-3 row pb-3">
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="CATECODE">Code<span class="required-field"></span> </label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="CATECODE" readonly name="CATECODE" value="@Model.CATECODE" class="form-control CATECODE"  placeholder="Code" maxlength="15" tabindex="11" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Code !!
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="CATECODE" readonly name="CATECODE" class="form-control CATECODE" required placeholder="Code" maxlength="15" tabindex="11" />
+                                        <div class="invalid-feedback">
+                                            Please Enter Code !!
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="col-md-2 mb-2">
+                                    <label>Status <span class="text-danger">*</span></label>
+                                    @Html.DropDownList("DISPSTATUS", null, "Please select Status", new { @class = "form-control select2 custom-select  DISPSTATUS", @data_val = "true", @required = "required", @id = "DISPSTATUS", @style = "width:50%;" })
+                                </div>
+                            </div>
+
+                            <!-- Employee Route Details -->
+                            <div class="form-group mb-3 row pb-3">
+                                <div class="col-lg-12">
+                                    <div class="panel panel-primary" id="employee_route_list">
+                                        <div class="panel-heading panel-primary">
+                                            Employee Route Details
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="table-responsive" id="employee_route_list_inner">
+                                                    <input type="text" id="ER_TDETAIL_IDX" name="ER_TDETAIL_IDX[]" class="ER_TDETAIL_IDX" style="display:none" />
+                                                    <table class='table table-striped table-bordered bootstrap-datatable' id="ER_TDETAIL">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="hide">ID</th>
+                                                                <th>Route</th>
+                                                                <th>Status</th>
+                                                                <th><a class="btn btn-success btn-sm" href="#" id="er_add_detail"><i class="fa fa-plus-square"></i></a></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="ER_TDETAIL_BODY" id="ER_TDETAIL_BODY">
+                                                            @if (ViewBag.EmpRouteDetails != null)
+                                                            {
+                                                                foreach (CompanyRouteEmployee details in (IEnumerable<CompanyRouteEmployee>)ViewBag.EmpRouteDetails)
+                                                                {
+                                                                    <tr class="item-row">
+                                                                        <td class="hide">
+                                                                            <input type="text" id="RouteEmployeeID" class="RouteEmployeeID hide" name="RouteEmployeeID" value="@details.RouteEmployeeID" />
+                                                                        </td>
+                                                                        <td class="col-lg-5">
+                                                                            @Html.DropDownList(
+                                                                                "RouteID",
+                                                                                new SelectList((IEnumerable<CompanyRoute>)ViewBag.RouteList, "RouteID", "RouteName", details.RouteID),
+                                                                                "Please Select Route",
+                                                                                new { @class = "form-control custom-select select2 RouteID", @id = "RouteID", @name = "RouteID", @required = "required" })
+                                                                            <div class="invalid-feedback">
+                                                                                Please Select Route !!
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="col-lg-3">
+                                                                            @Html.DropDownList(
+                                                                                "RouteStatusTypeID",
+                                                                                new SelectList((IEnumerable<SelectListItem>)ViewBag.EmpRouteStatus, "Value", "Text", details.StatusTypeID.ToString()),
+                                                                                "Please Select Status",
+                                                                                new { @class = "form-control custom-select select2 RouteStatusTypeID", @id = "RouteStatusTypeID", @name = "RouteStatusTypeID", @required = "required" })
+                                                                            <div class="invalid-feedback">
+                                                                                Please Select Status !!
+                                                                            </div>
+                                                                        </td>
+                                                                        <td><a class="btn btn-danger btn-sm er_del_detail" id="er_del_detail"> <i class="fa fa-trash"></i></a></td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="item-row">
+                                                                    <td class="hide">
+                                                                        <input type="text" id="RouteEmployeeID" class="RouteEmployeeID hide" name="RouteEmployeeID" value="0" />
+                                                                    </td>
+                                                                    <td class="col-lg-5">
+                                                                        @Html.DropDownList(
+                                                                            "RouteID",
+                                                                            new SelectList((IEnumerable<CompanyRoute>)ViewBag.RouteList, "RouteID", "RouteName"),
+                                                                            "Please Select Route",
+                                                                            new { @class = "form-control custom-select select2 RouteID", @id = "RouteID", @name = "RouteID", @required = "required" })
+                                                                        <div class="invalid-feedback">
+                                                                            Please Select Route !!
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="col-lg-3">
+                                                                        @Html.DropDownList(
+                                                                            "RouteStatusTypeID",
+                                                                            new SelectList((IEnumerable<SelectListItem>)ViewBag.EmpRouteStatus, "Value", "Text", "0"),
+                                                                            "Please Select Status",
+                                                                            new { @class = "form-control custom-select select2 RouteStatusTypeID", @id = "RouteStatusTypeID", @name = "RouteStatusTypeID", @required = "required" })
+                                                                        <div class="invalid-feedback">
+                                                                            Please Select Status !!
+                                                                        </div>
+                                                                    </td>
+                                                                    <td><a class="btn btn-danger btn-sm er_del_detail" id="er_del_detail"> <i class="fa fa-trash"></i></a></td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="d-md-flex align-items-center mt-3">
+
+                                    <a href="@Url.Action("Index", "EmployeeMaster")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                        
+                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#CATEID').val() == "") {
+                $('#CATEID').val() = 0;
+            }
+
+            // Initialize Employee Route Details row count
+            var erRowCount = $('#ER_TDETAIL tbody tr').length;
+            $('#ER_TDETAIL_IDX').val(erRowCount);
+
+            // Add new Employee Route row
+            $('#er_add_detail').click(function () {
+                if ($('#ER_TDETAIL_IDX').val() != 0) {
+                    var $tableBody = $('#ER_TDETAIL').find('tbody'),
+                        $trLast = $tableBody.find('tr:last'),
+                        $trNew = $trLast.clone();
+
+                    $trLast.after($trNew);
+
+                    $trNew.find('span').remove();
+                    $trNew.find('#RouteEmployeeID').val('0');
+                    $trNew.find('.RouteID').val('');
+                    $trNew.find('.RouteStatusTypeID').val('0');
+
+                    // Rebind select2 on new row
+                    $trNew.find('select').select2('destroy').select2();
+
+                    var rowIdx = parseInt($('#ER_TDETAIL_IDX').val());
+                    $('#ER_TDETAIL_IDX').val(rowIdx + 1);
+
+                    $('#ER_TDETAIL_BODY').show();
+                }
+                else {
+                    $('#ER_TDETAIL_IDX').val('1');
+                    $('#ER_TDETAIL_BODY').show();
+                }
+
+                return false;
+            });
+
+            // Delete Employee Route row
+            $(document).on('click', '#er_del_detail', function () {
+
+                var r = confirm('Are you sure to delete this record ?');
+
+                if (r == true) {
+
+                    var idx = $('#ER_TDETAIL_IDX').val();
+
+                    if (idx == 1) {
+
+                        var $tableBody = $('#ER_TDETAIL').find('tbody');
+                        var $trCur = $tableBody.find('tr:eq(0)');
+                        $trCur.find('input:text,select').val('');
+                        $('#ER_TDETAIL_IDX').val(1);
+                        $trCur.find('.RouteEmployeeID').val('0');
+
+                    }
+                    else {
+                        $('#ER_TDETAIL_BODY').show();
+                        $(this).parents('.item-row').remove();
+                        $('#ER_TDETAIL_IDX').val($('#ER_TDETAIL_IDX').val() - 1);
+
+                    }
+                }
+            });
+        });
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('EmployeeMasterform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "EmployeeMaster";
+                            var pagetitle = "@ViewBag.Title";
+                            var tab = $('#EmployeeMasterform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, tab);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+
+
+
+    </script>
+
+
+}
+
+

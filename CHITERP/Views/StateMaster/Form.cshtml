@@ -1,0 +1,190 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.StateMaster
+
+@{
+    ViewBag.Title = "State Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                    <form action="@Url.Content("~/StateMaster/Savedata")" method="post" data-flag="0" class="needs-validation StateMasterform" id="StateMasterform" name="StateMasterform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                        <div class="row">
+                            <div class="col-md-2 mb-2 hide">
+                                <label for="STATEID">Id</label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="STATEID" name="STATEID" value="@Model.STATEID" class="form-control STATEID" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="STATEID" name="STATEID" value="0" class="form-control STATEID" />
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="STATECODE">Short Description <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="STATECODE" name="STATECODE" value="@Model.STATECODE" class="form-control STATECODE" required placeholder="Short Description" maxlength="15" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Short Description !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="STATECODE" name="STATECODE" class="form-control STATECODE" required placeholder="Short Description" maxlength="15" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Short Description !!
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="STATEDESC">Description <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="STATEDESC" name="STATEDESC" value="@Model.STATEDESC" class="form-control STATEDESC" required placeholder="Description" maxlength="50" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Description !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="STATEDESC" name="STATEDESC" class="form-control STATEDESC" required placeholder="Description" maxlength="50" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Description !!
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="col-md-2 mb-2">
+                                <label for="STATETYPE">State Type <span class="text-danger">*</span></label>
+
+                                @Html.DropDownList("STATETYPE", null, "Select State Type", new { @class = "form-control select2 custom-select  STATETYPE", @data_val = "true", @required = "required", @id = "STATETYPE", @style = "width:50%;" })
+                                <div class="invalid-feedback">
+                                    Please Select State Type !!
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-2 mb-2">
+
+                                <label>Status <span class="text-danger">*</span></label>
+                                @Html.DropDownList("DISPSTATUS", null, "Please select Status", new { @class = "form-control select2 custom-select  DISPSTATUS", @data_val = "true", @required = "required", @id = "DISPSTATUS", @style = "width:50%;" })
+                            </div>
+
+                            <div class="col-12">
+                                <div class="d-md-flex align-items-center mt-3">
+
+                                    <a href="@Url.Action("Index", "StateMaster")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                        @*<button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">
+                                                <div class="d-flex align-items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send feather-sm fill-white me-2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                                    Submit
+                                                </div>
+                                            </button>*@
+                                        @*<button id="btnsave" type="button" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>*@
+                                        @*<input type="submit" id="btnCreate" onclick="Validate(this, event);" value="Submit"
+                                            class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4" />*@
+                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#STATEID').val() == "") {
+                $('#STATEID').val() = 0;
+            }
+        });
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('StateMasterform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "StateMaster";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#StateMasterform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+
+
+
+    </script>
+
+
+}
+
+

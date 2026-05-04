@@ -1,0 +1,727 @@
+﻿@model IEnumerable<CHITERP.Models.MenuNavbar>
+<style>
+    /* body{
+        font-size:12px !important;
+    }
+    .sidebar-nav ul .sidebar-item .sidebar-link {
+        font-size:12px !important;
+        font-weight:500 !important;
+    }*/
+    .h4, h4 {
+        font-size: 1.0rem !important;
+    }
+</style>
+<!-- -------------------------------------------------------------- -->
+<!-- Left Sidebar - style you can find in sidebar.scss  -->
+<!-- -------------------------------------------------------------- -->
+@if ((Request.IsAuthenticated))
+
+{
+    var tmpcusrid = Session["CUSRID"].ToString();
+    CHITERP.Models.AppDbContext db = new CHITERP.Models.AppDbContext();
+    var links = (from item in db.MenuRoleMasters.Where(x => x.Roles == tmpcusrid).OrderBy(x => x.MenuGId).OrderBy(x => x.MenuGIndex).ToList()
+                 select item).ToList();
+    <header class="topbar">
+        <nav class="navbar top-navbar navbar-expand-lg navbar-dark">
+            <div class="navbar-header">
+                <!-- This is for the sidebar toggle which is visible on mobile only -->
+                <a href="~/" class="nav-toggler waves-effect waves-light d-block d-lg-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+                <!-- -------------------------------------------------------------- -->
+                <!-- Logo -->
+                <img  src="~/Content/images/logo-small.png" alt="homepage" class="light-logo" />
+                <!-- -------------------------------------------------------------- -->
+                <a class="navbar-brand" href="~/">
+                    <!-- Logo icon -->
+                    <b class="logo-icon">
+                        <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                        <!-- Dark Logo icon -->
+                        <img src="~/Content/images/logo.png" alt="homepage" class="dark-logo" />
+                        <!-- Light Logo icon -->
+
+                    </b>
+                    <!--End Logo icon -->
+                    <!-- Logo text -->
+                    <span class="logo-text">
+                        <!-- dark Logo text -->
+                        @*<img src="~/assets/images/logo-text.png" alt="homepage" class="dark-logo" />*@
+                        <!-- Light Logo text -->
+                        @*<img src="~/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />*@
+                    </span>
+                </a>
+                <!-- -------------------------------------------------------------- -->
+                <!-- End Logo -->
+                <!-- -------------------------------------------------------------- -->
+                <!-- -------------------------------------------------------------- -->
+                <!-- Toggle which is visible on mobile only -->
+                <!-- -------------------------------------------------------------- -->
+                <a class="topbartoggler d-block d-lg-none waves-effect waves-light" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="ti-more"></i></a>
+            </div>
+            <!-- -------------------------------------------------------------- -->
+            <!-- End Logo -->
+            <!-- -------------------------------------------------------------- -->
+            <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                <!-- -------------------------------------------------------------- -->
+                <!-- toggle and nav items -->
+                <!-- -------------------------------------------------------------- -->
+                <ul class="navbar-nav me-auto">
+                    <!-- This is  -->
+                    <!-- <li class="nav-item"> <a
+                    class="nav-link sidebartoggler d-none d-md-block waves-effect waves-dark"
+                    href="javascript:void(0)"><i class="ti-menu"></i></a> </li> -->
+                </ul>
+                <ul class="navbar-nav justify-content-end">
+                    <!-- -------------------------------------------------------------- -->
+                    <!-- Search -->
+                    <!-- -------------------------------------------------------------- -->
+                    @*<li class="nav-item d-none d-md-block search-box">
+                            <a class="nav-link d-none d-md-block waves-effect waves-dark" href="javascript:void(0)">
+                                <i class="ti-search"></i>
+                            </a>
+                            <form class="app-search">
+                                <input type="text" class="form-control" placeholder="Search & enter">
+                                <a class="srh-btn"><i class="ti-close"></i></a>
+                            </form>
+                        </li>*@
+                    <!-- -------------------------------------------------------------- -->
+                    <!-- Mega Menu -->
+                    <!-- -------------------------------------------------------------- -->
+
+                    <li class="nav-item dropdown mega-dropdown">
+                        <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-bs-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false"><i class="mdi mdi-view-grid"></i></a>
+                        <div class="dropdown-menu dropdown-menu-animate-up">
+                            <div class="mega-dropdown-menu row">
+                                <!--<div class="col-lg-2 col-xlg-2 mb-2">
+    <h4 class="mb-2"><i class="fa fa-ticket-alt"></i> Masters - General</h4>-->
+                                <!-- List style -->
+                                <!--<ul class="list-style-none">
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "CompanyMaster")">
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Organization Setup
+                </a>
+            </li>
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "StateMaster")">
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>State
+                </a>
+            </li>
+
+
+            <li class="hide">
+                <a class="font-weight-medium" href="@Url.Action("Index", "MasterAmountCode")">
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Amount Code
+                </a>
+            </li>
+
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "FundAccount")">
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Fund Account
+                </a>
+            </li>
+
+
+
+            <li class="hide">
+                <a class="font-weight-medium" href="@Url.Action("Index", "CategoryMaster")">
+
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Category Master
+                </a>
+            </li>
+            <li class="hide">
+                <a class="font-weight-medium" href="@Url.Action("Index", "TypeMaster")">
+
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Type Master
+                </a>
+            </li>
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "OfficeManagement")">
+
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Office
+                </a>
+            </li>
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "CompanyRoute")">
+
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Route
+                </a>
+            </li>
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "CityMaster")">
+
+                    <i class="fa fa-building feather-sm text-success me-2"></i>City
+                </a>
+            </li>
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "LocalityMaster")">
+
+                    <i class="fa fa-map feather-sm text-success me-2"></i>Locality
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-2 col-xlg-2 mb-2">
+        <h4 class="mb-2"><i class="fa fa-ticket-alt"></i> Masters - Employee</h4>-->
+                                <!-- List style -->
+                                <!--<ul class="list-style-none">
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "DepartmentMaster")">
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Department
+                </a>
+            </li>
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "DesignationMaster")">
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Designation
+                </a>
+            </li>
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "EmployeeMaster")">
+                    <i class="fa fa-user feather-sm text-success me-2"></i>Employee
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-2 col-xlg-2 mb-2">
+        <h4 class="mb-2"><i class="fa fa-ticket-alt"></i> Masters - Client</h4>-->
+                                <!-- List style -->
+                                <!--<ul class="list-style-none">
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "ClientMaster")">
+                    <i class="fa fa-user feather-sm text-success me-2"></i>Client Master
+                </a>
+            </li>
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "ContactTypeMaster")">
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Contact Type
+                </a>
+            </li>
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "ClientContactMaster")">
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Client Contact
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <div class="col-lg-2 col-xlg-2 mb-2">
+        <h4 class="mb-2"><i class="fa fa-ticket-alt"></i> Masters - Chits</h4>-->
+                                <!-- List style -->
+                                <!--<ul class="list-style-none">
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "ChitSchemeManagement")">
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Chit Scheme
+                </a>
+            </li>
+
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "ChitGroupManagement")">
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Chit Group
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-2 col-xlg-2 mb-2">
+        <h4 class="mb-2"><i class="fa fa-ticket-alt"></i> Masters - Loans</h4>-->
+                                <!-- List style -->
+                                <!--<ul class="list-style-none">
+            <li class="">
+                <a class="font-weight-medium" href="@Url.Action("Index", "LoanSchemeManagement")">
+                    <i class="fa fa-industry feather-sm text-success me-2"></i>Loan Scheme
+                </a>
+            </li>
+
+
+        </ul>
+    </div>-->
+                                @if (Model != null && (links.Any(x => x.MenuGId == 100)))
+                                {
+                                    <div class="col-lg-2 col-xlg-2 mb-2">
+                                        <h4 class="mb-2"><i class="fa fa-ticket-alt"></i> General </h4>
+                                        <!-- List style -->
+                                        <ul class="list-style-none">
+
+                                            @if (Model != null)
+                                            {
+                                                foreach (var item in Model)
+                                                {
+                                                    if (item.MenuGId == 100)
+                                                    {
+                                                        <li class="@item.activeli">
+                                                            <a class="font-weight-medium" href="@Url.Action(item.ActionName, item.ControllerName)">
+                                                                <i class="@item.imageClass feather-sm text-success me-2"></i> @item.LinkText
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                }
+
+                                            }
+                                        </ul>
+                                    </div>
+
+                                }
+                                @if (Model != null && (links.Any(x => x.MenuGId == 101)))
+                                {
+                                    <div class="col-lg-2 col-xlg-2 mb-2">
+                                        <h4 class="mb-2"><i class="fa fa-ticket-alt"></i> Employee </h4>
+                                        <!-- List style -->
+                                        <ul class="list-style-none">
+                                            @if (Model != null)
+                                            {
+                                                foreach (var item in Model)
+                                                {
+                                                    if (item.MenuGId == 101)
+                                                    {
+                                                        <li class="@item.activeli">
+                                                            <a class="font-weight-medium" href="@Url.Action(item.ActionName, item.ControllerName)">
+                                                                <i class="@item.imageClass feather-sm text-success me-2"></i> @item.LinkText
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                                @if (Model != null && (links.Any(x => x.MenuGId == 102)))
+                                {
+
+                                    <div class="col-lg-2 col-xlg-2 mb-2">
+                                        <h4 class="mb-2"><i class="fa fa-ticket-alt"></i> Client </h4>
+                                        <!-- List style -->
+                                        <ul class="list-style-none">
+                                            @if (Model != null)
+                                            {
+                                                foreach (var item in Model)
+                                                {
+                                                    if (item.MenuGId == 102)
+                                                    {
+                                                        <li class="@item.activeli">
+                                                            <a class="font-weight-medium" href="@Url.Action(item.ActionName, item.ControllerName)">
+                                                                <i class="@item.imageClass feather-sm text-success me-2"></i> @item.LinkText
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                                @if (Model != null && (links.Any(x => x.MenuGId == 103)))
+                                {
+
+                                    <div class="col-lg-2 col-xlg-2 mb-2">
+                                        <h4 class="mb-2"><i class="fa fa-ticket-alt"></i> Chits </h4>
+                                        <!-- List style -->
+                                        <ul class="list-style-none">
+                                            @if (Model != null)
+                                            {
+                                                foreach (var item in Model)
+                                                {
+                                                    if (item.MenuGId == 103)
+                                                    {
+                                                        <li class="@item.activeli">
+                                                            <a class="font-weight-medium" href="@Url.Action(item.ActionName, item.ControllerName)">
+                                                                <i class="@item.imageClass feather-sm text-success me-2"></i> @item.LinkText
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                                @if (Model != null && (links.Any(x => x.MenuGId == 104)))
+                                {
+
+                                    <div class="col-lg-2 col-xlg-2 mb-2">
+                                        <h4 class="mb-2"><i class="fa fa-ticket-alt"></i> Loans </h4>
+                                        <!-- List style -->
+                                        <ul class="list-style-none">
+                                            @if (Model != null)
+                                            {
+                                                foreach (var item in Model)
+                                                {
+                                                    if (item.MenuGId == 104)
+                                                    {
+                                                        <li class="@item.activeli">
+                                                            <a class="font-weight-medium" href="@Url.Action(item.ActionName, item.ControllerName)">
+                                                                <i class="@item.imageClass feather-sm text-success me-2"></i> @item.LinkText
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                                @if (Model != null && (links.Any(x => x.MenuGId == 105)))
+                                {
+
+                                    <div class="col-lg-2 col-xlg-2 mb-2">
+                                        <h4 class="mb-2"><i class="fa fa-ticket-alt"></i> Finance </h4>
+                                        <!-- List style -->
+                                        <ul class="list-style-none">
+                                            @if (Model != null)
+                                            {
+                                                foreach (var item in Model)
+                                                {
+                                                    if (item.MenuGId == 105)
+                                                    {
+                                                        <li class="@item.activeli">
+                                                            <a class="font-weight-medium" href="@Url.Action(item.ActionName, item.ControllerName)">
+                                                                <i class="@item.imageClass feather-sm text-success me-2"></i> @item.LinkText
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </li>
+                    <!-- -------------------------------------------------------------- -->
+                    <!-- End Mega Menu -->
+                    <!-- -------------------------------------------------------------- -->
+                    <!-- -------------------------------------------------------------- -->
+                    <!-- Profile -->
+                    <!-- -------------------------------------------------------------- -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-bs-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user"></i>
+                            @*<img src="@Session["EMPLIMG"]" alt="user" width="30" class="profile-pic rounded-circle" />*@
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end user-dd animated flipInY">
+                            <div class="d-flex no-block align-items-center p-3 bg-info text-white mb-2">
+                                <div class=""><i class="fa fa-user"></i>@*<img src="@Session["EMPLIMG"]" alt="user" class="rounded-circle" width="60">*@</div>
+                                <div class="ms-2">
+                                    <h4 class="mb-0 text-white">@Session["EMPLNAME"]</h4>
+                                    <p class=" mb-0">@Session["USEREMAIL"]</p>
+                                </div>
+                            </div>
+                            @*<a class="dropdown-item" href="#">
+                                    <i data-feather="user" class="feather-sm text-info me-1 ms-1"></i> My
+                                    Profile
+                                </a>*@
+                            <a class="dropdown-item hide" href="#">
+                                <i data-feather="credit-card" class="feather-sm text-info me-1 ms-1"></i>
+                                My Tasks
+                            </a>
+                            @*<a class="dropdown-item" href="#">
+                                    <i data-feather="mail" class="feather-sm text-success me-1 ms-1"></i>
+                                    Inbox
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">
+                                    <i data-feather="settings" class="feather-sm text-warning me-1 ms-1"></i>
+                                    Account Setting
+                                </a>
+                                System.Web.HttpContext.Current.Session["Group"].ToString().ToUpper() == "ADMIN" || System.Web.HttpContext.Current.Session["Group"].ToString().ToUpper() == "SUPERADMIN"
+                            *@
+                            <div class="dropdown-divider"></div>
+                            @if (1 == 1)
+                            {
+
+                                <a class="dropdown-item" href="@Url.Action("Index",  "Groups")">
+                                    <span class="fa fa-fw fa-users  text-dark-success">   </span>&nbsp; Groups
+                                </a>
+                                <a class="dropdown-item" href="@Url.Action("Index",  "User")">
+                                    <span class="fa fa-fw fa-user  text-dark-success">   </span>&nbsp; Users
+                                </a>
+
+
+                            }
+                            <a class="dropdown-item" href="~/Account/LogOff">
+                                <i data-feather="log-out"
+                                   class="feather-sm text-danger me-1 ms-1"></i> Logout
+                            </a>
+                            @*<div class="dropdown-divider"></div>
+                                <div class="pl-4 p-2">
+                                    <a href="#"
+                                       class="btn d-block w-100 btn-info rounded-pill">View Profile</a>
+                                </div>*@
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+
+    <!--<aside class="left-sidebar">-->
+    <!-- Sidebar scroll-->
+    <!--<div class="scroll-sidebar">-->
+    <!-- Sidebar navigation-->
+    <!--<nav class="sidebar-nav">
+        <ul id="sidebarnav">
+            @if ((Session["Group"].ToString() == "SuperAdmin") || (Session["Group"].ToString() == "Admin"))
+            {
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-arrange-send-backward"></i><span class="hide-menu">Product</span></a>
+                    <ul aria-expanded="false" class="collapse first-level">
+
+                        <li class="sidebar-item">
+                            <a class="has-arrow sidebar-link" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-playlist-plus"></i> <span class="hide-menu">Chit Fund</span></a>
+                            <ul aria-expanded="false" class="collapse second-level">
+                                <li class="sidebar-item">
+                                    <a class="font-weight-medium sidebar-link" href="@Url.Action("Index","ChitSubscriptionManagement")">
+                                        <i class="fa fa-industry feather-sm text-success me-2"></i><span class="hide-menu"> Subscription</span>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="has-arrow sidebar-link" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-playlist-plus"></i> <span class="hide-menu">Loan</span></a>
+                            <ul aria-expanded="false" class="collapse second-level">
+
+                                <li class="sidebar-item hide">
+                                    <a class="font-weight-medium sidebar-link" href="@Url.Action("Index","LoanRequestManagement")">
+                                        <i class="fa fa-group feather-sm text-success me-2"></i><span class="hide-menu"> Request</span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item">
+                                    <a class="font-weight-medium sidebar-link" href="@Url.Action("Index","LoanSubscription")">
+                                        <i class="fa fa-group feather-sm text-success me-2"></i><span class="hide-menu"> Loan Subscription</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="nav-small-cap"><i class="mdi mdi-dots-horizontal"></i> Transaction</li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-money-bill-alt"></i><span class="hide-menu">Transaction </span></a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("Index","TransactionCollection")">
+                                <span class="fa fa-exchange  text-dark-success">   </span>&nbsp; Transaction Collection
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("Index","TransactionPayment")">
+                                <span class="fa fa-exchange  text-dark-success">   </span>&nbsp; Transaction Payment
+                            </a>
+                        </li>
+
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("","")">
+                                <span class="fa fa-exchange  text-dark-success">   </span>&nbsp; Book Verification
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="nav-small-cap"><i class="mdi mdi-dots-horizontal"></i> Reports</li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-file-alt"></i><span class="hide-menu">Reports </span></a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("PartyAcDtlRptIndex","ExcelReports")">
+                                <span class="fa fa-exchange  text-dark-success">   </span>&nbsp; Customer Accounts Summary
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("Index","DayBookLedgerRpt")">
+                                <span class="fa fa-exchange  text-dark-success">   </span>&nbsp; Daily Collection
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("Index","DailyCollectionPlanRpt")">
+                                <span class="fa fa-exchange  text-dark-success">   </span>&nbsp; Daily Collection Plan
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("Index","ActiveInActiveClientsRpt")">
+                                <span class="fa fa-exchange  text-dark-success">   </span>&nbsp; Active Clients Summary
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("Index","PrizePaidUnpaidRpt")">
+                                <span class="fa fa-exchange  text-dark-success">   </span>&nbsp; Active Clients Summary
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("","")">
+                                <span class="fa fa-exchange  text-dark-success">   </span>&nbsp; Book Verification Details
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("","")">
+                                <span class="fa fa-exchange  text-dark-success">   </span>&nbsp; Agent Commission Summary
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+            }
+            else
+            {
+                <li class="nav-small-cap"><i class="mdi mdi-dots-horizontal"></i> </li>
+                <li class="sidebar-item"></li>
+                <li class="nav-small-cap"><i class="mdi mdi-dots-horizontal"></i> Transaction</li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-money-bill-alt"></i><span class="hide-menu">Transaction </span></a>
+                    <ul aria-expanded="false" class="collapse first-level">
+
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("Index", "TransactionCollection")">
+                                <span class="fa fa-exchange  text-dark-success">   </span>&nbsp; Transaction Collection Entry
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+            }
+        </ul>
+    </nav>-->
+    <!-- End Sidebar navigation -->
+    <!--</div>-->
+    <!-- End Sidebar scroll-->
+    <!--</aside>-->
+
+
+    <aside class="left-sidebar">
+        <!-- Sidebar scroll-->
+        <div class="scroll-sidebar">
+            <!-- Sidebar navigation-->
+            <nav class="sidebar-nav">
+                <ul id="sidebarnav">
+                    <!-- User Profile-->
+                    @if (Model != null && (links.Any(x => x.MenuGId == 200)))
+                    {
+
+                        <li class="nav-small-cap"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">Products</span></li>
+                        <li class="sidebar-item">
+
+
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-bullseye"></i><span class="hide-menu">Products</span></a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                @if (Model != null)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        if (item.MenuGId == 200)
+                                        {
+                                            <li class="sidebar-item">
+                                                <a class="sidebar-link" href="@Url.Action(item.ActionName, item.ControllerName)">
+                                                    <span class="@item.imageClass hide-menu  text-dark-success">   </span>&nbsp; @item.LinkText
+                                                </a>
+                                            </li>
+                                        }
+
+                                    }
+
+                                }
+
+                            </ul>
+                        </li>
+                    }
+                    @if (Model != null && (links.Any(x => x.MenuGId == 201)))
+                    {
+                        <li class="nav-small-cap"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">Transactions</span></li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-ticket-alt"></i><span class="hide-menu">Transactions</span></a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                @if (Model != null)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        if (item.MenuGId == 201)
+                                        {
+                                            <li class="sidebar-item">
+                                                <a class="sidebar-link" href="@Url.Action(item.ActionName, item.ControllerName)">
+                                                    <span class="@item.imageClass hide-menu  text-dark-success">   </span>&nbsp; @item.LinkText
+                                                </a>
+                                            </li>
+                                        }
+
+                                    }
+
+                                }
+                            </ul>
+                        </li>
+                    }
+                    @if (Model != null && (links.Any(x => x.MenuGId == 202)))
+                    {
+                        <li class="nav-small-cap"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">Reports</span></li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Reports </span></a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                @if (Model != null)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        if (item.MenuGId == 202) /*Leads*/
+                                        {
+                                            <li class="sidebar-item">
+                                                <a class="sidebar-link" href="@Url.Action(item.ActionName, item.ControllerName)">
+                                                    <span class="@item.imageClass hide-menu  text-dark-success">   </span>&nbsp; @item.LinkText
+                                                </a>
+                                            </li>
+                                        }
+
+                                    }
+
+                                }
+
+                            </ul>
+                        </li>
+                    }
+                    @if (Model != null && (links.Any(x => x.MenuGId == 203)))
+                    {
+
+                        <li class="nav-small-cap"><i class="mdi mdi-dots-horizontal"></i> <span class="hide-menu">Finance</span></li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-ticket-alt"></i><span class="hide-menu">Finance </span></a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                @if (Model != null)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        if (item.MenuGId == 203) /*Finance*/
+                                        {
+                                            <li class="sidebar-item">
+                                                <a class="sidebar-link" href="@Url.Action(item.ActionName, item.ControllerName)">
+                                                    <span class="@item.imageClass hide-menu  text-dark-success">   </span>&nbsp; @item.LinkText
+                                                </a>
+                                            </li>
+                                        }
+
+                                    }
+
+                                }
+
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </nav>
+            <!-- End Sidebar navigation -->
+        </div>
+        <!-- End Sidebar scroll-->
+    </aside>
+}
+<!-- -------------------------------------------------------------- -->
+<!-- End Left Sidebar - style you can find in sidebar.scss  -->
+<!-- -------------------------------------------------------------- -->

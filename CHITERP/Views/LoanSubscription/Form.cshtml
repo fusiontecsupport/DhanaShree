@@ -1,0 +1,1140 @@
+﻿@using CHITERP.Models;
+@using CHITERP.Data;
+@model CHITERP.Models.LoanTranRS
+
+@{
+    ViewBag.Title = "Loan Subscription";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title </h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="row col-md-12">
+                            <div class="col-md-3 mb-3">
+
+                                <label for="LoanSubscriptionId">Loan Subscription Code</label>
+
+
+                                @if (Model != null)
+                                {
+                                <input class="form-control LoanSubscriptionCode" id="LoanSubscriptionCode" readonly value="@Model.loansubs[0].LoanSubscriptionCode" name="LoanSubscriptionCode" />
+                                }
+                                else
+                                {
+                                <input class="form-control LoanSubscriptionCode" id="LoanSubscriptionCode" readonly value="0" name="LoanSubscriptionCode" />
+                                }
+
+                            </div>
+                            <div class="col-md-5 mb-5">
+                                <label for="FPersonID">Organization/Person</label>
+
+                                @Html.DropDownList("FPersonID", null, "Please Select Organization/Person", new
+                                {
+                                    @class = "form-control select2 custom-select  FPersonID",
+                                    @data_val = "true",
+                                    @required = "required",
+                                    @id = "FPersonID",
+                                    @onchange = "ClientNameChange();"
+                                })
+                                <div class="invalid-feedback">
+                                    Please Select Organization/Person !!
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3 hide">
+
+                                <label for="ClientType">Organization/Person</label>
+                                @Html.DropDownList("ClientType", null, "Please select Type", new { @class = "form-control select2 custom-select  ClientType", @data_val = "true", @required = "required", @id = "ClientType", @style = "width:50%;" })
+                                <div class="invalid-feedback">
+                                    Please Select Client Type!!
+                                </div>
+
+                            </div>
+                            <div class="col-md-4 mb-4">
+
+                                <label for="IntroducedBy">Introduced By	</label>
+
+                                <input type="text" readonly id="IntroducedBy" class="form-control" name="IntroducedBy" />
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="mytab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" id="LRequest">
+                                <a class="nav-link d-flex active tab" data-bs-toggle="tab" href="#LoanRequest" role="tab" aria-selected="true">
+                                    <span>
+                                        <i class="fa fa-rocket"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Planner</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item " id="LSubscription">
+                                <a class="nav-link d-flex tab1" data-bs-toggle="tab" href="#LoanPaymentSchedule" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-book"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">
+                                        Loan Payment Schedule
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item hide" id="LAddress">
+                                <a class="nav-link d-flex tab2" data-bs-toggle="tab" href="#LoanAddress" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-phone"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Address</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item  hide" id="LAllocation">
+                                <a class="nav-link d-flex tab2" data-bs-toggle="tab" href="#LoanAllocation" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-hand-holding-usd"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Loan Allocation</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" id="LQRCode">
+                                <a class="nav-link d-flex tab2" data-bs-toggle="tab" href="#LoanQRCode" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-qrcode"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">QRCode</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" id="LClosure">
+                                <a class="nav-link d-flex tab2" data-bs-toggle="tab" href="#LoanClosure" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-piggy-bank"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Closure</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="LoanRequest" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <br />
+                                        <form action="@Url.Content("~/LoanSubscription/Savedata")" method="post" data-flag="0" class="needs-validation LoanSubscriptionManagementform" id="LoanSubscriptionManagementform" name="LoanSubscriptionManagementform" novalidate onsubmit="return ValidateMyform(this,event);">
+                                            <div class="card-header bg-success">
+                                                <h5 class="mb-0 text-white">Loan Request Plan </h5><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="SubscriptionID">Id</label>
+                                                    @if (Model != null)
+                                                    {
+                                                    <input class="form-control LoanSubscriptionId" id="LoanSubscriptionId" readonly value="@Model.loansubs[0].LoanSubscriptionID" name="LoanSubscriptionID" />
+                                                    <input type="text" id="LoanRequestID" name="LoanRequestID" value="@Model.loanrequests[0].LoanRequestID" class="form-control LoanRequestID" />
+                                                    <input type="text" id="PersonID" name="PersonID" value="@Model.loanrequests[0].PersonID" class="form-control PersonID" />
+                                                    }
+                                                    else
+                                                    {
+                                                    <input class="form-control LoanSubscriptionId" id="LoanSubscriptionId" readonly value="0" name="LoanSubscriptionID" />
+                                                    <input type="text" id="LoanRequestID" name="LoanRequestID" value="0" class="form-control LoanRequestID" />
+                                                    <input type="text" id="PersonID" name="PersonID" value="" class="form-control PersonID" />
+                                                    }
+                                                </div>
+
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="LoanSchemeID">Loan Scheme<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("LoanSchemeID", null, "-- Select --", new { @class = "form-control select2 custom-select  LoanSchemeID", @data_val = "true", @required = "required", @id = "LoanSchemeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Loan Scheme !!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="LoanSecuredTypeId">Secured<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("LoanSecuredTypeId", null, "-- Select --", new { @class = "form-control select2 custom-select  LoanSecuredTypeId", @data_val = "true", @required = "required", @id = "LoanSecuredTypeId", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Secured !!
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label>Requested On<span class="text-danger">*</span></label>
+
+                                                    @if (Model != null)
+                                                    {
+                                                    <input id="RequestedOn" type="date" value="@String.Format("{0:yyyy-MM-dd}",Model.loanrequests[0].RequestedOn)" name="RequestedOn" required class="form-control RequestedOn" />
+                                                    }
+                                                    else
+                                                    {
+                                                    <input id="RequestedOn" type="date" value="" name="RequestedOn" class="form-control RequestedOn" required />
+                                                    }
+
+
+                                                    <div class="invalid-feedback">
+                                                        Please Select Requested On !!
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="Principal">Loan Requested Amount<span class="text-danger">*</span></label>
+
+                                                    @if (Model != null)
+                                                    {
+                                                        <input type="number" id="Principal" name="Principal" min="0.00" step="0.01" value="@Model.loanrequests[0].Principal" class="form-control Principal" required maxlength="18" onchange="CalcInterest();" tabindex="2" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="Principal" name="Principal" min="0.00" step="0.01" class="form-control Principal" required maxlength="18" tabindex="2" onchange="CalcInterest();" />
+                                                    }
+                                                    <div class="invalid-feedback">
+                                                        Please Enter Loan Requested Amount!!
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="card-header bg-success">
+                                                <h5 class="mb-0 text-white">Loan Disbursement Information </h5><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                                            </div>
+                                            <br />
+
+
+                                            <div class="row col-md-12">
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="DisbursementModeTypeID">Disbursement Mode<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("DisbursementModeTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select  DisbursementModeTypeID", @data_val = "true", @required = "required", @id = "DisbursementModeTypeID", @style = "width:50%;"})
+                                                    <div class="invalid-feedback">
+                                                        Please Select Disbursement Mode !!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="RepaymentModeTypeID">Repayment Mode<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("RepaymentModeTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select  RepaymentModeTypeID", @data_val = "true", @required = "required", @id = "RepaymentModeTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Repayment Mode !!
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="LoanAmount">Disbursement Amount<span class="text-danger">*</span></label>
+
+                                                    @if (Model != null)
+                                                    {
+                                                    <input type="number" id="LoanAmount" name="LoanAmount" min="0.00" step="0.01" value="@Model.loanrequests[0].LoanAmount" class="form-control LoanAmount" required onchange="CalcInterest();" maxlength="18" tabindex="2" />
+                                                    <div class="invalid-feedback">
+                                                        Please Enter Disbursement Amount   !!
+                                                    </div>
+                                                    }
+                                                    else
+                                                    {
+                                                    <input type="number" id="LoanAmount" name="LoanAmount" min="0.00" step="0.01" class="form-control LoanAmount" required maxlength="18" onchange="CalcInterest();" tabindex="2" />
+                                                    <div class="invalid-feedback">
+                                                        Please Enter Disbursement Amount   !!
+                                                    </div>
+                                                    }
+                                                </div>
+                                                <div class="col-md-4 mb-4">
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-2 text-end control-label col-form-label">Term	</label>
+                                                        <br />
+                                                        <div class="col-sm-4">
+                                                            @if (Model != null)
+                                                            {
+                                                                <input type="number" id="Term" min="0" name="Term" value="@Model.loanrequests[0].Term" required class="form-control Term" maxlength="10" onchange="CalcInterest();" tabindex="2" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="number" id="Term" min="0" name="Term" class="form-control Term" required maxlength="10" tabindex="2" onchange="CalcInterest();" />
+                                                            }
+                                                            <div class="invalid-feedback">
+                                                                Please Enter Term  !!
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            @Html.DropDownList("TermTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select  TermTypeID", @data_val = "true", @id = "TermTypeID", @style = "width:50%;", @required = "required" })
+                                                            <div class="invalid-feedback">
+                                                                Please Enter Term Type !!
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="InterestRate">Interest Rate (%)</label>
+
+                                                    @if (Model != null)
+                                                    {
+                                                        <input type="number" id="InterestRate" min="0" step="0.01" required name="InterestRate" value="@Model.loanrequests[0].InterestRate" class="form-control InterestRate" maxlength="3" tabindex="2" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="InterestRate" min="0" step="0.01" required name="InterestRate" class="form-control InterestRate" maxlength="3" tabindex="2" />
+                                                    }
+                                                <div class="invalid-feedback">
+                                                    Please Enter Interest Rate % !!
+                                                </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row col-md-12">
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="DeductionTypeId">Deduction<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("DeductionTypeId", null, "-- select --", new { @class = "form-control select2 custom-select  DeductionTypeId", @data_val = "true", @required = "required", @id = "DeductionTypeId", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Deduction !!
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label>Disbursement Date<span class="text-danger">*</span></label>
+                                                    @if (Model != null)
+                                                    {
+                                                        <input id="DisbursementDate" type="date" value="@String.Format("{0:yyyy-MM-dd}",Model.loanrequests[0].DisbursementDate)" name="DisbursementDate" required class="form-control DisbursementDate" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="DisbursementDate" type="date" value="" name="DisbursementDate" class="form-control DisbursementDate" required />
+                                                    }
+                                                    <div class="invalid-feedback">
+                                                        Please Select Disbursement Date !!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="StatusTypeID">Planner Status<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("ReqStatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  ReqStatusTypeID", @data_val = "true", @required = "required", @id = "ReqStatusTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Status !!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 mb-4">
+                                                    <label for="LinkedOfficeID">Linked Office<span class="text-danger">*</span></label>
+                                                     @Html.DropDownList("LinkedOfficeID", null, "Please select", new { @class = "form-control select2 custom-select  LinkedOfficeID", @data_val = "true", @required = "required", @id = "LinkedOfficeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Linked Office !!
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row col-md-12">
+
+
+
+                                                <div class="col-md-3 mb-3 hide">
+                                                    <label for="LoanCode">Loan Amount Code <span class="text-danger">*</span></label>
+
+                                                    @Html.DropDownList("AmountCodeID", null, "Please select Amount Code", new { @class = "form-control select2 custom-select  AmountCodeID", @data_val = "true", @id = "AmountCodeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Amount Code !!
+                                                    </div>
+
+                                                </div>
+                                                
+
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label>Agent Commission</label>
+                                                    @if (Model != null)
+                                                    {
+                                                    <input id="AgentCommission" type="number"  min="0.00" step="0.01" value="@Model.loanrequests[0].AgentCommission" name="AgentCommission" class="form-control AgentCommission" />
+                                                    }
+                                                    else
+                                                    {
+                                                    <input id="AgentCommission" type="number" min="0.00" step="0.01"  value="" name="AgentCommission" class="form-control AgentCommission" />
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label>Commission Agent</label>
+                                                    @Html.DropDownList("CommissionAgentPersonID", null, "-- Select --", new { @class = "form-control select2 custom-select  CommissionAgentPersonID", @data_val = "true", @id = "CommissionAgentPersonID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Commission Agent !!
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 mb-3 hide">
+                                                    <label>Co Applicants</label>
+                                                    @Html.DropDownList("CoApplicants", null, new { @class = "form-control select2 custom-select  CoApplicants", @data_val = "true", @id = "CoApplicants", @style = "width:50%;", @multiple = "multiple" })
+
+                                                </div>
+                                                <div class="col-md-3 mb-3 hide">
+                                                    <label for="LoanSchemeID">Loan Scheme<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("LoanSubsSchemeID", null, "-- Select --", new { @class = "form-control select2 custom-select  LoanSubsSchemeID", @data_val = "true", @id = "LoanSubsSchemeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Loan Scheme !!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 mb-3 hide">
+                                                    <label for="LoanSecuredTypeId">Secured<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("LoanSubsSecuredTypeId", null, "-- Select --", new { @class = "form-control select2 custom-select  LoanSubsSecuredTypeId", @data_val = "true", @id = "LoanSubsSecuredTypeId", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Secured !!
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-3 mb-3 hide">
+                                                    <label for="SubsRepaymentModeTypeID">Repayment Mode<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("SubsRepaymentModeTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select  SubsRepaymentModeTypeID", @data_val = "true", @id = "SubsRepaymentModeTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Repayment Mode !!
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 mb-3 hide">
+                                                    <label for="SubsLinkedOfficeID">Linked Office<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("SubsLinkedOfficeID", null, "Please select Linked Office", new { @class = "form-control select2 custom-select  SubsLinkedOfficeID", @data_val = "true", @id = "SubsLinkedOfficeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Linked Office !!
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            </div>
+
+                                            <br />
+                                            <div class="card-header bg-success">
+                                                <h5 class="mb-0 text-white">Loan Collection Information </h5><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                                            </div>
+                                            <div class="row col-md-12">
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="CollectionType">Collection Type</label>
+
+                                                    @Html.DropDownList("CollectionType", null, "Please select", new { @class = "form-control select2 custom-select  CollectionType", @data_val = "true", @required = "required", @id = "CollectionType", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Collection Type !!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="RepaymentIntervalTypeID">Interval</label>
+
+                                                    @Html.DropDownList("RepaymentIntervalTypeID", null, "Please select", new { @class = "form-control select2 custom-select  RepaymentIntervalTypeID", @data_val = "true", @required = "required", @id = "RepaymentIntervalTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Interval !!
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-6">
+
+                                                    <label>Collection Agent<span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("AccountEmployeeID", null, "Please select Collection Employee", new { @class = "form-control select2 custom-select  AccountEmployeeID", @data_val = "true", @required = "required", @id = "AccountEmployeeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Collection Employee !!
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 mb-3 hide">
+                                                    <label for="FundAccountID">Fund Account</label>
+
+                                                    @Html.DropDownList("FundAccountID", null, "Please select", new { @class = "form-control select2 custom-select  FundAccountID", @data_val = "true", @id = "FundAccountID", @style = "width:50%;" })
+
+                                                </div>
+
+
+                                                
+                                            </div>
+                                            <div class="row col-md-12">
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="Collection">Collection</label>
+                                                    <input type="text" id="Collection" name="Collection" readonly class="form-control Collection" maxlength="150" tabindex="2" />
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="BookPickupDay">Book Pickup Day</label>
+                                                    @Html.DropDownList("BookPickupDay", null, "Please select Book Pickup Day", new { @class = "form-control select2 custom-select  BookPickupDay", @data_val = "true", @required = "required", @id = "BookPickupDay", @style = "width:50%;" })
+
+                                                </div>
+                                            
+
+
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label>Route </label>
+                                                    @Html.DropDownList("RouteID", null, "Please select", new { @class = "form-control select2 custom-select  RouteID", @data_val = "true", @id = "RouteID", @style = "width:50%;" })
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label>Subscription Status <span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Status
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="d-md-flex align-items-center mt-3">
+
+                                                    <a href="@Url.Action("Index", "LoanSubscription")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane p-3" id="LoanPaymentSchedule" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-3 hide">
+                                                    <div class="form-group">
+                                                        <label>primary</label>
+                                                        <input class="form-control" id="ChitSchemeID" value="@ViewBag.ChitSchemeID" name="ChitSchemeID" />
+                                                    </div>
+                                                </div>
+                                                <input type="text" id="LOANSCHEDULEDETAILIDX" value="0" name="LOANSCHEDULEDETAILIDX" class="LOANSCHEDULEDETAILIDX hide" />
+                                                <table class='table table-striped table-bordered bootstrap-datatable' id="LOANSCHEDULEDETAIL">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="4"><h4>Planned</h4></th>
+                                                            <th colspan="4"><h4>Actuals</h4></th>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th><label>Installmt. No</label></th>
+                                                            <th><label>Installmt. Date</label></th>
+                                                            <th><label>EMI.Amt</label></th>
+                                                            <th><label>Balance Due Amt</label></th>
+
+                                                            <th><label>Collection Date</label></th>
+                                                            <th><label>Collection Amt</label></th>
+                                                            <th><label>Balance Actuals</label></th>
+                                                            <th><label>Collection Sts</label></th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="LOANSCHEDULEDETAIL_BODY" id="LOANSCHEDULEDETAIL_BODY">
+                                                        @if (Model != null)
+                                                        {
+                                                            var order = 0;
+                                                            foreach (pr_Get_Loan_Schedule_n_Collection_Details_Result details in Model.loanschedules)
+                                                            {
+                                                                order = ++order;
+                                                        <tr class="item-row">
+
+                                                            <td class="col-md-1">
+
+                                                                <input id="InstNo" type="number" readonly value="@details.InstNo" name="InstNo" class="form-control InstNo" required />
+                                                            </td>
+                                                            <td class="col-md-1">
+
+                                                                <input id="InsttDt" readonly type="text" value="@details.InsttDt" name="InsttDt" class="form-control DtlDueAmt" />
+                                                            </td>
+                                                            <td class="col-md-2">
+
+                                                                <input id="EMI_Amount" readonly type="number" value="@details.EMI_Amount" min="0.00" step="0.01" name="EMI_Amount" class="form-control EMI_Amount" />
+                                                            </td>
+                                                            <td class="col-md-1">
+
+                                                                <input id="Loan_Balance" min="0.00" step="0.01" type="number" value="@details.Loan_Balance" name="Loan_Balance" readonly class="form-control Loan_Balance" />
+                                                            </td>
+
+                                                            @*<td class="col-md-2">
+
+                                                                    <input id="Principal_Amt" type="number" value="@details.Principal_Amt" name="Principal_Amt" readonly class="form-control Principal_Amt" />
+                                                                </td>
+                                                                <td class="col-md-1">
+
+                                                                    <input id="ToBePaid_Amt" min="0.00" step="0.01" type="number" value="@details.ToBePaid_Amt" name="ToBePaid_Amt" class="form-control ToBePaid_Amt" />
+                                                                </td>*@
+                                                            <td class="col-md-1">
+
+                                                                <input id="CollectionDt" readonly type="text" value="@details.collectiondt" name="CollectionDt" class="form-control CollectionDt" />
+                                                            </td>
+                                                            <td class="col-md-1">
+
+                                                                <input id="Credit" min="0.00" step="0.01" type="number" value="@details.Credit" readonly name="Credit" class="form-control Credit" />
+                                                            </td>
+                                                            @*<td class="col-md-2">
+
+                                                                    <input id="Collected_Cumulative_Amt" type="number" min="0.00" step="0.01" name="Collected_Cumulative_Amt" readonly class="form-control Collected_Cumulative_Amt" />
+                                                                </td>*@
+                                                            <td class="col-md-1">
+
+                                                                <input id="colbalance" min="0.00" step="0.01" type="number" value="@details.colbalance" name="colbalance" class="form-control colbalance" readonly />
+                                                            </td>
+                                                            <td class=" col-md-1">
+
+                                                                <input id="CollectionSts" readonly type="text" value="@details.CollectionSts" name="CollectionSts" class="form-control CollectionSts" readonly />
+
+                                                            </td>
+
+                                                        </tr>
+
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane p-3 hide" id="LoanAddress" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form action="@Url.Content("~/LoanSubscription/SaveSCData")" method="post" data-flag="0" class="needs-validation Contactsform" id="Contactsform" name="Contactsform" novalidate onsubmit="return ValidateEmployeeform(this,event);">
+                                                <div class="row">
+                                                    <div class="col-lg-3 hide">
+                                                        <div class="form-group">
+                                                            <label>primary</label>
+                                                            <input class="form-control SubscriptionID" id="SubscriptionID" value="@ViewBag.SubscriptionID" name="SubscriptionID" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Linked Address <span class="text-danger">*</span></label>
+                                                            @Html.DropDownList("LinkedOfficeID", null, "Please select Status", new { @class = "form-control select2 custom-select  LinkedOfficeID", @data_val = "true", @required = "required", @id = "LinkedOfficeID", @style = "width:50%;" })
+                                                            <div class="invalid-feedback">
+                                                                Please Select Linked Address
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Line 1</label>
+                                                            @if (Model != null)
+                                                            {
+                                                            <input type="text" id="AddressLine1" name="AddressLine1" value="@ViewBag.AddressLine1" readonly class="form-control AddressLine1" />
+                                                            }
+                                                            else
+                                                            {
+                                                            <input type="text" id="AddressLine1" name="AddressLine1" value="" readonly class="form-control AddressLine1" />
+                                                            }
+                                                        </div>
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Line 2</label>
+                                                            @if (Model != null)
+                                                            {
+                                                            <input type="text" id="AddressLine2" name="AddressLine2" value="@ViewBag.AddressLine2" readonly class="form-control AddressLine2" />
+                                                            }
+                                                            else
+                                                            {
+                                                            <input type="text" id="AddressLine2" name="AddressLine2" value="" readonly class="form-control AddressLine2" />
+                                                            }
+
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Country</label>
+                                                            @if (Model != null)
+                                                            {
+                                                            <input type="text" id="Country" name="Country" value="@ViewBag.Country" readonly class="form-control Country" />
+                                                            }
+                                                            else
+                                                            {
+                                                            <input type="text" id="Country" name="Country" value="" readonly class="form-control Country" />
+                                                            }
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>City</label>
+                                                            @if (Model != null)
+                                                            {
+                                                            <input type="text" id="City" name="City" value="@ViewBag.City" readonly class="form-control City" />
+                                                            }
+                                                            else
+                                                            {
+                                                            <input type="text" id="City" name="City" value="" readonly class="form-control City" />
+                                                            }
+                                                        </div>
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Locality</label>
+                                                            @if (Model != null)
+                                                            {
+                                                            <input type="text" id="Locality" name="Locality" value="@ViewBag.Locality" readonly class="form-control Locality" />
+                                                            }
+                                                            else
+                                                            {
+                                                            <input type="text" id="Locality" name="Locality" value="" readonly class="form-control Locality" />
+                                                            }
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>PIN</label>
+                                                            @if (Model != null)
+                                                            {
+                                                            <input type="text" id="PIN" name="PIN" value="@ViewBag.PIN" readonly class="form-control PIN" />
+                                                            }
+                                                            else
+                                                            {
+                                                            <input type="text" id="PIN" name="PIN" value="" readonly class="form-control PIN" />
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Nominee</label>
+                                                            @if (Model != null)
+                                                            {
+                                                            <input type="text" id="Nominee" name="Nominee" value="@ViewBag.Nominee" readonly class="form-control Nominee" />
+                                                            }
+                                                            else
+                                                            {
+                                                            <input type="text" id="Nominee" name="Nominee" value="" readonly class="form-control Nominee" />
+                                                            }
+                                                        </div>
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>
+                                                                Relationship
+                                                            </label>
+                                                            @Html.DropDownList("NomineeRelationshipTypeID", null, "Please select Relation", new { @class = "form-control select2 custom-select  NomineeRelationshipTypeID", @data_val = "true", @id = "NomineeRelationshipTypeID", @style = "width:50%;" })
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Witness 1</label>
+
+                                                            <input type="text" id="Witness1Person" name="Witness1Person" readonly class="form-control Witness1Person" />
+                                                            <input type="text" id="Witness1PersonID" name="Witness1PersonID" value="0" readonly class="form-control hide Witness1PersonID" />
+
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                    <div class="row">
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Witness 2</label>
+
+
+                                                            <input type="text" id="Witness2Person" name="Witness2Person" readonly class="form-control Witness2Preson" />
+                                                            <input type="text" id="Witness2PresonID" name="Witness2PresonID" value="0" readonly class="form-control hide Witness2PresonID" />
+
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Commission Agent1</label>
+
+                                                            <input type="text" id="CommisionAgentPerson" name="CommisionAgentPerson" readonly class="form-control CommisionAgentPerson" />
+                                                            <input type="text" id="CommisionAgentPersonID" name="CommisionAgentPersonID" value="0" class="form-control hide CommisionAgentPersonID" />
+
+                                                        </div>
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Commission Agent2</label>
+
+                                                            <input type="text" id="CommisionAgentPerson2" name="CommisionAgentPerson2" readonly class="form-control CommisionAgentPerson2" />
+                                                            <input type="text" id="CommisionAgentPersonID2" name="CommisionAgentPersonID2" value="0" class="form-control hide CommisionAgentPersonID2" />
+
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>Account Employee</label>
+
+                                                            <input type="text" id="AccountEmployee" name="AccountEmployee" readonly class="form-control AccountEmployee" />
+                                                            <input type="text" id="AccountEmployeeID" name="AccountEmployeeID" value="0" class="form-control hide AccountEmployeeID" />
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+                                                        <a href="@Url.Action("Index", "LoanSubscription")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+                                                        <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                                            <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane p-3 hide" id="LoanAllocation" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form id="Collectionform">
+                                                <div class="row ">
+                                                    <div class="col-lg-12">
+                                                        <div class="panel panel-primary" id="machine_job_list">
+                                                            <div class="panel-heading navbar-inverse">
+                                                                Fund Allocation
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="table-responsive" id="fluid_job_innert_list">
+                                                                    <input type="text" id="TDETAIL_IDX_FALLOC" value="0" name="TDETAIL_IDX_FALLOC" class="TDETAIL_IDX_FALLOC" style="display:none" />
+
+                                                                    <table class="table table-striped table-bordered bootstrap-datatable FALLOCTDETAIL" id="FALLOCTDETAIL">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="hide">ID</th>
+                                                                                <th>Fund Account </th>
+                                                                                <th>%</th>
+                                                                                <th>Amount</th>
+                                                                                <th>Mode</th>
+                                                                                <th><button class="btn btn-success btn-sm" type="button" id="addFundAllocationDetail"><i class="fa fa-plus"></i></button></th>
+                                                                            </tr>
+
+                                                                        </thead>
+                                                                        <tbody class="TDETAIL_BODYMOM" id="TDETAIL_BODYMOM">
+
+                                                                            <tr class="item-row">
+                                                                                <td class="col-1 hide" style="width:2%">
+
+                                                                                    <input class="TASKMOMDID hide" id="TASKMOMDID" name="TASKMOMDID" type="text" value="0">
+
+                                                                                </td>
+
+                                                                                <td class="col-4">
+                                                                                    @Html.DropDownList("NomineeRelationshipTypeID", null, "Please select Fund A/c", new { @class = "form-control select2 custom-select  FundAccountID", @data_val = "true", @id = "AFundAccountID", @style = "width:50%;" })
+                                                                                    <div class="invalid-feedback">
+                                                                                        Please select Fund Account!!
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="col-2" style="width:15% !important">
+                                                                                    <input type="number" id="FundAllocPerc" name="FundAllocPerc" class="form-control FundAllocPerc" />
+                                                                                </td>
+                                                                                <td class="col-3" style="width:15% !important">
+                                                                                    <input type="number" id="FundAllocAmt" name="FundAllocAmt" class="form-control FundAllocAmt" />
+                                                                                </td>
+                                                                                <td class="col-2" style="width:15% !important">
+                                                                                    @Html.DropDownList("NomineeRelationshipTypeID", null, "Please select Mode", new { @class = "form-control select2 custom-select  FundPayMode", @data_val = "true", @id = "FundPayMode", @style = "width:50%;" })
+
+                                                                                </td>
+                                                                                <td class="col-1">
+                                                                                    <button class="btn btn-danger btn-sm delFundAllocationDetail" type="button" name="delLeadMeetingdetail" id="delLeadMeetingdetail"><i class="fa fa-minus"></i></button>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        </tbody>
+
+                                                                    </table>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="d-md-flex align-items-center mt-3">
+                                                            <a href="@Url.Action("Index", "LoanSubscription")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+                                                            <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                                                <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane p-3" id="LoanClosure" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form action="@Url.Content("~/LoanSubscription/SaveCloserData")" method="post" data-flag="0" class="needs-validation Closureform" id="Closureform" name="Closureform" novalidate onsubmit="return ValidateEmployeeform(this,event);">
+                                                <div class="row">
+                                                    <div class="col-lg-3 hide">
+                                                        <div class="form-group">
+                                                            <label>primary</label>
+                                                            <input class="form-control" id="ChitSchemeID" value="@ViewBag.ChitSchemeID" name="ChitSchemeID" />
+                                                        </div>
+                                                    </div>
+
+                                                    <table class="table table-striped table-bordered bootstrap-datatable" width="100%">
+                                                        <tr>
+                                                            <td style="width:20%;">
+                                                                Principal
+                                                            </td>
+                                                            <td style="width: 23%;">
+                                                                <input name="Principal" type="text" readonly="readonly" id="Principal" class="form-control Principal" style="border:black 1px solid !important" />
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 20%;">
+                                                                Disbursed
+                                                            </td>
+                                                            <td style="width: 23%;">
+                                                                <input name="Disbursed" type="text" readonly="readonly" id="Disbursed" class="form-control Disbursed" style="border:black 1px solid !important" />
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 20%;">
+                                                                Payment Repaid
+                                                            </td>
+                                                            <td style="width: 23%;">
+                                                                <input name="PaymentRePaid" type="text" readonly="readonly" id="PaymentRePaid" class="form-control paddingRight PaymentRePaid" style="border:black 1px solid !important" />
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 20%;">
+                                                                Waiver
+                                                            </td>
+                                                            <td style="width: 23%;">
+                                                                <input name="Waiver" type="text" id="Waiver" class="form-control Waiver" style="border:black 1px solid !important" />
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 20%;">
+                                                                Balance
+                                                            </td>
+                                                            <td style="width: 23%;">
+                                                                <input name="Balance" type="text" readonly="readonly" id="Balance" class="form-control Balance" style="border:black 1px solid !important" />
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                                &nbsp;
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 20%;">
+                                                                Closure Date
+                                                            </td>
+                                                            <td style="width: 23%;">
+                                                                <input name="ClosureDate" type="date" id="ClosureDate" class="form-control ClosureDate" style="border:black 1px solid !important" />
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                            <td style="width: 5%;">
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+                                                        <a href="@Url.Action("Index", "LoanSubscription")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+                                                        <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                                            <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane p-4" id="LoanQRCode" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form target="_blank" action="@Url.Content("~/LoanSubscription/PrintQRCode")" method="post" data-flag="0" class="needs-validation QRform" id="QRform" name="QRform" novalidate>
+
+                                                <div class="row fa-qrcode qrcode pull-right">
+                                                    <div class="col-md-3 mb-3">
+                                                        <div id="imgPreview" class="thumbnail pull-right">
+                                                            <img class="img-responsive targetImg @ViewBag.chk" id="targetImg" src="@ViewBag.qrcdsrc" style="width:500px;height:500px;" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+                                                        <input type="text" readonly id="QRSubsID" class="form-control hide QRSubsID" name="QRSubsID" value="@ViewBag.QRSubsID" />
+                                                        <input type="text" readonly id="ProdType" class="form-control hide ProdType" name="ProdType" value="@ViewBag.ProdType" />
+
+                                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Print QR Code</button>
+
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#LoanRequestID').val() == "") {
+                $('#LoanRequestID').val("0");
+            }
+            else {
+                ClientNameChange();
+                CalcInterest();
+            }
+            
+
+            var reqsts = $('#ReqStatusTypeID option:selected').val();
+            //alert(reqsts);
+            if (reqsts < 898) {
+                $('#CollectionType').removeAttr('required', 'required');
+                $('#RepaymentIntervalTypeID').removeAttr('required', 'required');
+                $('#BookPickupDay').removeAttr('required', 'required');                
+                $('#RouteID').removeAttr('required', 'required');
+                //$('#StatusTypeID').removeAttr('required', 'required');
+
+            }
+            else {
+                $('#CollectionType').attr('required', 'required');
+                $('#RepaymentIntervalTypeID').attr('required', 'required');
+                $('#BookPickupDay').attr('required', 'required');                
+                //$('#RouteID').attr('required', 'required');
+                //$('#StatusTypeID').attr('required', 'required');
+
+            }
+        });
+
+        function CalcInterest() {
+
+            var princ = $(".Principal").val();
+            var lnamt = $(".LoanAmount").val();
+            var term = $(".Term").val();
+            var intrt = 0;
+            if (eval(princ) > 0 && eval(lnamt) > 0, eval(term) > 0) {
+                intrt = eval(princ - lnamt) / eval(term);
+                if (intrt > 0)
+                    intrt = (eval(intrt) / eval(princ)).toFixed(2);
+                else
+                    intrt = 0;
+            }
+            $(".InterestRate").val(intrt*100);
+        }
+        function ClientNameChange() {
+
+            var clientid = $(".FPersonID").val();
+            $(".PersonID").val(clientid);
+            //alert($(".PersonID").val());
+            $("#IntroducedBy").val("");
+
+            if (clientid != null && clientid != "0" && clientid != "" ) {
+                  //alert(clientid);
+            $.ajax({
+                type: 'post',
+                url: '@Url.Action("Get_Introduced_by_Name", "ChitSubscriptionManagement")/' + clientid , // we are calling json method
+                dataType: 'json',
+                success: function (data) {
+                    if (data.length > 0) {
+                        //console.log(data);
+                        $("#IntroducedBy").val(data[0].CLIENTNAME);
+                    }
+
+                },
+                complete: function () {
+                },
+                error: function (ex) {
+                    //alert('Failed to data ' + ex);
+                }
+            });
+            }
+
+        }
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var clientid = $(".FPersonID").val();
+            if (clientid == "" || clientid == "0") {
+                flag = false;
+                alert('Please Select Client');
+                $(".FPersonID").focus();
+                return;
+            }
+            var form = document.getElementById('LoanSubscriptionManagementform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+            //alert(flag);
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "LoanSubscription";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#LoanSubscriptionManagementform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+
+}
+
+

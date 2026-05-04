@@ -1,0 +1,121 @@
+﻿@model CHITERP.Models.AppRole
+
+@{ ViewBag.Title = "Details"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title mb-3 pb-3 border-bottom">Details</h3>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.Id)
+
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+                                @Html.DisplayFor(model => model.Name)
+                            </div>
+
+                            <div class="col-md-6 mb-6">
+                                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                @Html.DisplayFor(model => model.Description)
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <h4 class="card-title mb-3 pb-3 border-bottom">List of permissions granted this group</h4>
+                            @if (ViewBag.UserCount == 0)
+                            {
+                                <hr />
+                                <p>List of users in this role</p>
+                            }
+                        <table class="table">
+
+                            @foreach (var item in ViewBag.Users)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.UserName
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+
+                        </div>
+
+                        <div class="col-12">
+                            <div class="d-md-flex align-items-center mt-3">
+
+                                <a href="@Url.Action("Index", "Roles")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Back to List</a>
+
+
+                                <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<h2>Details.</h2>
+
+<div>
+    <h4>Roles.</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<h4>List of users in this role</h4>
+@if (ViewBag.UserCount == 0)
+{
+    <hr />
+    <p>No users found in this role.</p>}
+
+<table class="table">
+
+    @foreach (var item in ViewBag.Users)
+    {
+        <tr>
+            <td>
+                @item.UserName
+            </td>
+        </tr>
+    }
+</table>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@
+
+
+

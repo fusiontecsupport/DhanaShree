@@ -1,0 +1,2345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FinFusionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DSFinFusion.dbo.VW_CUSTOMER_LOCATION_CBX_ASSGN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_CUSTOMER_LOCATION_CBX_ASSGN">
+          <Key>
+            <PropertyRef Name="LOCTDESC" />
+            <PropertyRef Name="CATEID" />
+            <PropertyRef Name="CATEAID" />
+            <PropertyRef Name="LOCTID" />
+          </Key>
+          <Property Name="LOCTDESC" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CATEID" Type="int" Nullable="false" />
+          <Property Name="CATEAID" Type="int" Nullable="false" />
+          <Property Name="LOCTID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DSFinFusion.dbo.VW_USER_DETAILS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_USER_DETAILS">
+          <Key>
+            <PropertyRef Name="ApplicationGroupId" />
+            <PropertyRef Name="GroupName" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="ApplicationGroupId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <Function Name="PR_ACCOUNTINGYEAR_ID_CHK" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PFYear" Type="int" Mode="In" />
+          <Parameter Name="PTYear" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Chit_Subscription_Organization_Name_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="pr_Chit_Subscription_Scheme_Detail_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PChitSchemeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PR_COMPANYACCOUNTINGDETAIL_ID_CHK" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PCompId" Type="int" Mode="In" />
+          <Parameter Name="PYrId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_db_monthwise_summary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usrid" Type="varchar" Mode="In" />
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="fdt" Type="datetime" Mode="In" />
+          <Parameter Name="tdt" Type="datetime" Mode="In" />
+          <Parameter Name="prod" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_db_today_Summary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usrid" Type="varchar" Mode="In" />
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="fdt" Type="datetime" Mode="In" />
+          <Parameter Name="tdt" Type="datetime" Mode="In" />
+          <Parameter Name="prod" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Book_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="prodtype" Type="int" Mode="In" />
+          <Parameter Name="subsid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Book_PickupDay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dval" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Chit_Collection_Pattern_n_Actuals_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ChitSubsID" Type="int" Mode="In" />
+          <Parameter Name="usrid" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Chit_Dividend_Schedule_n_Actuals_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ChitSubsID" Type="int" Mode="In" />
+          <Parameter Name="usrid" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Chit_Group_Subscribers_Dtl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="chitgroupid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_ChitGroup_MemberDtl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ChitGrpid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Client_Type" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dval" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Contact_Type" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dval" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Employee_Dtl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usrid" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Loan_Schedule_n_Collection_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LoanSubsID" Type="int" Mode="In" />
+          <Parameter Name="usrid" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Master_Category" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="categorydesc" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Master_Types" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="categorydesc" Type="varchar" Mode="In" />
+          <Parameter Name="classification" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_ProductCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usrid" Type="varchar" Mode="In" />
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="prod" Type="int" Mode="In" />
+          <Parameter Name="trncateg" Type="char" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_ProductSubsDefValDetl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="prod" Type="int" Mode="In" />
+          <Parameter Name="subsid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_QRCode_Chit_Subscription_Dtl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usrid" Type="varchar" Mode="In" />
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="subsid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_QRCode_Loan_Subscription_Dtl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usrid" Type="varchar" Mode="In" />
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="subsid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Subscription_Info" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usrid" Type="varchar" Mode="In" />
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="prod" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Today_Collection" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="indt" Type="datetime" Mode="In" />
+          <Parameter Name="usrid" Type="varchar" Mode="In" />
+          <Parameter Name="empid" Type="int" Mode="In" />
+          <Parameter Name="prod" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Get_Transaction_Dtl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="categ" Type="varchar" Mode="In" />
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Roles_Wise_Customer_Name_Assgn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+          <Parameter Name="PEmplId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_search_category_master" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="pr_Search_Company_OfficeMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Company_Route_Master" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Master_ChitGroup" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Master_ChitScheme" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Master_CityMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Master_ClientMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Master_ContactMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Master_ContactTypeMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="pr_Search_Master_LoanScheme" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Master_LocalityMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Masters_AmountCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="pr_Search_Masters_CompanyDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="pr_Search_Masters_Department" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="pr_Search_Masters_Designation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="pr_Search_Masters_Employee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="pr_Search_Masters_FundAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="pr_Search_Masters_State" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="pr_Search_Payment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+          <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+          <Parameter Name="PCompyid" Type="int" Mode="In" />
+          <Parameter Name="CUsrid" Type="varchar" Mode="In" />
+          <Parameter Name="POfficeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Product_ChitSubcription" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+          <Parameter Name="FrDt" Type="datetime" Mode="In" />
+          <Parameter Name="ToDt" Type="datetime" Mode="In" />
+          <Parameter Name="ColAgnt" Type="int" Mode="In" />
+          <Parameter Name="custtype" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Product_LoanSubscription" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+          <Parameter Name="FrDt" Type="datetime" Mode="In" />
+          <Parameter Name="ToDt" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_ReceiptDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="PSDate" Type="smalldatetime" Mode="In" />
+          <Parameter Name="PEDate" Type="smalldatetime" Mode="In" />
+          <Parameter Name="PCompyid" Type="int" Mode="In" />
+          <Parameter Name="CUsrid" Type="varchar" Mode="In" />
+          <Parameter Name="POfficeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Transaction_BookVerification_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+          <Parameter Name="empID" Type="int" Mode="In" />
+          <Parameter Name="ProdType" Type="int" Mode="In" />
+          <Parameter Name="FrDt" Type="datetime" Mode="In" />
+          <Parameter Name="ToDt" Type="datetime" Mode="In" />
+          <Parameter Name="RouteID" Type="int" Mode="In" />
+          <Parameter Name="collectionagent" Type="int" Mode="In" />
+          <Parameter Name="BookVerifiedBy" Type="int" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Transaction_Collection_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+          <Parameter Name="empID" Type="int" Mode="In" />
+          <Parameter Name="ProdType" Type="int" Mode="In" />
+          <Parameter Name="RouteID" Type="int" Mode="In" />
+          <Parameter Name="FrDt" Type="datetime" Mode="In" />
+          <Parameter Name="ToDt" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Transaction_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="pr_Search_Transaction_Payment_Details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="CUSRID" Type="varchar" Mode="In" />
+          <Parameter Name="empID" Type="int" Mode="In" />
+          <Parameter Name="ProdType" Type="int" Mode="In" />
+          <Parameter Name="FrDt" Type="datetime" Mode="In" />
+          <Parameter Name="ToDt" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="pr_search_type_master" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="pr_SearchAccountGroup" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="pr_SearchAccountHeadMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortIndex" Type="int" Mode="In" />
+          <Parameter Name="SortDirection" Type="char" Mode="In" />
+          <Parameter Name="StartRowNum" Type="int" Mode="In" />
+          <Parameter Name="EndRowNum" Type="int" Mode="In" />
+          <Parameter Name="TotalRowsCount" Type="int" Mode="InOut" />
+          <Parameter Name="FilteredRowsCount" Type="int" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="FinFusionModelStoreContainer">
+          <EntitySet Name="VW_CUSTOMER_LOCATION_CBX_ASSGN" EntityType="Self.VW_CUSTOMER_LOCATION_CBX_ASSGN" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_CUSTOMER_LOCATION_CBX_ASSGN].[LOCTDESC] AS [LOCTDESC], 
+    [VW_CUSTOMER_LOCATION_CBX_ASSGN].[CATEID] AS [CATEID], 
+    [VW_CUSTOMER_LOCATION_CBX_ASSGN].[CATEAID] AS [CATEAID], 
+    [VW_CUSTOMER_LOCATION_CBX_ASSGN].[LOCTID] AS [LOCTID]
+    FROM [dbo].[VW_CUSTOMER_LOCATION_CBX_ASSGN] AS [VW_CUSTOMER_LOCATION_CBX_ASSGN]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_USER_DETAILS" EntityType="Self.VW_USER_DETAILS" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_USER_DETAILS].[ApplicationGroupId] AS [ApplicationGroupId], 
+    [VW_USER_DETAILS].[GroupName] AS [GroupName], 
+    [VW_USER_DETAILS].[UserName] AS [UserName]
+    FROM [dbo].[VW_USER_DETAILS] AS [VW_USER_DETAILS]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FinFusionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="FinFusionEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="VW_USER_DETAILS" EntityType="FinFusionModel.VW_USER_DETAILS" />
+          <FunctionImport Name="PR_ACCOUNTINGYEAR_ID_CHK" ReturnType="Collection(FinFusionModel.PR_ACCOUNTINGYEAR_ID_CHK_Result)">
+            <Parameter Name="PFYear" Mode="In" Type="Int32" />
+            <Parameter Name="PTYear" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Chit_Subscription_Organization_Name_Assgn" ReturnType="Collection(FinFusionModel.pr_Chit_Subscription_Organization_Name_Assgn_Result)" />
+          <FunctionImport Name="pr_Chit_Subscription_Scheme_Detail_Assgn" ReturnType="Collection(FinFusionModel.pr_Chit_Subscription_Scheme_Detail_Assgn_Result)">
+          <Parameter Name="PChitSchemeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PR_COMPANYACCOUNTINGDETAIL_ID_CHK" ReturnType="Collection(FinFusionModel.PR_COMPANYACCOUNTINGDETAIL_ID_CHK_Result)">
+            <Parameter Name="PCompId" Mode="In" Type="Int32" />
+            <Parameter Name="PYrId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_db_monthwise_summary" ReturnType="Collection(FinFusionModel.pr_db_monthwise_summary_Result)">
+            <Parameter Name="usrid" Mode="In" Type="String" />
+            <Parameter Name="empid" Mode="In" Type="Int32" />
+            <Parameter Name="fdt" Mode="In" Type="DateTime" />
+            <Parameter Name="tdt" Mode="In" Type="DateTime" />
+            <Parameter Name="prod" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_db_today_Summary" ReturnType="Collection(FinFusionModel.pr_db_today_Summary_Result)">
+            <Parameter Name="usrid" Mode="In" Type="String" />
+            <Parameter Name="empid" Mode="In" Type="Int32" />
+            <Parameter Name="fdt" Mode="In" Type="DateTime" />
+            <Parameter Name="tdt" Mode="In" Type="DateTime" />
+            <Parameter Name="prod" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Book_PickupDay" ReturnType="Collection(FinFusionModel.pr_Get_Book_PickupDay_Result)">
+          <Parameter Name="dval" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Chit_Group_Subscribers_Dtl" ReturnType="Collection(FinFusionModel.pr_Get_Chit_Group_Subscribers_Dtl_Result)">
+          <Parameter Name="chitgroupid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Client_Type" ReturnType="Collection(FinFusionModel.pr_Get_Client_Type_Result)">
+          <Parameter Name="dval" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Contact_Type" ReturnType="Collection(FinFusionModel.pr_Get_Contact_Type_Result)">
+          <Parameter Name="dval" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Employee_Dtl" ReturnType="Collection(FinFusionModel.pr_Get_Employee_Dtl_Result)">
+          <Parameter Name="usrid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Loan_Schedule_n_Collection_Details" ReturnType="Collection(FinFusionModel.pr_Get_Loan_Schedule_n_Collection_Details_Result)">
+            <Parameter Name="LoanSubsID" Mode="In" Type="Int32" />
+            <Parameter Name="usrid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Master_Category" ReturnType="Collection(FinFusionModel.pr_Get_Master_Category_Result)">
+          <Parameter Name="categorydesc" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_ProductCategory" ReturnType="Collection(FinFusionModel.pr_Get_ProductCategory_Result)">
+            <Parameter Name="usrid" Mode="In" Type="String" />
+            <Parameter Name="empid" Mode="In" Type="Int32" />
+            <Parameter Name="prod" Mode="In" Type="Int32" />
+            <Parameter Name="trncateg" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_ProductSubsDefValDetl" ReturnType="Collection(FinFusionModel.pr_Get_ProductSubsDefValDetl_Result)">
+            <Parameter Name="prod" Mode="In" Type="Int32" />
+            <Parameter Name="subsid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_QRCode_Loan_Subscription_Dtl" ReturnType="Collection(FinFusionModel.pr_Get_QRCode_Loan_Subscription_Dtl_Result)">
+            <Parameter Name="usrid" Mode="In" Type="String" />
+            <Parameter Name="empid" Mode="In" Type="Int32" />
+            <Parameter Name="subsid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Subscription_Info" ReturnType="Collection(FinFusionModel.pr_Get_Subscription_Info_Result)">
+            <Parameter Name="usrid" Mode="In" Type="String" />
+            <Parameter Name="empid" Mode="In" Type="Int32" />
+            <Parameter Name="prod" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Today_Collection" ReturnType="Collection(FinFusionModel.pr_Get_Today_Collection_Result)">
+            <Parameter Name="indt" Mode="In" Type="DateTime" />
+            <Parameter Name="usrid" Mode="In" Type="String" />
+            <Parameter Name="empid" Mode="In" Type="Int32" />
+            <Parameter Name="prod" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Transaction_Dtl" ReturnType="Collection(FinFusionModel.pr_Get_Transaction_Dtl_Result)">
+            <Parameter Name="categ" Mode="In" Type="String" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_search_category_master" ReturnType="Collection(FinFusionModel.pr_search_category_master_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Company_OfficeMaster" ReturnType="Collection(FinFusionModel.pr_Search_Company_OfficeMaster_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Company_Route_Master" ReturnType="Collection(FinFusionModel.pr_Search_Company_Route_Master_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Master_ChitGroup" ReturnType="Collection(FinFusionModel.pr_Search_Master_ChitGroup_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Master_ChitScheme" ReturnType="Collection(FinFusionModel.pr_Search_Master_ChitScheme_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Master_ClientMaster" ReturnType="Collection(FinFusionModel.pr_Search_Master_ClientMaster_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Master_ContactMaster" ReturnType="Collection(FinFusionModel.pr_Search_Master_ContactMaster_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Master_ContactTypeMaster" ReturnType="Collection(FinFusionModel.pr_Search_Master_ContactTypeMaster_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Master_LoanScheme" ReturnType="Collection(FinFusionModel.pr_Search_Master_LoanScheme_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Masters_AmountCode" ReturnType="Collection(FinFusionModel.pr_Search_Masters_AmountCode_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Masters_CompanyDetails" ReturnType="Collection(FinFusionModel.pr_Search_Masters_CompanyDetails_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Masters_Department" ReturnType="Collection(FinFusionModel.pr_Search_Masters_Department_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Masters_Designation" ReturnType="Collection(FinFusionModel.pr_Search_Masters_Designation_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Masters_Employee" ReturnType="Collection(FinFusionModel.pr_Search_Masters_Employee_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Masters_FundAccount" ReturnType="Collection(FinFusionModel.pr_Search_Masters_FundAccount_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Masters_State" ReturnType="Collection(FinFusionModel.pr_Search_Masters_State_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Transaction_Details" ReturnType="Collection(FinFusionModel.pr_Search_Transaction_Details_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_search_type_master" ReturnType="Collection(FinFusionModel.pr_search_type_master_Result1)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Master_CityMaster" ReturnType="Collection(FinFusionModel.pr_Search_Master_CityMaster_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Master_LocalityMaster" ReturnType="Collection(FinFusionModel.pr_Search_Master_LocalityMaster_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_QRCode_Chit_Subscription_Dtl" ReturnType="Collection(FinFusionModel.pr_Get_QRCode_Chit_Subscription_Dtl_Result)">
+            <Parameter Name="usrid" Mode="In" Type="String" />
+            <Parameter Name="empid" Mode="In" Type="Int32" />
+            <Parameter Name="subsid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Chit_Collection_Pattern_n_Actuals_Details" ReturnType="Collection(FinFusionModel.pr_Get_Chit_Collection_Pattern_n_Actuals_Details_Result)">
+            <Parameter Name="ChitSubsID" Mode="In" Type="Int32" />
+            <Parameter Name="usrid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Book_List" ReturnType="Collection(FinFusionModel.pr_Get_Book_List_Result)">
+            <Parameter Name="prodtype" Mode="In" Type="Int32" />
+            <Parameter Name="subsid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_ChitGroup_MemberDtl" ReturnType="Collection(FinFusionModel.pr_Get_ChitGroup_MemberDtl_Result)">
+          <Parameter Name="ChitGrpid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Chit_Dividend_Schedule_n_Actuals_Details" ReturnType="Collection(FinFusionModel.pr_Get_Chit_Dividend_Schedule_n_Actuals_Details_Result)">
+            <Parameter Name="ChitSubsID" Mode="In" Type="Int32" />
+            <Parameter Name="usrid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Transaction_Collection_Details" ReturnType="Collection(FinFusionModel.pr_Search_Transaction_Collection_Details_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+            <Parameter Name="empID" Mode="In" Type="Int32" />
+            <Parameter Name="ProdType" Mode="In" Type="Int32" />
+            <Parameter Name="RouteID" Mode="In" Type="Int32" />
+            <Parameter Name="FrDt" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Transaction_Payment_Details" ReturnType="Collection(FinFusionModel.pr_Search_Transaction_Payment_Details_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+            <Parameter Name="empID" Mode="In" Type="Int32" />
+            <Parameter Name="ProdType" Mode="In" Type="Int32" />
+            <Parameter Name="FrDt" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Product_ChitSubcription" ReturnType="Collection(FinFusionModel.pr_Search_Product_ChitSubcription_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+            <Parameter Name="FrDt" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDt" Mode="In" Type="DateTime" />
+            <Parameter Name="ColAgnt" Mode="In" Type="Int32" />
+            <Parameter Name="custtype" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="VW_CUSTOMER_LOCATION_CBX_ASSGN" EntityType="FinFusionModel.VW_CUSTOMER_LOCATION_CBX_ASSGN" />
+          <FunctionImport Name="pr_Search_Payment" ReturnType="Collection(FinFusionModel.pr_Search_Payment_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+            <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+            <Parameter Name="PCompyid" Mode="In" Type="Int32" />
+            <Parameter Name="CUsrid" Mode="In" Type="String" />
+            <Parameter Name="POfficeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_ReceiptDetail" ReturnType="Collection(FinFusionModel.pr_Search_ReceiptDetail_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="PSDate" Mode="In" Type="DateTime" />
+            <Parameter Name="PEDate" Mode="In" Type="DateTime" />
+            <Parameter Name="PCompyid" Mode="In" Type="Int32" />
+            <Parameter Name="CUsrid" Mode="In" Type="String" />
+            <Parameter Name="POfficeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Transaction_BookVerification_Details" ReturnType="Collection(FinFusionModel.pr_Search_Transaction_BookVerification_Details_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+            <Parameter Name="empID" Mode="In" Type="Int32" />
+            <Parameter Name="ProdType" Mode="In" Type="Int32" />
+            <Parameter Name="FrDt" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDt" Mode="In" Type="DateTime" />
+            <Parameter Name="RouteID" Mode="In" Type="Int32" />
+            <Parameter Name="collectionagent" Mode="In" Type="Int32" />
+            <Parameter Name="BookVerifiedBy" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_SearchAccountGroup" ReturnType="Collection(FinFusionModel.pr_SearchAccountGroup_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_SearchAccountHeadMaster" ReturnType="Collection(FinFusionModel.pr_SearchAccountHeadMaster_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Roles_Wise_Customer_Name_Assgn" ReturnType="Collection(FinFusionModel.pr_Roles_Wise_Customer_Name_Assgn_Result)">
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+            <Parameter Name="PEmplId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Book_Verification_Entry_Details" ReturnType="Collection(FinFusionModel.pr_Get_Book_Verification_Entry_Details_Result)">
+            <Parameter Name="bkvfcnlstid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Get_Master_Types" ReturnType="Collection(FinFusionModel.pr_Get_Master_Types_Result)">
+            <Parameter Name="categorydesc" Mode="In" Type="String" />
+            <Parameter Name="classification" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="pr_Search_Product_LoanSubscription" ReturnType="Collection(FinFusionModel.pr_Search_Product_LoanSubscription_Result)">
+            <Parameter Name="FilterTerm" Mode="In" Type="String" />
+            <Parameter Name="SortIndex" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="StartRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="EndRowNum" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="FilteredRowsCount" Mode="InOut" Type="Int32" />
+            <Parameter Name="CUSRID" Mode="In" Type="String" />
+            <Parameter Name="FrDt" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          
+        </EntityContainer>
+        <EntityType Name="VW_USER_DETAILS">
+          <Key>
+            <PropertyRef Name="ApplicationGroupId" />
+            <PropertyRef Name="GroupName" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="ApplicationGroupId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="GroupName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="pr_search_type_master_Result">
+          <Property Type="String" Name="Type" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TypePriority" Nullable="true" />
+          <Property Type="String" Name="ControlName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TypeCategoryId" Nullable="true" />
+          <Property Type="Int32" Name="TypeId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="PR_ACCOUNTINGYEAR_ID_CHK_Result">
+          <Property Type="Int32" Name="YRID" Nullable="false" />
+          <Property Type="String" Name="YRDESC" Nullable="false" MaxLength="15" />
+          <Property Type="Int32" Name="YRID1" Nullable="false" />
+          <Property Type="DateTime" Name="FDATE" Nullable="false" Precision="16" />
+          <Property Type="DateTime" Name="TDATE" Nullable="false" Precision="16" />
+          <Property Type="String" Name="YRDESC1" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="CUSRID" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="PRCSDATE" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="pr_Chit_Subscription_Organization_Name_Assgn_Result">
+          <Property Type="Int32" Name="CLIENTID" Nullable="false" />
+          <Property Type="String" Name="CLIENTNAME" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="CNAME" Nullable="true" MaxLength="278" />
+        </ComplexType>
+        <ComplexType Name="pr_Chit_Subscription_Scheme_Detail_Assgn_Result">
+          <Property Type="Int32" Name="ChitSchemeID" Nullable="false" />
+          <Property Type="String" Name="ChitSchemeCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ChitSchemeName" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="ChitValue" Nullable="false" />
+          <Property Type="Int32" Name="ChitDuration" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="PR_COMPANYACCOUNTINGDETAIL_ID_CHK_Result">
+          <Property Type="Int32" Name="COMPYID" Nullable="false" />
+          <Property Type="Int32" Name="COMPID" Nullable="false" />
+          <Property Type="Int32" Name="YRID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="pr_db_monthwise_summary_Result">
+          <Property Type="String" Name="OpType" Nullable="false" MaxLength="18" />
+          <Property Type="String" Name="yrmon" Nullable="true" MaxLength="10" />
+          <Property Type="Decimal" Name="NetAmt" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="ColnAmt" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="PymtAmt" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="pr_db_today_Summary_Result">
+          <Property Type="String" Name="Heading" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Product" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Mode" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Book_PickupDay_Result">
+          <Property Type="Int32" Name="DValue" Nullable="true" />
+          <Property Type="String" Name="DText" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Chit_Group_Subscribers_Dtl_Result">
+          <Property Type="String" Name="TktNum" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Sts" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Client_Type_Result">
+          <Property Type="Int32" Name="DValue" Nullable="true" />
+          <Property Type="String" Name="DText" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Contact_Type_Result">
+          <Property Type="Int32" Name="DValue" Nullable="true" />
+          <Property Type="String" Name="DText" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Employee_Dtl_Result">
+          <Property Type="Int32" Name="DValue" Nullable="false" />
+          <Property Type="String" Name="DText" Nullable="false" MaxLength="304" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Loan_Schedule_n_Collection_Details_Result">
+          <Property Type="Int32" Name="SubsID" Nullable="true" />
+          <Property Type="Int32" Name="InstNo" Nullable="true" />
+          <Property Type="DateTime" Name="InstDt" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="Loan_Balance" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="EMI_Amount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Interest_Amt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Principal_Amt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ToBePaid_Amt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="InsttDt" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="principal" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="InterestRate" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="Term" Nullable="true" />
+          <Property Type="Int32" Name="TermTypeID" Nullable="true" />
+          <Property Type="String" Name="termtypedesc" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="terminmonths" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="interestratepermonth" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="dedtype" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="colamtinmonth" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="DateTime" Name="collectiondt" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="Credit" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="colprincipal" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="colinterest" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="colbalance" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="CollectionSts" Nullable="false" MaxLength="18" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Master_Category_Result">
+          <Property Type="Int32" Name="CategoryID" Nullable="false" />
+          <Property Type="String" Name="Category" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Classification" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ControlName" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_ProductCategory_Result">
+          <Property Type="Int32" Name="TypeID" Nullable="true" />
+          <Property Type="String" Name="Type" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_ProductSubsDefValDetl_Result">
+          <Property Type="Int32" Name="subsid" Nullable="true" />
+          <Property Type="Int32" Name="Defclientid" Nullable="true" />
+          <Property Type="String" Name="ClientName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="Deftrantypeid" Nullable="true" />
+          <Property Type="Int32" Name="Deftranmodeid" Nullable="true" />
+          <Property Type="Int32" Name="DefIntervalId" Nullable="true" />
+          <Property Type="Decimal" Name="DefAmt" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_QRCode_Loan_Subscription_Dtl_Result">
+          <Property Type="Int32" Name="prodtype" Nullable="true" />
+          <Property Type="String" Name="proddesc" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="subscriptionid" Nullable="true" />
+          <Property Type="String" Name="subscriptioncode" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="Principal" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Loanvalue" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="collectionamt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="clienttype" Nullable="true" />
+          <Property Type="String" Name="clientname" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Subscription_Info_Result">
+          <Property Type="Int32" Name="subscriptionid" Nullable="true" />
+          <Property Type="String" Name="subscriptioncode" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Today_Collection_Result">
+          <Property Type="String" Name="EnteredBy" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Client" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="SubsCode" Nullable="true" MaxLength="25" />
+          <Property Type="Decimal" Name="CollectedAmt" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Transaction_Dtl_Result">
+          <Property Type="Int32" Name="TRANID" Nullable="true" />
+          <Property Type="String" Name="CLIENTNAME" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="SUBSCRIPTIONID" Nullable="true" />
+          <Property Type="String" Name="PRODUCTTYPE" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="TRANCATEGORY" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TRANSUBCATEGORY" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TRANMODE" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="STATUDESC" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="AMOUNT" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="pr_search_category_master_Result">
+          <Property Type="String" Name="Category" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Classification" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ControlName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="CategoryId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Company_OfficeMaster_Result">
+          <Property Type="String" Name="OfficeName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CityName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LocalityName" Nullable="true" MaxLength="100" />
+          <Property Type="Int16" Name="StatusTypeID" Nullable="true" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="OfficeID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Company_Route_Master_Result">
+          <Property Type="String" Name="RouteCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="RouteName" Nullable="true" MaxLength="100" />
+          <Property Type="Int16" Name="StatusTypeID" Nullable="true" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="RouteID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Master_ChitGroup_Result">
+          <Property Type="Int32" Name="ChitGroupID" Nullable="true" />
+          <Property Type="String" Name="ChitGroupCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ChitGroupName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="ChitSchemeID" Nullable="true" />
+          <Property Type="String" Name="ChitSchemeCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ChitSchemeName" Nullable="true" MaxLength="100" />
+          <Property Type="Double" Name="ChitValue" Nullable="true" />
+          <Property Type="Int32" Name="ChitDuration" Nullable="true" />
+          <Property Type="Int32" Name="DurationTypeId" Nullable="true" />
+          <Property Type="String" Name="CommencementDate" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="MaxGrpMembers" Nullable="true" />
+          <Property Type="String" Name="FirstInstallmentDate" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="TerminationDate" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="StatusTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DurationTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ChitSchemeStatusTypeDesc" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Master_ChitScheme_Result">
+          <Property Type="Int32" Name="ChitSchemeID" Nullable="true" />
+          <Property Type="Int32" Name="ChitTypeID" Nullable="true" />
+          <Property Type="String" Name="ChitSchemeCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ChitSchemeName" Nullable="true" MaxLength="100" />
+          <Property Type="Double" Name="ChitValue" Nullable="true" />
+          <Property Type="Int32" Name="ChitDuration" Nullable="true" />
+          <Property Type="Int32" Name="DurationTypeId" Nullable="true" />
+          <Property Type="Double" Name="ForemanCommision" Nullable="true" />
+          <Property Type="Int32" Name="ForemanPrizeInstalment" Nullable="true" />
+          <Property Type="Double" Name="BidCapAmount" Nullable="true" />
+          <Property Type="Int32" Name="SealingPeriod" Nullable="true" />
+          <Property Type="Double" Name="AverageDiscount" Nullable="true" />
+          <Property Type="Double" Name="AverageDivident" Nullable="true" />
+          <Property Type="Double" Name="ProposedIncome" Nullable="true" />
+          <Property Type="Int32" Name="BookVerificationTypeId" Nullable="true" />
+          <Property Type="Int32" Name="AscertainmentTypeId" Nullable="true" />
+          <Property Type="Int32" Name="AscertainmentFrequencyTypeId" Nullable="true" />
+          <Property Type="Double" Name="SubscriptionAmount" Nullable="true" />
+          <Property Type="Double" Name="EligibilityAmount" Nullable="true" />
+          <Property Type="Double" Name="SubscriberReturns" Nullable="true" />
+          <Property Type="Double" Name="CommissionEmp" Nullable="true" />
+          <Property Type="Double" Name="CommissionNonEmp" Nullable="true" />
+          <Property Type="Int32" Name="AmountCodeID" Nullable="true" />
+          <Property Type="Int32" Name="StatusTypeID" Nullable="true" />
+          <Property Type="String" Name="ChitTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DurationTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AscertainmentTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AscertainmentFrequencyTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AmountCodeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="StatusTypeDesc" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Master_ClientMaster_Result">
+          <Property Type="String" Name="CLIENTNAME" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="CLIENTTYPEDESC" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CLIENTMOBILENO1" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="CLIENTEMAILID" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="CLIENTCONTACTPERSON" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CreatedDt" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UpdatedDt" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="CLIENTID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Master_ContactMaster_Result">
+          <Property Type="String" Name="ClientName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="CONTACTPERSON" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ContactType" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="CPMOBILENO1" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="CPEMAILID" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="CPDESIGNATION" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="CPORGANISATION" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CreatedDt" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UpdatedDt" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="CONTID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Master_ContactTypeMaster_Result">
+          <Property Type="String" Name="CONTTYPESHRTDESC" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="CONTTYPEDESC" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CreatedDt" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UpdatedDt" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="CONTTID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Master_LoanScheme_Result">
+          <Property Type="Int32" Name="LoanSchemeID" Nullable="true" />
+          <Property Type="String" Name="LoanSchemeCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LoanSchemeName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="BookVerificationIntervalTypeId" Nullable="true" />
+          <Property Type="Int32" Name="AmountCodeID" Nullable="true" />
+          <Property Type="Int32" Name="StatusTypeID" Nullable="true" />
+          <Property Type="String" Name="LoanTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BookVerificationIntervalTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AmountCodeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="StatusTypeDesc" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Masters_AmountCode_Result">
+          <Property Type="String" Name="AmountCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AmountCodeName" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="AmountCodeConstant" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="CustomerViewTypeID" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="StatusTypeID" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="AmountCodeID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Masters_CompanyDetails_Result">
+          <Property Type="String" Name="COMPCODE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="COMPNAME" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="COMPDNAME" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="COMPID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Masters_Department_Result">
+          <Property Type="String" Name="DEPTCODE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DEPTDESC" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="DEPTID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Masters_Designation_Result">
+          <Property Type="String" Name="DSGNCODE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DSGNDESC" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="DSGNID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Masters_Employee_Result">
+          <Property Type="String" Name="CATECODE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CATENAME" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="DSGNDESC" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="DEPTDESC" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="CATECPNAME" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="CATEPHN3" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CATEEMAIL" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="CATEID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Masters_FundAccount_Result">
+          <Property Type="String" Name="AccountCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AccountName" Nullable="true" MaxLength="100" />
+          <Property Type="Double" Name="AccountOpeningBalance" Nullable="true" />
+          <Property Type="String" Name="AccountBank" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="AccountBranch" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="AccountNumber" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="ADescription" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="StatusTypeID" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="FundAccountID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Masters_State_Result">
+          <Property Type="String" Name="STATECODE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="STATEDESC" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="STATETYPE" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="STATEID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Transaction_Details_Result">
+          <Property Type="Int32" Name="TRANID" Nullable="true" />
+          <Property Type="String" Name="CLIENTNAME" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="SUBSCRIPTIONID" Nullable="true" />
+          <Property Type="String" Name="PRODUCTTYPE" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="TRANCATEGORY" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TRANSUBCATEGORY" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TRANMODE" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="STATUDESC" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="AMOUNT" Nullable="true" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="pr_search_type_master_Result1">
+          <Property Type="String" Name="Type" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TypePriority" Nullable="true" />
+          <Property Type="String" Name="ControlName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TypeCategoryId" Nullable="true" />
+          <Property Type="Int32" Name="TypeId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Master_CityMaster_Result">
+          <Property Type="Int32" Name="CityID" Nullable="true" />
+          <Property Type="String" Name="CityName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="CountryID" Nullable="true" />
+          <Property Type="String" Name="CountryName" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Master_LocalityMaster_Result">
+          <Property Type="Int32" Name="CityID" Nullable="true" />
+          <Property Type="String" Name="CityName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="LocalityID" Nullable="true" />
+          <Property Type="String" Name="LocalityName" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_QRCode_Chit_Subscription_Dtl_Result">
+          <Property Type="Int32" Name="prodtype" Nullable="true" />
+          <Property Type="String" Name="proddesc" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="subscriptionid" Nullable="true" />
+          <Property Type="String" Name="subscriptioncode" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="chitvalue" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="collectionamt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="clienttype" Nullable="true" />
+          <Property Type="String" Name="clientname" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="clientid" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Chit_Collection_Pattern_n_Actuals_Details_Result">
+          <Property Type="Int32" Name="SubsID" Nullable="true" />
+          <Property Type="Int32" Name="InstNo" Nullable="true" />
+          <Property Type="DateTime" Name="InstDt" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="Subs_Amount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Div_Amt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Disc_Amt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ToBePaid_Amt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Prize_Amt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="InsttDt" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="ChitValue" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="ChitDuration" Nullable="true" />
+          <Property Type="Int32" Name="DurationTypeId" Nullable="true" />
+          <Property Type="String" Name="ChitDurationtypedesc" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="ChitDurationinmonths" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="actchitsubamt" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Decimal" Name="chitsubamt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="DateTime" Name="collectiondt" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="Credit" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="colbalance" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="CollectionSts" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Book_List_Result">
+          <Property Type="Int32" Name="AccountBookID" Nullable="false" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+          <Property Type="Int32" Name="OwnerTypeID" Nullable="false" />
+          <Property Type="DateTime" Name="BookIssuedDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="BookTerminatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="BookNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="Int32" Name="ReviewByEmployeeId" Nullable="false" />
+          <Property Type="Int32" Name="ApprovedByEmployeeId" Nullable="false" />
+          <Property Type="Int32" Name="StatusTypeID" Nullable="false" />
+          <Property Type="String" Name="BookStatus" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ProdTypeDesc" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReviewBy" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ApprovedBy" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_ChitGroup_MemberDtl_Result">
+          <Property Type="Int32" Name="ChitGroupId" Nullable="false" />
+          <Property Type="Int32" Name="MaxGrpMembers" Nullable="false" />
+          <Property Type="Int32" Name="GrpMembersCnt" Nullable="false" />
+          <Property Type="Int32" Name="BalanceGrpMembersCnt" Nullable="true" />
+          <Property Type="Int32" Name="ChitGroupTypeID" Nullable="true" />
+          <Property Type="String" Name="ChitGroupTypeDesc" Nullable="false" MaxLength="17" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Chit_Dividend_Schedule_n_Actuals_Details_Result">
+          <Property Type="Int32" Name="SubsID" Nullable="true" />
+          <Property Type="Int32" Name="InstNo" Nullable="true" />
+          <Property Type="DateTime" Name="InstDt" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="Subs_Amount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Div_Amt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Disc_Amt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ToBePaid_Amt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Prize_Amt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="InsttDt" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="ChitValue" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="ChitDuration" Nullable="true" />
+          <Property Type="Int32" Name="DurationTypeId" Nullable="true" />
+          <Property Type="String" Name="ChitDurationtypedesc" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="ChitDurationinmonths" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="actchitsubamt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="chitsubamt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="DateTime" Name="collectiondt" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="Credit" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="colbalance" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="CollectionSts" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="Dividend" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="Dividend_Sts" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Transaction_Collection_Details_Result">
+          <Property Type="Int32" Name="TRANID" Nullable="true" />
+          <Property Type="String" Name="CollectionDt" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="CLIENTNAME" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="SUBSCRIPTIONID" Nullable="true" />
+          <Property Type="String" Name="PRODUCTTYPE" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="TRANCATEGORY" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TRANSUBCATEGORY" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TRANMODE" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="STATUDESC" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="AMOUNT" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="ROUTEDESC" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SUBSCRIPTIONCODE" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Transaction_Payment_Details_Result">
+          <Property Type="Int32" Name="TRANID" Nullable="true" />
+          <Property Type="String" Name="CLIENTNAME" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="SUBSCRIPTIONID" Nullable="true" />
+          <Property Type="String" Name="PRODUCTTYPE" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="TRANCATEGORY" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TRANSUBCATEGORY" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TRANMODE" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="STATUDESC" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="AMOUNT" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="PaymentDt" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="SUBSCRIPTIONCODE" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Product_ChitSubcription_Result">
+          <Property Type="Int32" Name="ClientId" Nullable="true" />
+          <Property Type="String" Name="ClientType" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="ClientName" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="SubscriptionID" Nullable="true" />
+          <Property Type="Int32" Name="ChitSchemeID" Nullable="true" />
+          <Property Type="Int32" Name="ChitTypeID" Nullable="true" />
+          <Property Type="String" Name="ChitSchemeCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ChitSchemeName" Nullable="true" MaxLength="100" />
+          <Property Type="Double" Name="ChitValue" Nullable="true" />
+          <Property Type="Int32" Name="ChitDuration" Nullable="true" />
+          <Property Type="Int32" Name="DurationTypeId" Nullable="true" />
+          <Property Type="Int32" Name="StatusTypeID" Nullable="true" />
+          <Property Type="String" Name="DurationTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="IntervalFreqTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="StatusTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ChitGroupCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ChitGroupName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ClientContactNos" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SubsDate" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="SubscriptionCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CollectionAgent" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <EntityType Name="VW_CUSTOMER_LOCATION_CBX_ASSGN">
+          <Key>
+            <PropertyRef Name="LOCTDESC" />
+            <PropertyRef Name="CATEID" />
+            <PropertyRef Name="CATEAID" />
+            <PropertyRef Name="LOCTID" />
+          </Key>
+          <Property Name="LOCTDESC" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CATEID" Type="Int32" Nullable="false" />
+          <Property Name="CATEAID" Type="Int32" Nullable="false" />
+          <Property Name="LOCTID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="pr_Search_Payment_Result">
+          <Property Type="String" Name="TRANDATE" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="TRANNO" Nullable="true" />
+          <Property Type="String" Name="TRANDNO" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TRANMODE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TRAN_BANK_NAME" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TRAN_BANK_REF_NO" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TRAN_BANK_REF_DATE" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="TRANNAMT" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="TRANMID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_ReceiptDetail_Result">
+          <Property Type="String" Name="TRANDATE" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="TRANNO" Nullable="true" />
+          <Property Type="String" Name="TRANDNO" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="TRANREFNAME" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TRANMODE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TRAN_BANK_NAME" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TRAN_BANK_REF_NO" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TRAN_BANK_REF_DATE" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="TRANNAMT" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="TRANMID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Transaction_BookVerification_Details_Result">
+          <Property Type="Int32" Name="TRANID" Nullable="true" />
+          <Property Type="String" Name="CLIENTNAME" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="SUBSCRIPTIONID" Nullable="true" />
+          <Property Type="String" Name="PRODUCTTYPE" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="TRANCATEGORY" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TRANSUBCATEGORY" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TRANMODE" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="STATUDESC" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="AMOUNT" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="BookVerfcnGenDt" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="SUBSCRIPTIONCODE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="COLNAGENTNAME" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ROUTENAME" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="VerifiedByName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ApprovedByName" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="pr_SearchAccountGroup_Result">
+          <Property Type="String" Name="ACHEADGCODE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACHEADGDESC" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="ACHEADGID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_SearchAccountHeadMaster_Result">
+          <Property Type="String" Name="ACHEADCODE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACHEADDESC" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACHEADGDESC" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DISPSTATUS" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="ACHEADID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Roles_Wise_Customer_Name_Assgn_Result">
+          <Property Type="String" Name="CATECODE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CLIENTNAME" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CATE_GST_NO" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="DISPSTATUS" Nullable="true" />
+          <Property Type="Int32" Name="CATEID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Book_Verification_Entry_Details_Result">
+          <Property Type="Int32" Name="BookID" Nullable="true" />
+          <Property Type="String" Name="BookNumber" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="BookIssuedDateD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="BookIssuedDate" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="BookTerminatedDateD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="BookTerminatedDate" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="BookVfcnListId" Nullable="true" />
+          <Property Type="String" Name="BookVfcnGeneratedDateD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="BookVfcnGeneratedDate" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="BookCollectedDateD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="BookCollectedDate" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="BookReturnedDateD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="BookReturnedDate" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="BookStsId" Nullable="true" />
+          <Property Type="String" Name="BookSts" Nullable="true" MaxLength="25" />
+          <Property Type="Int32" Name="ProdTypeId" Nullable="true" />
+          <Property Type="String" Name="ProdTypeDesc" Nullable="true" MaxLength="25" />
+          <Property Type="Int32" Name="SubsId" Nullable="true" />
+          <Property Type="String" Name="SubsCode" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="ClientID" Nullable="true" />
+          <Property Type="String" Name="ClientName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="BookVfcnID" Nullable="true" />
+          <Property Type="Int32" Name="OldReceiptRefId" Nullable="true" />
+          <Property Type="String" Name="OldReceiptRefNo" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="OldReceiptAmt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="BookAmt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="BookEntryDtD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="BookEntryDt" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="VfcnFindindID" Nullable="true" />
+          <Property Type="String" Name="VfcnFindingDesc" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="VfcnStsId" Nullable="true" />
+          <Property Type="String" Name="VfcnStsDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BVcnRemarks" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SubsClientInfo" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="pr_Get_Master_Types_Result">
+          <Property Type="Int32" Name="TypeID" Nullable="false" />
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="pr_Search_Product_LoanSubscription_Result">
+          <Property Type="Int32" Name="LoanSubscriptionID" Nullable="true" />
+          <Property Type="Int32" Name="ClientID" Nullable="true" />
+          <Property Type="String" Name="ClientName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="LoanSubscriptionCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ClientMobileNo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LoanDuration" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Principal" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="InterestRate" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="StatusTypeID" Nullable="true" />
+          <Property Type="String" Name="LoanSchemeCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="RepaymentIntervalTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="InterestDeductionTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="StatusTypeDesc" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SubsDate" Nullable="true" MaxLength="12" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FinFusionModelStoreContainer" CdmEntityContainer="FinFusionEntities" >
+          <EntitySetMapping Name="VW_USER_DETAILS">
+            <EntityTypeMapping TypeName="FinFusionModel.VW_USER_DETAILS">
+              <MappingFragment StoreEntitySet="VW_USER_DETAILS">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="ApplicationGroupId" ColumnName="ApplicationGroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PR_ACCOUNTINGYEAR_ID_CHK" FunctionName="FinFusionModel.Store.PR_ACCOUNTINGYEAR_ID_CHK">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.PR_ACCOUNTINGYEAR_ID_CHK_Result">
+                <ScalarProperty Name="YRID" ColumnName="YRID" />
+                <ScalarProperty Name="YRDESC" ColumnName="YRDESC" />
+                <ScalarProperty Name="YRID1" ColumnName="YRID1" />
+                <ScalarProperty Name="FDATE" ColumnName="FDATE" />
+                <ScalarProperty Name="TDATE" ColumnName="TDATE" />
+                <ScalarProperty Name="YRDESC1" ColumnName="YRDESC1" />
+                <ScalarProperty Name="CUSRID" ColumnName="CUSRID" />
+                <ScalarProperty Name="PRCSDATE" ColumnName="PRCSDATE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Chit_Subscription_Organization_Name_Assgn" FunctionName="FinFusionModel.Store.pr_Chit_Subscription_Organization_Name_Assgn">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Chit_Subscription_Organization_Name_Assgn_Result">
+                <ScalarProperty Name="CLIENTID" ColumnName="CLIENTID" />
+                <ScalarProperty Name="CLIENTNAME" ColumnName="CLIENTNAME" />
+                <ScalarProperty Name="CNAME" ColumnName="CNAME" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Chit_Subscription_Scheme_Detail_Assgn" FunctionName="FinFusionModel.Store.pr_Chit_Subscription_Scheme_Detail_Assgn">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Chit_Subscription_Scheme_Detail_Assgn_Result">
+                <ScalarProperty Name="ChitSchemeID" ColumnName="ChitSchemeID" />
+                <ScalarProperty Name="ChitSchemeCode" ColumnName="ChitSchemeCode" />
+                <ScalarProperty Name="ChitSchemeName" ColumnName="ChitSchemeName" />
+                <ScalarProperty Name="ChitValue" ColumnName="ChitValue" />
+                <ScalarProperty Name="ChitDuration" ColumnName="ChitDuration" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PR_COMPANYACCOUNTINGDETAIL_ID_CHK" FunctionName="FinFusionModel.Store.PR_COMPANYACCOUNTINGDETAIL_ID_CHK">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.PR_COMPANYACCOUNTINGDETAIL_ID_CHK_Result">
+                <ScalarProperty Name="COMPYID" ColumnName="COMPYID" />
+                <ScalarProperty Name="COMPID" ColumnName="COMPID" />
+                <ScalarProperty Name="YRID" ColumnName="YRID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_db_monthwise_summary" FunctionName="FinFusionModel.Store.pr_db_monthwise_summary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_db_monthwise_summary_Result">
+                <ScalarProperty Name="OpType" ColumnName="OpType" />
+                <ScalarProperty Name="yrmon" ColumnName="yrmon" />
+                <ScalarProperty Name="NetAmt" ColumnName="NetAmt" />
+                <ScalarProperty Name="ColnAmt" ColumnName="ColnAmt" />
+                <ScalarProperty Name="PymtAmt" ColumnName="PymtAmt" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_db_today_Summary" FunctionName="FinFusionModel.Store.pr_db_today_Summary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_db_today_Summary_Result">
+                <ScalarProperty Name="Heading" ColumnName="Heading" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Mode" ColumnName="Mode" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Book_PickupDay" FunctionName="FinFusionModel.Store.pr_Get_Book_PickupDay">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Book_PickupDay_Result">
+                <ScalarProperty Name="DValue" ColumnName="DValue" />
+                <ScalarProperty Name="DText" ColumnName="DText" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Chit_Group_Subscribers_Dtl" FunctionName="FinFusionModel.Store.pr_Get_Chit_Group_Subscribers_Dtl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Chit_Group_Subscribers_Dtl_Result">
+                <ScalarProperty Name="TktNum" ColumnName="TktNum" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sts" ColumnName="Sts" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Client_Type" FunctionName="FinFusionModel.Store.pr_Get_Client_Type">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Client_Type_Result">
+                <ScalarProperty Name="DValue" ColumnName="DValue" />
+                <ScalarProperty Name="DText" ColumnName="DText" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Contact_Type" FunctionName="FinFusionModel.Store.pr_Get_Contact_Type">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Contact_Type_Result">
+                <ScalarProperty Name="DValue" ColumnName="DValue" />
+                <ScalarProperty Name="DText" ColumnName="DText" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Employee_Dtl" FunctionName="FinFusionModel.Store.pr_Get_Employee_Dtl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Employee_Dtl_Result">
+                <ScalarProperty Name="DValue" ColumnName="DValue" />
+                <ScalarProperty Name="DText" ColumnName="DText" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Loan_Schedule_n_Collection_Details" FunctionName="FinFusionModel.Store.pr_Get_Loan_Schedule_n_Collection_Details">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Loan_Schedule_n_Collection_Details_Result">
+                <ScalarProperty Name="SubsID" ColumnName="SubsID" />
+                <ScalarProperty Name="InstNo" ColumnName="InstNo" />
+                <ScalarProperty Name="InstDt" ColumnName="InstDt" />
+                <ScalarProperty Name="Loan_Balance" ColumnName="Loan_Balance" />
+                <ScalarProperty Name="EMI_Amount" ColumnName="EMI_Amount" />
+                <ScalarProperty Name="Interest_Amt" ColumnName="Interest_Amt" />
+                <ScalarProperty Name="Principal_Amt" ColumnName="Principal_Amt" />
+                <ScalarProperty Name="ToBePaid_Amt" ColumnName="ToBePaid_Amt" />
+                <ScalarProperty Name="InsttDt" ColumnName="InsttDt" />
+                <ScalarProperty Name="principal" ColumnName="principal" />
+                <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+                <ScalarProperty Name="TermTypeID" ColumnName="TermTypeID" />
+                <ScalarProperty Name="termtypedesc" ColumnName="termtypedesc" />
+                <ScalarProperty Name="terminmonths" ColumnName="terminmonths" />
+                <ScalarProperty Name="interestratepermonth" ColumnName="interestratepermonth" />
+                <ScalarProperty Name="dedtype" ColumnName="dedtype" />
+                <ScalarProperty Name="colamtinmonth" ColumnName="colamtinmonth" />
+                <ScalarProperty Name="collectiondt" ColumnName="collectiondt" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
+                <ScalarProperty Name="colprincipal" ColumnName="colprincipal" />
+                <ScalarProperty Name="colinterest" ColumnName="colinterest" />
+                <ScalarProperty Name="colbalance" ColumnName="colbalance" />
+                <ScalarProperty Name="CollectionSts" ColumnName="CollectionSts" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Master_Category" FunctionName="FinFusionModel.Store.pr_Get_Master_Category">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Master_Category_Result">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Classification" ColumnName="Classification" />
+                <ScalarProperty Name="ControlName" ColumnName="ControlName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_ProductCategory" FunctionName="FinFusionModel.Store.pr_Get_ProductCategory">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_ProductCategory_Result">
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_ProductSubsDefValDetl" FunctionName="FinFusionModel.Store.pr_Get_ProductSubsDefValDetl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_ProductSubsDefValDetl_Result">
+                <ScalarProperty Name="subsid" ColumnName="subsid" />
+                <ScalarProperty Name="Defclientid" ColumnName="Defclientid" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="Deftrantypeid" ColumnName="Deftrantypeid" />
+                <ScalarProperty Name="Deftranmodeid" ColumnName="Deftranmodeid" />
+                <ScalarProperty Name="DefIntervalId" ColumnName="DefIntervalId" />
+                <ScalarProperty Name="DefAmt" ColumnName="DefAmt" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_QRCode_Loan_Subscription_Dtl" FunctionName="FinFusionModel.Store.pr_Get_QRCode_Loan_Subscription_Dtl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_QRCode_Loan_Subscription_Dtl_Result">
+                <ScalarProperty Name="prodtype" ColumnName="prodtype" />
+                <ScalarProperty Name="proddesc" ColumnName="proddesc" />
+                <ScalarProperty Name="subscriptionid" ColumnName="subscriptionid" />
+                <ScalarProperty Name="subscriptioncode" ColumnName="subscriptioncode" />
+                <ScalarProperty Name="Principal" ColumnName="Principal" />
+                <ScalarProperty Name="Loanvalue" ColumnName="Loanvalue" />
+                <ScalarProperty Name="collectionamt" ColumnName="collectionamt" />
+                <ScalarProperty Name="clienttype" ColumnName="clienttype" />
+                <ScalarProperty Name="clientname" ColumnName="clientname" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Subscription_Info" FunctionName="FinFusionModel.Store.pr_Get_Subscription_Info">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Subscription_Info_Result">
+                <ScalarProperty Name="subscriptionid" ColumnName="subscriptionid" />
+                <ScalarProperty Name="subscriptioncode" ColumnName="subscriptioncode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Today_Collection" FunctionName="FinFusionModel.Store.pr_Get_Today_Collection">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Today_Collection_Result">
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="Client" ColumnName="Client" />
+                <ScalarProperty Name="SubsCode" ColumnName="SubsCode" />
+                <ScalarProperty Name="CollectedAmt" ColumnName="CollectedAmt" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Transaction_Dtl" FunctionName="FinFusionModel.Store.pr_Get_Transaction_Dtl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Transaction_Dtl_Result">
+                <ScalarProperty Name="TRANID" ColumnName="TRANID" />
+                <ScalarProperty Name="CLIENTNAME" ColumnName="CLIENTNAME" />
+                <ScalarProperty Name="SUBSCRIPTIONID" ColumnName="SUBSCRIPTIONID" />
+                <ScalarProperty Name="PRODUCTTYPE" ColumnName="PRODUCTTYPE" />
+                <ScalarProperty Name="TRANCATEGORY" ColumnName="TRANCATEGORY" />
+                <ScalarProperty Name="TRANSUBCATEGORY" ColumnName="TRANSUBCATEGORY" />
+                <ScalarProperty Name="TRANMODE" ColumnName="TRANMODE" />
+                <ScalarProperty Name="STATUDESC" ColumnName="STATUDESC" />
+                <ScalarProperty Name="AMOUNT" ColumnName="AMOUNT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_search_category_master" FunctionName="FinFusionModel.Store.pr_search_category_master">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_search_category_master_Result">
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Classification" ColumnName="Classification" />
+                <ScalarProperty Name="ControlName" ColumnName="ControlName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Company_OfficeMaster" FunctionName="FinFusionModel.Store.pr_Search_Company_OfficeMaster">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Company_OfficeMaster_Result">
+                <ScalarProperty Name="OfficeName" ColumnName="OfficeName" />
+                <ScalarProperty Name="TypeDesc" ColumnName="TypeDesc" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="LocalityName" ColumnName="LocalityName" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="OfficeID" ColumnName="OfficeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Company_Route_Master" FunctionName="FinFusionModel.Store.pr_Search_Company_Route_Master">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Company_Route_Master_Result">
+                <ScalarProperty Name="RouteCode" ColumnName="RouteCode" />
+                <ScalarProperty Name="RouteName" ColumnName="RouteName" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="RouteID" ColumnName="RouteID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Master_ChitGroup" FunctionName="FinFusionModel.Store.pr_Search_Master_ChitGroup">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Master_ChitGroup_Result">
+                <ScalarProperty Name="ChitGroupID" ColumnName="ChitGroupID" />
+                <ScalarProperty Name="ChitGroupCode" ColumnName="ChitGroupCode" />
+                <ScalarProperty Name="ChitGroupName" ColumnName="ChitGroupName" />
+                <ScalarProperty Name="ChitSchemeID" ColumnName="ChitSchemeID" />
+                <ScalarProperty Name="ChitSchemeCode" ColumnName="ChitSchemeCode" />
+                <ScalarProperty Name="ChitSchemeName" ColumnName="ChitSchemeName" />
+                <ScalarProperty Name="ChitValue" ColumnName="ChitValue" />
+                <ScalarProperty Name="ChitDuration" ColumnName="ChitDuration" />
+                <ScalarProperty Name="DurationTypeId" ColumnName="DurationTypeId" />
+                <ScalarProperty Name="CommencementDate" ColumnName="CommencementDate" />
+                <ScalarProperty Name="MaxGrpMembers" ColumnName="MaxGrpMembers" />
+                <ScalarProperty Name="FirstInstallmentDate" ColumnName="FirstInstallmentDate" />
+                <ScalarProperty Name="TerminationDate" ColumnName="TerminationDate" />
+                <ScalarProperty Name="StatusTypeDesc" ColumnName="StatusTypeDesc" />
+                <ScalarProperty Name="DurationTypeDesc" ColumnName="DurationTypeDesc" />
+                <ScalarProperty Name="ChitSchemeStatusTypeDesc" ColumnName="ChitSchemeStatusTypeDesc" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Master_ChitScheme" FunctionName="FinFusionModel.Store.pr_Search_Master_ChitScheme">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Master_ChitScheme_Result">
+                <ScalarProperty Name="ChitSchemeID" ColumnName="ChitSchemeID" />
+                <ScalarProperty Name="ChitTypeID" ColumnName="ChitTypeID" />
+                <ScalarProperty Name="ChitSchemeCode" ColumnName="ChitSchemeCode" />
+                <ScalarProperty Name="ChitSchemeName" ColumnName="ChitSchemeName" />
+                <ScalarProperty Name="ChitValue" ColumnName="ChitValue" />
+                <ScalarProperty Name="ChitDuration" ColumnName="ChitDuration" />
+                <ScalarProperty Name="DurationTypeId" ColumnName="DurationTypeId" />
+                <ScalarProperty Name="ForemanCommision" ColumnName="ForemanCommision" />
+                <ScalarProperty Name="ForemanPrizeInstalment" ColumnName="ForemanPrizeInstalment" />
+                <ScalarProperty Name="BidCapAmount" ColumnName="BidCapAmount" />
+                <ScalarProperty Name="SealingPeriod" ColumnName="SealingPeriod" />
+                <ScalarProperty Name="AverageDiscount" ColumnName="AverageDiscount" />
+                <ScalarProperty Name="AverageDivident" ColumnName="AverageDivident" />
+                <ScalarProperty Name="ProposedIncome" ColumnName="ProposedIncome" />
+                <ScalarProperty Name="BookVerificationTypeId" ColumnName="BookVerificationTypeId" />
+                <ScalarProperty Name="AscertainmentTypeId" ColumnName="AscertainmentTypeId" />
+                <ScalarProperty Name="AscertainmentFrequencyTypeId" ColumnName="AscertainmentFrequencyTypeId" />
+                <ScalarProperty Name="SubscriptionAmount" ColumnName="SubscriptionAmount" />
+                <ScalarProperty Name="EligibilityAmount" ColumnName="EligibilityAmount" />
+                <ScalarProperty Name="SubscriberReturns" ColumnName="SubscriberReturns" />
+                <ScalarProperty Name="CommissionEmp" ColumnName="CommissionEmp" />
+                <ScalarProperty Name="CommissionNonEmp" ColumnName="CommissionNonEmp" />
+                <ScalarProperty Name="AmountCodeID" ColumnName="AmountCodeID" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="ChitTypeDesc" ColumnName="ChitTypeDesc" />
+                <ScalarProperty Name="DurationTypeDesc" ColumnName="DurationTypeDesc" />
+                <ScalarProperty Name="AscertainmentTypeDesc" ColumnName="AscertainmentTypeDesc" />
+                <ScalarProperty Name="AscertainmentFrequencyTypeDesc" ColumnName="AscertainmentFrequencyTypeDesc" />
+                <ScalarProperty Name="AmountCodeDesc" ColumnName="AmountCodeDesc" />
+                <ScalarProperty Name="StatusTypeDesc" ColumnName="StatusTypeDesc" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Master_ClientMaster" FunctionName="FinFusionModel.Store.pr_Search_Master_ClientMaster">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Master_ClientMaster_Result">
+                <ScalarProperty Name="CLIENTNAME" ColumnName="CLIENTNAME" />
+                <ScalarProperty Name="CLIENTTYPEDESC" ColumnName="CLIENTTYPEDESC" />
+                <ScalarProperty Name="CLIENTMOBILENO1" ColumnName="CLIENTMOBILENO1" />
+                <ScalarProperty Name="CLIENTEMAILID" ColumnName="CLIENTEMAILID" />
+                <ScalarProperty Name="CLIENTCONTACTPERSON" ColumnName="CLIENTCONTACTPERSON" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDt" ColumnName="CreatedDt" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDt" ColumnName="UpdatedDt" />
+                <ScalarProperty Name="CLIENTID" ColumnName="CLIENTID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Master_ContactMaster" FunctionName="FinFusionModel.Store.pr_Search_Master_ContactMaster">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Master_ContactMaster_Result">
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="CONTACTPERSON" ColumnName="CONTACTPERSON" />
+                <ScalarProperty Name="ContactType" ColumnName="ContactType" />
+                <ScalarProperty Name="CPMOBILENO1" ColumnName="CPMOBILENO1" />
+                <ScalarProperty Name="CPEMAILID" ColumnName="CPEMAILID" />
+                <ScalarProperty Name="CPDESIGNATION" ColumnName="CPDESIGNATION" />
+                <ScalarProperty Name="CPORGANISATION" ColumnName="CPORGANISATION" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDt" ColumnName="CreatedDt" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDt" ColumnName="UpdatedDt" />
+                <ScalarProperty Name="CONTID" ColumnName="CONTID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Master_ContactTypeMaster" FunctionName="FinFusionModel.Store.pr_Search_Master_ContactTypeMaster">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Master_ContactTypeMaster_Result">
+                <ScalarProperty Name="CONTTYPESHRTDESC" ColumnName="CONTTYPESHRTDESC" />
+                <ScalarProperty Name="CONTTYPEDESC" ColumnName="CONTTYPEDESC" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDt" ColumnName="CreatedDt" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDt" ColumnName="UpdatedDt" />
+                <ScalarProperty Name="CONTTID" ColumnName="CONTTID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Master_LoanScheme" FunctionName="FinFusionModel.Store.pr_Search_Master_LoanScheme">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Master_LoanScheme_Result">
+                <ScalarProperty Name="LoanSchemeID" ColumnName="LoanSchemeID" />
+                <ScalarProperty Name="LoanSchemeCode" ColumnName="LoanSchemeCode" />
+                <ScalarProperty Name="LoanSchemeName" ColumnName="LoanSchemeName" />
+                <ScalarProperty Name="BookVerificationIntervalTypeId" ColumnName="BookVerificationIntervalTypeId" />
+                <ScalarProperty Name="AmountCodeID" ColumnName="AmountCodeID" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="LoanTypeDesc" ColumnName="LoanTypeDesc" />
+                <ScalarProperty Name="BookVerificationIntervalTypeDesc" ColumnName="BookVerificationIntervalTypeDesc" />
+                <ScalarProperty Name="AmountCodeDesc" ColumnName="AmountCodeDesc" />
+                <ScalarProperty Name="StatusTypeDesc" ColumnName="StatusTypeDesc" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Masters_AmountCode" FunctionName="FinFusionModel.Store.pr_Search_Masters_AmountCode">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Masters_AmountCode_Result">
+                <ScalarProperty Name="AmountCode" ColumnName="AmountCode" />
+                <ScalarProperty Name="AmountCodeName" ColumnName="AmountCodeName" />
+                <ScalarProperty Name="AmountCodeConstant" ColumnName="AmountCodeConstant" />
+                <ScalarProperty Name="CustomerViewTypeID" ColumnName="CustomerViewTypeID" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="AmountCodeID" ColumnName="AmountCodeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Masters_CompanyDetails" FunctionName="FinFusionModel.Store.pr_Search_Masters_CompanyDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Masters_CompanyDetails_Result">
+                <ScalarProperty Name="COMPCODE" ColumnName="COMPCODE" />
+                <ScalarProperty Name="COMPNAME" ColumnName="COMPNAME" />
+                <ScalarProperty Name="COMPDNAME" ColumnName="COMPDNAME" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="COMPID" ColumnName="COMPID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Masters_Department" FunctionName="FinFusionModel.Store.pr_Search_Masters_Department">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Masters_Department_Result">
+                <ScalarProperty Name="DEPTCODE" ColumnName="DEPTCODE" />
+                <ScalarProperty Name="DEPTDESC" ColumnName="DEPTDESC" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="DEPTID" ColumnName="DEPTID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Masters_Designation" FunctionName="FinFusionModel.Store.pr_Search_Masters_Designation">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Masters_Designation_Result">
+                <ScalarProperty Name="DSGNCODE" ColumnName="DSGNCODE" />
+                <ScalarProperty Name="DSGNDESC" ColumnName="DSGNDESC" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="DSGNID" ColumnName="DSGNID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Masters_Employee" FunctionName="FinFusionModel.Store.pr_Search_Masters_Employee">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Masters_Employee_Result">
+                <ScalarProperty Name="CATECODE" ColumnName="CATECODE" />
+                <ScalarProperty Name="CATENAME" ColumnName="CATENAME" />
+                <ScalarProperty Name="DSGNDESC" ColumnName="DSGNDESC" />
+                <ScalarProperty Name="DEPTDESC" ColumnName="DEPTDESC" />
+                <ScalarProperty Name="CATECPNAME" ColumnName="CATECPNAME" />
+                <ScalarProperty Name="CATEPHN3" ColumnName="CATEPHN3" />
+                <ScalarProperty Name="CATEEMAIL" ColumnName="CATEEMAIL" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="CATEID" ColumnName="CATEID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Masters_FundAccount" FunctionName="FinFusionModel.Store.pr_Search_Masters_FundAccount">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Masters_FundAccount_Result">
+                <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="AccountOpeningBalance" ColumnName="AccountOpeningBalance" />
+                <ScalarProperty Name="AccountBank" ColumnName="AccountBank" />
+                <ScalarProperty Name="AccountBranch" ColumnName="AccountBranch" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="ADescription" ColumnName="ADescription" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="FundAccountID" ColumnName="FundAccountID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Masters_State" FunctionName="FinFusionModel.Store.pr_Search_Masters_State">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Masters_State_Result">
+                <ScalarProperty Name="STATECODE" ColumnName="STATECODE" />
+                <ScalarProperty Name="STATEDESC" ColumnName="STATEDESC" />
+                <ScalarProperty Name="STATETYPE" ColumnName="STATETYPE" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="STATEID" ColumnName="STATEID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Transaction_Details" FunctionName="FinFusionModel.Store.pr_Search_Transaction_Details">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Transaction_Details_Result">
+                <ScalarProperty Name="TRANID" ColumnName="TRANID" />
+                <ScalarProperty Name="CLIENTNAME" ColumnName="CLIENTNAME" />
+                <ScalarProperty Name="SUBSCRIPTIONID" ColumnName="SUBSCRIPTIONID" />
+                <ScalarProperty Name="PRODUCTTYPE" ColumnName="PRODUCTTYPE" />
+                <ScalarProperty Name="TRANCATEGORY" ColumnName="TRANCATEGORY" />
+                <ScalarProperty Name="TRANSUBCATEGORY" ColumnName="TRANSUBCATEGORY" />
+                <ScalarProperty Name="TRANMODE" ColumnName="TRANMODE" />
+                <ScalarProperty Name="STATUDESC" ColumnName="STATUDESC" />
+                <ScalarProperty Name="AMOUNT" ColumnName="AMOUNT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_search_type_master" FunctionName="FinFusionModel.Store.pr_search_type_master">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_search_type_master_Result1">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="TypePriority" ColumnName="TypePriority" />
+                <ScalarProperty Name="ControlName" ColumnName="ControlName" />
+                <ScalarProperty Name="TypeCategoryId" ColumnName="TypeCategoryId" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Master_CityMaster" FunctionName="FinFusionModel.Store.pr_Search_Master_CityMaster">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Master_CityMaster_Result">
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Master_LocalityMaster" FunctionName="FinFusionModel.Store.pr_Search_Master_LocalityMaster">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Master_LocalityMaster_Result">
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="LocalityID" ColumnName="LocalityID" />
+                <ScalarProperty Name="LocalityName" ColumnName="LocalityName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_QRCode_Chit_Subscription_Dtl" FunctionName="FinFusionModel.Store.pr_Get_QRCode_Chit_Subscription_Dtl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_QRCode_Chit_Subscription_Dtl_Result">
+                <ScalarProperty Name="prodtype" ColumnName="prodtype" />
+                <ScalarProperty Name="proddesc" ColumnName="proddesc" />
+                <ScalarProperty Name="subscriptionid" ColumnName="subscriptionid" />
+                <ScalarProperty Name="subscriptioncode" ColumnName="subscriptioncode" />
+                <ScalarProperty Name="chitvalue" ColumnName="chitvalue" />
+                <ScalarProperty Name="collectionamt" ColumnName="collectionamt" />
+                <ScalarProperty Name="clienttype" ColumnName="clienttype" />
+                <ScalarProperty Name="clientname" ColumnName="clientname" />
+                <ScalarProperty Name="clientid" ColumnName="clientid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Chit_Collection_Pattern_n_Actuals_Details" FunctionName="FinFusionModel.Store.pr_Get_Chit_Collection_Pattern_n_Actuals_Details">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Chit_Collection_Pattern_n_Actuals_Details_Result">
+                <ScalarProperty Name="SubsID" ColumnName="SubsID" />
+                <ScalarProperty Name="InstNo" ColumnName="InstNo" />
+                <ScalarProperty Name="InstDt" ColumnName="InstDt" />
+                <ScalarProperty Name="Subs_Amount" ColumnName="Subs_Amount" />
+                <ScalarProperty Name="Div_Amt" ColumnName="Div_Amt" />
+                <ScalarProperty Name="Disc_Amt" ColumnName="Disc_Amt" />
+                <ScalarProperty Name="ToBePaid_Amt" ColumnName="ToBePaid_Amt" />
+                <ScalarProperty Name="Prize_Amt" ColumnName="Prize_Amt" />
+                <ScalarProperty Name="InsttDt" ColumnName="InsttDt" />
+                <ScalarProperty Name="ChitValue" ColumnName="ChitValue" />
+                <ScalarProperty Name="ChitDuration" ColumnName="ChitDuration" />
+                <ScalarProperty Name="DurationTypeId" ColumnName="DurationTypeId" />
+                <ScalarProperty Name="ChitDurationtypedesc" ColumnName="ChitDurationtypedesc" />
+                <ScalarProperty Name="ChitDurationinmonths" ColumnName="ChitDurationinmonths" />
+                <ScalarProperty Name="actchitsubamt" ColumnName="actchitsubamt" />
+                <ScalarProperty Name="chitsubamt" ColumnName="chitsubamt" />
+                <ScalarProperty Name="collectiondt" ColumnName="collectiondt" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
+                <ScalarProperty Name="colbalance" ColumnName="colbalance" />
+                <ScalarProperty Name="CollectionSts" ColumnName="CollectionSts" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Book_List" FunctionName="FinFusionModel.Store.pr_Get_Book_List">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Book_List_Result">
+                <ScalarProperty Name="AccountBookID" ColumnName="AccountBookID" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="OwnerTypeID" ColumnName="OwnerTypeID" />
+                <ScalarProperty Name="BookIssuedDate" ColumnName="BookIssuedDate" />
+                <ScalarProperty Name="BookTerminatedDate" ColumnName="BookTerminatedDate" />
+                <ScalarProperty Name="BookNumber" ColumnName="BookNumber" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ReviewByEmployeeId" ColumnName="ReviewByEmployeeId" />
+                <ScalarProperty Name="ApprovedByEmployeeId" ColumnName="ApprovedByEmployeeId" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="BookStatus" ColumnName="BookStatus" />
+                <ScalarProperty Name="ProdTypeDesc" ColumnName="ProdTypeDesc" />
+                <ScalarProperty Name="ReviewBy" ColumnName="ReviewBy" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_ChitGroup_MemberDtl" FunctionName="FinFusionModel.Store.pr_Get_ChitGroup_MemberDtl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_ChitGroup_MemberDtl_Result">
+                <ScalarProperty Name="ChitGroupId" ColumnName="ChitGroupId" />
+                <ScalarProperty Name="MaxGrpMembers" ColumnName="MaxGrpMembers" />
+                <ScalarProperty Name="GrpMembersCnt" ColumnName="GrpMembersCnt" />
+                <ScalarProperty Name="BalanceGrpMembersCnt" ColumnName="BalanceGrpMembersCnt" />
+                <ScalarProperty Name="ChitGroupTypeID" ColumnName="ChitGroupTypeID" />
+                <ScalarProperty Name="ChitGroupTypeDesc" ColumnName="ChitGroupTypeDesc" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Chit_Dividend_Schedule_n_Actuals_Details" FunctionName="FinFusionModel.Store.pr_Get_Chit_Dividend_Schedule_n_Actuals_Details">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Chit_Dividend_Schedule_n_Actuals_Details_Result">
+                <ScalarProperty Name="SubsID" ColumnName="SubsID" />
+                <ScalarProperty Name="InstNo" ColumnName="InstNo" />
+                <ScalarProperty Name="InstDt" ColumnName="InstDt" />
+                <ScalarProperty Name="Subs_Amount" ColumnName="Subs_Amount" />
+                <ScalarProperty Name="Div_Amt" ColumnName="Div_Amt" />
+                <ScalarProperty Name="Disc_Amt" ColumnName="Disc_Amt" />
+                <ScalarProperty Name="ToBePaid_Amt" ColumnName="ToBePaid_Amt" />
+                <ScalarProperty Name="Prize_Amt" ColumnName="Prize_Amt" />
+                <ScalarProperty Name="InsttDt" ColumnName="InsttDt" />
+                <ScalarProperty Name="ChitValue" ColumnName="ChitValue" />
+                <ScalarProperty Name="ChitDuration" ColumnName="ChitDuration" />
+                <ScalarProperty Name="DurationTypeId" ColumnName="DurationTypeId" />
+                <ScalarProperty Name="ChitDurationtypedesc" ColumnName="ChitDurationtypedesc" />
+                <ScalarProperty Name="ChitDurationinmonths" ColumnName="ChitDurationinmonths" />
+                <ScalarProperty Name="actchitsubamt" ColumnName="actchitsubamt" />
+                <ScalarProperty Name="chitsubamt" ColumnName="chitsubamt" />
+                <ScalarProperty Name="collectiondt" ColumnName="collectiondt" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
+                <ScalarProperty Name="colbalance" ColumnName="colbalance" />
+                <ScalarProperty Name="CollectionSts" ColumnName="CollectionSts" />
+                <ScalarProperty Name="Dividend" ColumnName="Dividend" />
+                <ScalarProperty Name="Dividend_Sts" ColumnName="Dividend_Sts" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Transaction_Collection_Details" FunctionName="FinFusionModel.Store.pr_Search_Transaction_Collection_Details">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Transaction_Collection_Details_Result">
+                <ScalarProperty Name="TRANID" ColumnName="TRANID" />
+                <ScalarProperty Name="CollectionDt" ColumnName="CollectionDt" />
+                <ScalarProperty Name="CLIENTNAME" ColumnName="CLIENTNAME" />
+                <ScalarProperty Name="SUBSCRIPTIONID" ColumnName="SUBSCRIPTIONID" />
+                <ScalarProperty Name="PRODUCTTYPE" ColumnName="PRODUCTTYPE" />
+                <ScalarProperty Name="TRANCATEGORY" ColumnName="TRANCATEGORY" />
+                <ScalarProperty Name="TRANSUBCATEGORY" ColumnName="TRANSUBCATEGORY" />
+                <ScalarProperty Name="TRANMODE" ColumnName="TRANMODE" />
+                <ScalarProperty Name="STATUDESC" ColumnName="STATUDESC" />
+                <ScalarProperty Name="AMOUNT" ColumnName="AMOUNT" />
+                <ScalarProperty Name="ROUTEDESC" ColumnName="ROUTEDESC" />
+                <ScalarProperty Name="SUBSCRIPTIONCODE" ColumnName="SUBSCRIPTIONCODE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Transaction_Payment_Details" FunctionName="FinFusionModel.Store.pr_Search_Transaction_Payment_Details">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Transaction_Payment_Details_Result">
+                <ScalarProperty Name="TRANID" ColumnName="TRANID" />
+                <ScalarProperty Name="CLIENTNAME" ColumnName="CLIENTNAME" />
+                <ScalarProperty Name="SUBSCRIPTIONID" ColumnName="SUBSCRIPTIONID" />
+                <ScalarProperty Name="PRODUCTTYPE" ColumnName="PRODUCTTYPE" />
+                <ScalarProperty Name="TRANCATEGORY" ColumnName="TRANCATEGORY" />
+                <ScalarProperty Name="TRANSUBCATEGORY" ColumnName="TRANSUBCATEGORY" />
+                <ScalarProperty Name="TRANMODE" ColumnName="TRANMODE" />
+                <ScalarProperty Name="STATUDESC" ColumnName="STATUDESC" />
+                <ScalarProperty Name="AMOUNT" ColumnName="AMOUNT" />
+                <ScalarProperty Name="PaymentDt" ColumnName="PaymentDt" />
+                <ScalarProperty Name="SUBSCRIPTIONCODE" ColumnName="SUBSCRIPTIONCODE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Product_ChitSubcription" FunctionName="FinFusionModel.Store.pr_Search_Product_ChitSubcription">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Product_ChitSubcription_Result">
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ClientType" ColumnName="ClientType" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
+                <ScalarProperty Name="ChitSchemeID" ColumnName="ChitSchemeID" />
+                <ScalarProperty Name="ChitTypeID" ColumnName="ChitTypeID" />
+                <ScalarProperty Name="ChitSchemeCode" ColumnName="ChitSchemeCode" />
+                <ScalarProperty Name="ChitSchemeName" ColumnName="ChitSchemeName" />
+                <ScalarProperty Name="ChitValue" ColumnName="ChitValue" />
+                <ScalarProperty Name="ChitDuration" ColumnName="ChitDuration" />
+                <ScalarProperty Name="DurationTypeId" ColumnName="DurationTypeId" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="DurationTypeDesc" ColumnName="DurationTypeDesc" />
+                <ScalarProperty Name="IntervalFreqTypeDesc" ColumnName="IntervalFreqTypeDesc" />
+                <ScalarProperty Name="StatusTypeDesc" ColumnName="StatusTypeDesc" />
+                <ScalarProperty Name="ChitGroupCode" ColumnName="ChitGroupCode" />
+                <ScalarProperty Name="ChitGroupName" ColumnName="ChitGroupName" />
+                <ScalarProperty Name="ClientContactNos" ColumnName="ClientContactNos" />
+                <ScalarProperty Name="SubsDate" ColumnName="SubsDate" />
+                <ScalarProperty Name="SubscriptionCode" ColumnName="SubscriptionCode" />
+                <ScalarProperty Name="CollectionAgent" ColumnName="CollectionAgent" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="VW_CUSTOMER_LOCATION_CBX_ASSGN">
+            <EntityTypeMapping TypeName="FinFusionModel.VW_CUSTOMER_LOCATION_CBX_ASSGN">
+              <MappingFragment StoreEntitySet="VW_CUSTOMER_LOCATION_CBX_ASSGN">
+                <ScalarProperty Name="LOCTID" ColumnName="LOCTID" />
+                <ScalarProperty Name="CATEAID" ColumnName="CATEAID" />
+                <ScalarProperty Name="CATEID" ColumnName="CATEID" />
+                <ScalarProperty Name="LOCTDESC" ColumnName="LOCTDESC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Payment" FunctionName="FinFusionModel.Store.pr_Search_Payment">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Payment_Result">
+                <ScalarProperty Name="TRANDATE" ColumnName="TRANDATE" />
+                <ScalarProperty Name="TRANNO" ColumnName="TRANNO" />
+                <ScalarProperty Name="TRANDNO" ColumnName="TRANDNO" />
+                <ScalarProperty Name="TRANREFNAME" ColumnName="TRANREFNAME" />
+                <ScalarProperty Name="TRANMODE" ColumnName="TRANMODE" />
+                <ScalarProperty Name="TRAN_BANK_NAME" ColumnName="TRAN_BANK_NAME" />
+                <ScalarProperty Name="TRAN_BANK_REF_NO" ColumnName="TRAN_BANK_REF_NO" />
+                <ScalarProperty Name="TRAN_BANK_REF_DATE" ColumnName="TRAN_BANK_REF_DATE" />
+                <ScalarProperty Name="TRANNAMT" ColumnName="TRANNAMT" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="TRANMID" ColumnName="TRANMID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_ReceiptDetail" FunctionName="FinFusionModel.Store.pr_Search_ReceiptDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_ReceiptDetail_Result">
+                <ScalarProperty Name="TRANDATE" ColumnName="TRANDATE" />
+                <ScalarProperty Name="TRANNO" ColumnName="TRANNO" />
+                <ScalarProperty Name="TRANDNO" ColumnName="TRANDNO" />
+                <ScalarProperty Name="TRANREFNAME" ColumnName="TRANREFNAME" />
+                <ScalarProperty Name="TRANMODE" ColumnName="TRANMODE" />
+                <ScalarProperty Name="TRAN_BANK_NAME" ColumnName="TRAN_BANK_NAME" />
+                <ScalarProperty Name="TRAN_BANK_REF_NO" ColumnName="TRAN_BANK_REF_NO" />
+                <ScalarProperty Name="TRAN_BANK_REF_DATE" ColumnName="TRAN_BANK_REF_DATE" />
+                <ScalarProperty Name="TRANNAMT" ColumnName="TRANNAMT" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="TRANMID" ColumnName="TRANMID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Transaction_BookVerification_Details" FunctionName="FinFusionModel.Store.pr_Search_Transaction_BookVerification_Details">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Transaction_BookVerification_Details_Result">
+                <ScalarProperty Name="TRANID" ColumnName="TRANID" />
+                <ScalarProperty Name="CLIENTNAME" ColumnName="CLIENTNAME" />
+                <ScalarProperty Name="SUBSCRIPTIONID" ColumnName="SUBSCRIPTIONID" />
+                <ScalarProperty Name="PRODUCTTYPE" ColumnName="PRODUCTTYPE" />
+                <ScalarProperty Name="TRANCATEGORY" ColumnName="TRANCATEGORY" />
+                <ScalarProperty Name="TRANSUBCATEGORY" ColumnName="TRANSUBCATEGORY" />
+                <ScalarProperty Name="TRANMODE" ColumnName="TRANMODE" />
+                <ScalarProperty Name="STATUDESC" ColumnName="STATUDESC" />
+                <ScalarProperty Name="AMOUNT" ColumnName="AMOUNT" />
+                <ScalarProperty Name="BookVerfcnGenDt" ColumnName="BookVerfcnGenDt" />
+                <ScalarProperty Name="SUBSCRIPTIONCODE" ColumnName="SUBSCRIPTIONCODE" />
+                <ScalarProperty Name="COLNAGENTNAME" ColumnName="COLNAGENTNAME" />
+                <ScalarProperty Name="ROUTENAME" ColumnName="ROUTENAME" />
+                <ScalarProperty Name="VerifiedByName" ColumnName="VerifiedByName" />
+                <ScalarProperty Name="ApprovedByName" ColumnName="ApprovedByName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_SearchAccountGroup" FunctionName="FinFusionModel.Store.pr_SearchAccountGroup">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_SearchAccountGroup_Result">
+                <ScalarProperty Name="ACHEADGCODE" ColumnName="ACHEADGCODE" />
+                <ScalarProperty Name="ACHEADGDESC" ColumnName="ACHEADGDESC" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="ACHEADGID" ColumnName="ACHEADGID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_SearchAccountHeadMaster" FunctionName="FinFusionModel.Store.pr_SearchAccountHeadMaster">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_SearchAccountHeadMaster_Result">
+                <ScalarProperty Name="ACHEADCODE" ColumnName="ACHEADCODE" />
+                <ScalarProperty Name="ACHEADDESC" ColumnName="ACHEADDESC" />
+                <ScalarProperty Name="ACHEADGDESC" ColumnName="ACHEADGDESC" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="ACHEADID" ColumnName="ACHEADID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Roles_Wise_Customer_Name_Assgn" FunctionName="FinFusionModel.Store.pr_Roles_Wise_Customer_Name_Assgn">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Roles_Wise_Customer_Name_Assgn_Result">
+                <ScalarProperty Name="CATECODE" ColumnName="CATECODE" />
+                <ScalarProperty Name="CLIENTNAME" ColumnName="CLIENTNAME" />
+                <ScalarProperty Name="CATE_GST_NO" ColumnName="CATE_GST_NO" />
+                <ScalarProperty Name="DISPSTATUS" ColumnName="DISPSTATUS" />
+                <ScalarProperty Name="CATEID" ColumnName="CATEID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Get_Master_Types" FunctionName="FinFusionModel.Store.pr_Get_Master_Types">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Get_Master_Types_Result">
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pr_Search_Product_LoanSubscription" FunctionName="FinFusionModel.Store.pr_Search_Product_LoanSubscription">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FinFusionModel.pr_Search_Product_LoanSubscription_Result">
+                <ScalarProperty Name="LoanSubscriptionID" ColumnName="LoanSubscriptionID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="LoanSubscriptionCode" ColumnName="LoanSubscriptionCode" />
+                <ScalarProperty Name="ClientMobileNo" ColumnName="ClientMobileNo" />
+                <ScalarProperty Name="LoanDuration" ColumnName="LoanDuration" />
+                <ScalarProperty Name="Principal" ColumnName="Principal" />
+                <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="LoanSchemeCode" ColumnName="LoanSchemeCode" />
+                <ScalarProperty Name="RepaymentIntervalTypeDesc" ColumnName="RepaymentIntervalTypeDesc" />
+                <ScalarProperty Name="InterestDeductionTypeDesc" ColumnName="InterestDeductionTypeDesc" />
+                <ScalarProperty Name="StatusTypeDesc" ColumnName="StatusTypeDesc" />
+                <ScalarProperty Name="SubsDate" ColumnName="SubsDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

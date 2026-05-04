@@ -1,0 +1,637 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.TransactionPaymentList
+@{
+    ViewBag.Title = "Transaction Payment Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title </h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                </div>
+                <form action="@Url.Content("~/TransactionPayment/Savedata")" method="post" data-flag="0" class="needs-validation TransactionPaymentform" id="TransactionPaymentform" name="TransactionPaymentform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="row col-md-12">
+
+                                <div class="row">
+                                    <div class="row col-md-12">
+                                        <div class="col-md-2 mb-2 hide">
+                                            <label for="PaymentListID">Transaction Id</label>
+
+                                            @if (Model != null)
+                                            {
+
+                                                <input type="text" id="PaymentListID" name="PaymentListID" value="@Model.PaymentListID" class="form-control PaymentListID" />
+                                            }
+                                            else
+                                            {
+                                                <input type="text" id="PaymentListID" name="PaymentListID" value="@ViewBag.TranID" class="form-control PaymentListID" />
+                                            }
+
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="ProductTypeTypeID">Product<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("ProductTypeTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select  ProductTypeTypeID", @data_val = "true", @required = "required", @id = "ProductTypeTypeID", @style = "width:50%;", @onchange = "LoadSubTrnTypsNPrdSubs();" })
+                                            <div class="invalid-feedback">
+                                                Please Select Product !!
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4 mb-4">
+                                            <label for="SubscriptionID">Subscription<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("SubscriptionID", null, "-- Select --", new { @class = "form-control select2 custom-select  SubscriptionID", @data_val = "true", @required = "required", @id = "SubscriptionID", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Subscription Details!!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="TransactionCategory">Transaction Category<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("TransactionCategory", null, "-- Select --", new { @class = "form-control select2 custom-select  TransactionCategory", @data_val = "true", @required = "required", @id = "TransactionCategory", @onchange = "LoadSubTrnTyps();", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Transaction Category !!
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2 mb-2">
+                                            <label for="SubsTranCategory">Sub Category<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("SubsTranCategory", null, "-- Select --", new { @class = "form-control select2 custom-select  SubsTranCategory", @data_val = "true", @required = "required", @id = "SubsTranCategory", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Category !!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2 hide">
+                                            <label for="TransactionType">Transaction Type<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("TransactionType", null, "-- Select --", new { @class = "form-control select2 custom-select  TransactionType", @data_val = "true", @id = "TransactionType", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Transaction Type !!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <label for="GenerratedDate">Payment Date</label>
+
+
+                                            @if (Model != null)
+                                            {
+                                                string pdatetime = Convert.ToString(Model.GenerratedDate);
+                                                if ((pdatetime != null && pdatetime != ""))
+                                                {
+                                                    var param = pdatetime.Split(' ');
+                                                    DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                    <input id="GenerratedDate" type="date" min="2015-01-01" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",pdate)" required name="GenerratedDate" class="form-control GenerratedDate" />
+                                                    <div class="invalid-feedback">
+                                                        Please Select Date !!
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <input id="GenerratedDate" type="date" min="2015-01-01" max="2099-12-31" name="GenerratedDate" required class="form-control GenerratedDate" />
+                                                    <div class="invalid-feedback">
+                                                        Please Select Date !!
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <input id="GenerratedDate" type="date" min="2015-01-01" max="2099-12-31" name="GenerratedDate" required class="form-control GenerratedDate" />
+                                                <div class="invalid-feedback">
+                                                    Please Select Date !!
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="row col-md-12">
+
+
+                                        <div class="col-md-2 mb-2 hide">
+                                            <label for="Installment">Installment No.<span class="text-danger">*</span></label>
+
+                                            @if (Model != null)
+                                            {
+                                                <input type="number" id="Installment" min="0" name="Installment" class="form-control Installment" maxlength="10" value="@Model.Installment" tabindex="2" />
+                                            }
+                                            else
+                                            {
+                                                <input type="number" id="Installment" min="0" name="Installment" class="form-control Installment" maxlength="10" tabindex="2" />
+                                            }
+
+
+                                            <div class="invalid-feedback">
+                                                Please Enter Installement No.!!
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                        <div class="col-md-2 mb-2">
+                                            <label for="PaymentMode">Payment Mode<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("PaymentMode", null, "-- Select --", new { @class = "form-control select2 custom-select  PaymentMode", @data_val = "true", @required = "required", @onchange = "ChkChequeDtl();", @id = "PaymentMode", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Payment Mode !!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+
+                                            <label for="GeneratedAmount">Amount<span class="text-danger">*</span></label>
+
+                                            @if (Model != null)
+                                            {
+                                                <input type="number" id="GeneratedAmount" min="0.00" step="0.01" name="GeneratedAmount" class="form-control GeneratedAmount" required maxlength="100" value="@Model.GeneratedAmount" tabindex="2" />
+                                            }
+                                            else
+                                            {
+                                                <input type="number" id="GeneratedAmount" min="0.00" step="0.01" name="GeneratedAmount" class="form-control GeneratedAmount" required maxlength="100" tabindex="2" />
+                                            }
+
+                                            <div class="invalid-feedback">
+                                                Please Enter Amount!!
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-2 mb-2 chqdtl">
+                                            <label for="ChequeNo">Cheque Number </label>
+                                            @if (Model != null)
+                                            {
+
+                                                <input type="text" id="ChequeNo" name="ChequeNo" value="@Model.ChequeNo" maxlength="20" class="form-control ChequeNo" />
+                                            }
+                                            else
+                                            {
+                                                <input type="text" id="ChequeNo" name="ChequeNo" maxlength="20" class="form-control ChequeNo" />
+                                            }
+
+                                        </div>
+                                        <div class="col-md-2 mb-2 chqdtl">
+                                            <label for="ChequeDate">Cheque Date </label>
+                                            @if (Model != null)
+                                            {
+                                                string pdatetime = Convert.ToString(Model.ChequeDate);
+                                                if ((pdatetime != null && pdatetime != ""))
+                                                {
+                                                    var param = pdatetime.Split(' ');
+                                                    DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                    <input id="ChequeDate" type="date" min="2015-01-01" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",pdate)" name="ChequeDate" class="form-control ChequeDate" />
+                                                    <div class="invalid-feedback">
+                                                        Please Select Date !!
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <input id="ChequeDate" type="date" min="2015-01-01" max="2099-12-31" name="ChequeDate" class="form-control ChequeDate" />
+                                                    <div class="invalid-feedback">
+                                                        Please Select Date !!
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <input id="ChequeDate" type="date" min="2015-01-01" max="2099-12-31" name="ChequeDate" class="form-control ChequeDate" />
+                                                <div class="invalid-feedback">
+                                                    Please Select Date !!
+                                                </div>
+                                            }
+
+                                        </div>
+                                        <div class="col-md-4 mb-4">
+                                            <label for="FundAccountID">Fund Account</label>
+
+                                            @Html.DropDownList("FundAccountID", null, "Please select", new { @class = "form-control select2 custom-select  FundAccountID", @data_val = "true", @id = "FundAccountID", @onchange = "ChkFundAc();", @style = "width:50%;" })
+
+                                        </div>
+                                        <div class="col-md-4 mb-4 hide">
+                                            <label for="ChequeBankName">Cheque Issued Bank </label>
+                                            @if (Model != null)
+                                            {
+
+                                                <input type="text" id="ChequeBankName" name="ChequeBankName" value="@Model.ChequeBankName" maxlength="50" class="form-control ChequeBankName" />
+                                            }
+                                            else
+                                            {
+                                                <input type="text" id="ChequeBankName" name="ChequeBankName" maxlength="50" class="form-control ChequeBankName" />
+                                            }
+
+                                        </div>
+                                        @*<div class="col-md-3 mb-3">
+                <label for="collectionagent">Collected By<span class="text-danger">*</span></label>
+
+                @Html.DropDownList("collectionagent", null, "-- Select --", new { @class = "form-control select2 custom-select  collectionagent", @data_val = "true", @required = "required", @id = "collectionagent", @style = "width:50%;" })
+
+                <div class="invalid-feedback">
+                    Please Select Collected By!!
+                </div>
+
+            </div>*@
+                                        <div class="col-md-2 mb-2 chqdtl">
+                                            <label for="ChequeRealizedDate">Cheque Realized Date </label>
+                                            @if (Model != null)
+                                            {
+                                                string pdatetime = Convert.ToString(Model.ChequeRealizedDate);
+                                                if ((pdatetime != null && pdatetime != ""))
+                                                {
+                                                    var param = pdatetime.Split(' ');
+                                                    DateTime pdate = Convert.ToDateTime(param[0]).Date;
+                                                    <input id="ChequeRealizedDate" type="date" min="2015-01-01" max="2099-12-31" value="@String.Format("{0:yyyy-MM-dd}",pdate)" name="ChequeRealizedDate" class="form-control ChequeRealizedDate" />
+                                                    <div class="invalid-feedback">
+                                                        Please Select Date !!
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <input id="ChequeRealizedDate" type="date" min="2015-01-01" max="2099-12-31" name="ChequeRealizedDate" class="form-control ChequeRealizedDate" />
+                                                    <div class="invalid-feedback">
+                                                        Please Select Date !!
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <input id="ChequeRealizedDate" type="date" min="2015-01-01" max="2099-12-31" name="ChequeRealizedDate" class="form-control ChequeRealizedDate" />
+                                                <div class="invalid-feedback">
+                                                    Please Select Date !!
+                                                </div>
+                                            }
+
+                                        </div>
+
+                                        <div class="col-md-2 mb-2">
+                                            <label for="StatusTypeID">Status<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                            <div class="invalid-feedback">
+                                                Please Select Status !!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 Attachmentdiv" id="Attachmentdiv">
+                                        <div class="">
+
+                                            <div class="panel-body">
+                                                <span class="panel-title"><strong>Attachments</strong></span>
+                                                
+
+                                                <div class="col-lg-8">
+                                                    <input type="hidden" name="hiddentrandid" id="hiddentrandid" value="@ViewBag.hiddentrandid" />
+                                                    <div class="col-lg-12"><input type="file" name="filesupload" id="filesupload" value="" class="pull-left btn btn-success" multiple="multiple" />    <input type="submit" value="Upload Cheque or Payment Proof related Documents" title="Upload" class="pull-left btn btn-danger" disabled style="padding:6px;" /><br /></div>
+
+                                                </div>
+
+
+                                                <div>
+                                                    @if (ViewBag.PaymentFiles != null && ViewBag.PaymentFiles != "")
+                                                    {
+                                                        foreach (var fName in ViewBag.PaymentFiles)
+                                                        {
+
+                                                            var name = fName;
+                                                            var link = @Url.Content("~/PaymentFiles/" + ViewBag.hiddentrandid + "/") + name.Replace(" ", "%20");
+
+                                                            var del_link = @Url.Content("~/TransactionPayment/FilesDelete?id=" + ViewBag.hiddentrandid) + ";" + name.Replace(" ", "%20");
+
+
+                                                            <div class="col-lg-2">
+                                                                @if (fName.EndsWith("pdf"))
+                                                                {
+                                                                    <a href="@link" target="_blank" data-dismiss="modal">   <img src="~/Content/themes/base/images/pdf-icon.png" class="img-responsive  img-rounded img-thumbnail" style="height:50px;width:25%;margin-top:10px;" />&nbsp;&nbsp;@fName </a>
+
+                                                                }
+                                                                else if (fName.EndsWith("doc") || fName.EndsWith("docx"))
+                                                                {
+                                                                    <a href="@link" target="_blank" data-dismiss="modal">   <img src="~/Content/themes/base/images/doc%20icon.jpg" class="img-responsive  img-rounded img-thumbnail" style="height:50px;width:25%;margin-top:10px;" />  &nbsp;&nbsp; @fName</a>
+
+                                                                }
+
+                                                                else
+                                                                {
+                                                                    <a href="@link" target="_blank" data-dismiss="modal">   <img src="@link" class="img-responsive  img-rounded img-thumbnail" style="height:100px;width:100%;margin-top:10px;" /> @fName</a>
+                                                                }
+                                                                <a href="@del_link" class="btn  btn-lg btn-lg center-block"><i class="fa fa-trash-o color3" style="color:red"></i></a>
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="col-md-6">
+                                                <div class="col-md-4">
+
+                                                    <hr />
+
+
+                                                    <div id="imgPreview" class="thumbnail" style="display:none">
+                                                        <img class="img-responsive" id="targetImg" src="@ViewBag.imgsrc" />
+                                                        <div class="caption">
+                                                            <a href="@ViewBag.delteimgsrc" onclick="ClearPreview()"><i class="glyphicon glyphicon-trash"></i></a>
+                                                            <span id="description"></span>
+                                                        </div>
+                                                        @*<a href="#" class="btn btn-default" onclick="Uploadimage()">Upload</a>*@
+                                                    </div>
+
+                                                </div>
+                                                @*<div class="col-md-4 thumbnail" id="uploadedImage">
+                    </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12">
+                                        <div class="col-md-12 mb-12">
+                                            <label for="Remarks">Remarks </label>
+
+
+                                            @if (Model != null)
+                                            {
+
+                                                <input type="text" id="Remarks" name="Remarks" value="@Model.Remarks" maxlength="50" class="form-control Remarks" />
+                                            }
+                                            else
+                                            {
+                                                <input type="text" id="Remarks" name="Remarks" maxlength="50" class="form-control Remarks" />
+                                            }
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12 hide">
+
+
+                                        <div class="col-md-3 mb-3">
+                                            <label for="LinkedOfficeID">Different Office<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("LinkedOfficeID", null, "Please select Linked Office", new { @class = "form-control select2 custom-select  LinkedOfficeID", @data_val = "true", @id = "LinkedOfficeID", @style = "width:50%;" }) @*@required = "required",*@
+                                            <div class="invalid-feedback">
+                                                Please Select Linked Office !!
+                                            </div>
+                                        </div>
+
+                                        <div class="card-header bg-info">
+                                            <h4 class="mb-0 text-white">Fund Transfer to Another Product / Account</h4><a class="mb-0 text-white" style="margin-top:10px !important"></a>
+                                        </div>
+                                        <div class="row col-md-12">
+
+                                            <div class="col-md-3 mb-3">
+                                                <label for="TransferToProductID">Transfer to Product</label>
+                                                @Html.DropDownList("TransferToProductID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToProductID", @data_val = "true", @id = "TransferToProductID", @style = "width:50%;" })
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="TransferToCategory">Category</label>
+                                                @Html.DropDownList("TransferToCategory", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToCategory", @data_val = "true", @id = "TransferToCategory", @style = "width:50%;" })
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="TransferToSubscriptionID">Subscription A/c</label>
+                                                @Html.DropDownList("TransferToSubscriptionID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToSubscriptionID", @data_val = "true", @id = "TransferToSubscriptionID", @style = "width:50%;" })
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="TransferToFundAccountID">Fund A/c</label>
+                                                @Html.DropDownList("TransferToFundAccountID", null, "-- Select --", new { @class = "form-control select2 custom-select  TransferToFundAccountID", @data_val = "true", @id = "TransferToFundAccountID", @style = "width:50%;" })
+                                            </div>
+
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="d-md-flex align-items-center mt-3">
+
+                                            <a href="@Url.Action("Index", "TransactionPayment")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                            <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                                <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script type="text/javascript">
+
+        $(document).ready(function () {
+            ChkChequeDtl();
+            ChkFundAc();
+            if ($('#PaymentListID').val() == "") {
+                $('#PaymentListID').val("0");
+                //$('#Attachmentdiv').hide();
+                 var now = new Date();
+
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+                $('#GenerratedDate').val(today);
+                LoadSubTrnTyps();
+                LoadSubTrnTypsNPrdSubs();
+            }
+            else {
+                $('#Attachmentdiv').show();
+                //LoadSubTrnTyps();
+            }
+
+
+        });
+
+            function ChkFundAc() {
+                var fundac = $(".FundAccountID option:selected").text();
+                $(".ChequeBankName").val(fundac);
+
+            }
+            function ChkChequeDtl() {
+                var tmode = $(".PaymentMode option:selected").text();
+                if (tmode == "Cheque") {
+                    $(".chqdtl").show();
+                    $(".ChequeNo").attr("required", true)
+                    $(".ChequeDate").attr("required", true)
+                    $(".ChequeBankName").attr("required", true)
+                }
+                else {
+                    $(".chqdtl").hide();
+                    $(".ChequeNo").removeAttr("required", true)
+                    $(".ChequeDate").removeAttr("required", true)
+                    $(".ChequeBankName").removeAttr("required", true)
+                }
+
+            }
+        function LoadSubTrnTyps() {
+            var trncatg = $("#TransactionCategory option:selected").text().substr(1, 1);
+            var prod = $("#ProductTypeTypeID option:selected").val();
+            var pymtlstid = $(".PaymentListID").val();
+
+            if (prod > 0 && trncatg != null && trncatg != "" && (pymtlstid = "" || pymtlstid == "0")) {
+                url = '@Url.Action("GetProductSubTrnTypDtl", "TransactionPayment")/?id=' + trncatg + '~' + prod;
+                //alert(url);
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        $("#SubsTranCategory").empty().trigger('change');
+                        $("#SubsTranCategory").append('<option value="">Please Select Sub Tran Category</option>');
+                        var i = 0;
+                        $.each(data, function (i, dataval) {
+                            $("#SubsTranCategory").append('<option value="' + dataval.TypeID + '">' + dataval.Type + '</option>');
+
+                        });
+
+                    },
+                    complete: function () {
+                        //alert('hi');
+                    },
+                    error: function (ex) {
+                        alert('Failed to Get Details due to Error: ' + ex);
+                    }
+                });
+            }
+
+        }
+
+        function LoadSubTrnTypsNPrdSubs() {
+            var trncatg = $("#TransactionCategory option:selected").val();
+            var prod = $("#ProductTypeTypeID option:selected").val();
+            var pymtlstid = $(".PaymentListID").val();
+
+            if (prod > 0 && trncatg != null && trncatg != "" && (pymtlstid = "" || pymtlstid == "0")) {
+                url = '@Url.Action("GetProductSubTrnTypDtl", "TransactionPayment")/?id=' + trncatg + '~' + prod;
+
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        $("#SubsTranCategory").empty().trigger('change');
+                        $("#SubsTranCategory").append('<option value="">Please Select Sub Tran Category</option>');
+                        var i = 0;
+                        $.each(data, function (i, dataval) {
+                            $("#SubsTranCategory").append('<option value="' + dataval.TypeID + '">' + dataval.Type + '</option>');
+
+                        });
+
+                    },
+                    complete: function () {
+                        url = '@Url.Action("GetProductSubsDtl", "TransactionPayment")/?id=' + trncatg + '~' + prod;
+                        $.ajax({
+                            type: 'post',
+                            url: url,
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log(data);
+                                $("#SubscriptionID").empty().trigger('change');
+                                $("#SubscriptionID").append('<option value="">Please Select Subscription</option>');
+                                var i = 0;
+                                $.each(data, function (i, dataval) {
+                                    $("#SubscriptionID").append('<option value="' + dataval.subscriptionid + '">' + dataval.subscriptioncode + '</option>');
+
+                                });
+
+                            },
+                            complete: function () {
+                                //alert('hi');
+                            },
+                            error: function (ex) {
+                                alert('Failed to Get Details due to Error: ' + ex);
+                            }
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to Get Details due to Error: ' + ex);
+                    }
+                });
+            }
+
+        }
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var ids = $("#PaymentListID").val();
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('TransactionPaymentform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "TransactionPayment";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#TransactionPaymentform').serialize();
+                            //submitFormData(ActionName, controllername, pagetitle, formData);
+                            var fileActionName = "SavePaymentFiles";
+                            var fileUpload = $("#filesupload").get(0); //document.getElementById("filesupload").files[0];//
+                            var files = fileUpload.files;
+                            //alert(trandid);
+                            // Create FormData object
+                            var fileData = new FormData();
+                            //fileData.append("trandid", trandid);
+                            // Looping over all files and add it to FormData object
+                            for (var i = 0; i < files.length; i++) {
+                                //alert(files[i].name);
+                                fileData.append(files[i].name, files[i]);
+                            }
+
+                            submitFormFileData(ActionName, controllername, pagetitle, formData, fileData, fileActionName, ids);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+
+
+
+        </script>
+
+
+
+    }

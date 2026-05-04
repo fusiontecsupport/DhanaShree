@@ -1,0 +1,406 @@
+@using CHITERP.Models
+@model CHITERP.Models.TransactionCollectionList
+@{
+    ViewBag.Title = ViewBag.Title ?? "Daily Bulk Collection Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title</h4>
+                </div>
+                <form action="#" method="post" class="needs-validation" id="DailyBulkCollectionForm" name="DailyBulkCollectionForm" novalidate>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="row col-md-12">
+                                <div class="col-md-2 mb-2">
+                                    <label for="ProductTypeID">Product<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("ProductTypeID", null, "-- Select --", new { @class = "form-control select2 custom-select ProductTypeID", @data_val = "true", @required = "required", @id = "ProductTypeID", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Product !!
+                                    </div>
+                                </div>
+                                <div class="col-md-2 mb-2">
+                                    <label for="TransactionCategory">Transaction Category<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("TransactionCategory", null, new { @class = "form-control select2 custom-select TransactionCategory", @data_val = "true", @required = "required", @id = "TransactionCategory", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Transaction Category !!
+                                    </div>
+                                </div>
+                                <div class="col-md-2 mb-2">
+                                    <label for="SubsTranCategory">Sub Category<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("SubsTranCategory", null, "-- Select --", new { @class = "form-control select2 custom-select SubsTranCategory", @data_val = "true", @required = "required", @id = "SubsTranCategory", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Category !!
+                                    </div>
+                                </div>
+                                <div class="col-md-2 mb-2">
+                                    <label for="GeneratedDate">Collection Date</label>
+                                    <input id="GeneratedDate" type="date" min="2015-01-01" max="2099-12-31" name="GeneratedDate" required class="form-control GeneratedDate" />
+                                    <div class="invalid-feedback">
+                                        Please Select Date !!
+                                    </div>
+                                </div>
+                                <div class="col-md-2 mb-2">
+                                    <label for="StatusTypeID">Status<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Status !!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-md-12">
+                                <div class="col-md-12 mb-12">
+                                    <label for="Remarks">Remarks </label>
+                                    <input type="text" id="Remarks" name="Remarks" maxlength="50" class="form-control Remarks" />
+                                </div>
+                            </div>
+
+                            <div class="row col-md-12 mt-2">
+                                <div class="col-md-3 mb-2">
+                                    <label for="AssignedToEmployeeID">Assigned To Employee</label>
+                                    @Html.DropDownList("AssignedToEmployeeID", (IEnumerable<SelectListItem>)ViewBag.AssignedToEmployeeID, "-- Select Employee --", new { @class = "form-control select2 custom-select AssignedToEmployeeID", @id = "AssignedToEmployeeID", @style = "width:50%;" })
+                                </div>
+                                <div class="col-md-3 mb-2">
+                                    <label for="RouteID">Route</label>
+                                    @Html.DropDownList("RouteID", (IEnumerable<SelectListItem>)ViewBag.RouteID, "-- Select Route --", new { @class = "form-control select2 custom-select RouteID", @id = "RouteID", @style = "width:50%;" })
+                                </div>
+                            </div>
+
+                            <div class="row col-md-12 mt-3">
+                                <div class="col-md-12 mb-12">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h5 class="mb-0">Subscription List</h5>
+                                        <input type="text" id="SubsSearch" class="form-control form-control-sm" style="max-width:250px;" placeholder="Search by Subscription" />
+                                    </div>
+                                    <table class="table table-bordered table-striped" id="BulkSubsTable">
+                                        <thead class="tblhead">
+                                            <tr>
+                                                <th style="width:40px;">Select</th>
+                                                <th>Subscription</th>
+                                                <th style="width:150px;">Mode</th>
+                                                <th style="width:120px;">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @* rows will be added by script *@
+                                        </tbody>
+                                    </table>
+                                    <div class="row mt-2">
+                                        <div class="col-md-2">
+                                            <strong>Total Amount:</strong>
+                                            <span id="TotalAmount">0.00</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <strong>Cash Amount:</strong>
+                                            <span id="CashAmount">0.00</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <strong>Cheque Amount:</strong>
+                                            <span id="ChequeAmount">0.00</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <strong>GPay/UPI Amount:</strong>
+                                            <span id="GPayAmount">0.00</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <strong>Transfer Amount:</strong>
+                                            <span id="TransferAmount">0.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row col-12 mt-3">
+                                <div class="d-md-flex align-items-center mt-3">
+                                    <a href="@Url.Action("Index", "TransactionDailyCollection")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                <input type="hidden" id="BulkItems" name="BulkItems" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var now = new Date();
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+            $('#GeneratedDate').val(today);
+
+            $('#AssignedToEmployeeID').on('change', function () {
+                loadEmployeeRoutes();
+            });
+
+            $('#RouteID').on('change', function () {
+                loadActiveSubscriptions();
+            });
+
+            $('#TransactionCategory').on('change', function () {
+                loadSubTranCategories();
+            });
+
+            $('#ProductTypeID').on('change', function () {
+                loadSubTranCategories();
+                loadActiveSubscriptions();
+            });
+
+            $('#SubsSearch').on('keyup', function () {
+                var term = $(this).val().toLowerCase();
+                $('#BulkSubsTable tbody tr').each(function () {
+                    var code = $(this).find('.bulk-subs-code').text().toLowerCase();
+                    if (code.indexOf(term) !== -1) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+                recalcTotals();
+            });
+
+            $('#BulkSubsTable').on('change', '.bulk-select, .bulk-amount, .bulk-mode', function () {
+                recalcTotals();
+            });
+
+            $('#DailyBulkCollectionForm').on('submit', function (event) {
+                var form = this;
+
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(form).addClass('was-validated');
+                    return false;
+                }
+
+                event.preventDefault();
+                event.stopPropagation();
+                $(form).addClass('was-validated');
+
+                var items = [];
+                $('#BulkSubsTable tbody tr').each(function () {
+                    var $row = $(this);
+                    if (!$row.find('.bulk-select').is(':checked')) {
+                        return;
+                    }
+
+                    var subsId = $row.find('.bulk-subs-id').val();
+                    var modeId = $row.find('.bulk-mode').val();
+                    var amt = $row.find('.bulk-amount').val();
+
+                    if (subsId && modeId && amt && parseFloat(amt) > 0) {
+                        items.push(subsId + '~' + modeId + '~' + amt);
+                    }
+                });
+
+                if (items.length === 0) {
+                    Swal.fire('Validation', 'Please select at least one subscription with mode and amount.', 'warning');
+                    return false;
+                }
+
+                $('#BulkItems').val(items.join('|'));
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Are you sure to Submit the Information !",
+                    type: "warning",
+                    confirmButtonText: "Yes",
+                    showCancelButton: true,
+                    cancelButtonColor: "#d43f3a",
+                    cancelButtonText: "No",
+                    showCloseButton: true,
+                    position: "Center",
+                }).then((result) => {
+                    if (result.value) {
+                        var ActionName = "SaveBulk";
+                        var controllername = "TransactionDailyCollection";
+                        var pagetitle = "@ViewBag.Title";
+                        var formData = $('#DailyBulkCollectionForm').serialize();
+                        submitFormData(ActionName, controllername, pagetitle, formData);
+                    }
+                    else if (result.isDenied) {
+                        Swal.fire('Changes are not saved', '', 'info')
+                        return false;
+                    }
+                });
+            });
+
+            loadSubTranCategories();
+        });
+
+        function loadSubTranCategories() {
+            var prod = $("#ProductTypeID").val();
+            var trncatg = $("#TransactionCategory").val();
+
+            if (!prod) {
+                $("#SubsTranCategory").empty();
+                $("#SubsTranCategory").append('<option value="">-- Select --</option>');
+                return;
+            }
+
+            if (!trncatg) {
+                trncatg = "C";
+            }
+
+            var url = '@Url.Action("GetProductSubTrnTypDtl", "TransactionCollection")' + '?id=' + trncatg + '~' + prod;
+
+            $.ajax({
+                type: 'post',
+                url: url,
+                dataType: 'json',
+                success: function (data) {
+                    $("#SubsTranCategory").empty().trigger('change');
+                    $("#SubsTranCategory").append('<option value="">Please Select Sub Tran Category</option>');
+                    $.each(data, function (i, dataval) {
+                        $("#SubsTranCategory").append('<option value="' + dataval.TypeID + '">' + dataval.Type + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    // silently ignore errors to avoid impacting other functionality
+                }
+            });
+        }
+
+        function loadActiveSubscriptions() {
+            var prod = $("#ProductTypeID").val();
+            var $tbody = $("#BulkSubsTable tbody");
+            $tbody.empty();
+
+            if (prod == null || prod === "") {
+                return;
+            }
+
+            var empId = $("#AssignedToEmployeeID").val();
+            var routeId = $("#RouteID").val();
+
+            var baseUrl = $("#BaseUrl").data("baseurl");
+            $.ajax({
+                url: baseUrl + "/TransactionDailyCollection/GetActiveSubscriptions",
+                type: 'GET',
+                data: { prod: prod, empId: empId, routeId: routeId },
+                success: function (data) {
+                    if (data && data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            var row = '<tr>' +
+                                '<td class="text-center"><input type="checkbox" class="bulk-select" /></td>' +
+                                '<td><span class="bulk-subs-code">' + data[i].SubscriptionCode + '</span><input type="hidden" class="bulk-subs-id" value="' + data[i].SubscriptionID + '" /></td>' +
+                                '<td>' + buildModeSelect() + '</td>' +
+                                '<td><input type="number" class="form-control bulk-amount" min="0.00" step="0.01" value="0" /></td>' +
+                                '</tr>';
+                            $tbody.append(row);
+                        }
+                        recalcTotals();
+                    }
+                },
+                error: function (ex) {
+                    // handle error silently for now
+                }
+            });
+        }
+
+        function loadEmployeeRoutes() {
+            var empId = $("#AssignedToEmployeeID").val();
+            var $route = $("#RouteID");
+
+            $route.empty();
+            $route.append($('<option>', { value: '', text: '-- Select Route --' }));
+
+            if (empId == null || empId === "") {
+                return;
+            }
+
+            var baseUrl = $("#BaseUrl").data("baseurl");
+            $.ajax({
+                url: baseUrl + "/TransactionDailyCollection/GetEmployeeRoutes",
+                type: 'GET',
+                data: { empId: empId },
+                success: function (data) {
+                    if (data && data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            $route.append($('<option>', { value: data[i].RouteID, text: data[i].RouteName }));
+                        }
+                    }
+
+                    // refresh select2
+                    if ($route.data('select2')) {
+                        $route.trigger('change.select2');
+                    }
+
+                    // reload subscriptions when routes are updated
+                    loadActiveSubscriptions();
+                },
+                error: function (ex) {
+                    // ignore error for now
+                }
+            });
+        }
+
+        function recalcTotals() {
+            var total = 0;
+            var cashTotal = 0;
+            var chequeTotal = 0;
+            var gpayTotal = 0;
+            var transferTotal = 0;
+
+            $('#BulkSubsTable tbody tr:visible').each(function () {
+                var $row = $(this);
+                if (!$row.find('.bulk-select').is(':checked')) {
+                    return;
+                }
+
+                var amt = parseFloat($row.find('.bulk-amount').val()) || 0;
+                total += amt;
+
+                var modeText = $row.find('.bulk-mode option:selected').text().toLowerCase();
+
+                if (modeText.indexOf('cash') !== -1) {
+                    cashTotal += amt;
+                }
+                else if (modeText.indexOf('cheque') !== -1) {
+                    chequeTotal += amt;
+                }
+                else if (modeText.indexOf('gpay') !== -1 || modeText.indexOf('upi') !== -1) {
+                    gpayTotal += amt;
+                }
+                else if (modeText.indexOf('transfer') !== -1) {
+                    transferTotal += amt;
+                }
+            });
+
+            $('#TotalAmount').text(total.toFixed(2));
+            $('#CashAmount').text(cashTotal.toFixed(2));
+            $('#ChequeAmount').text(chequeTotal.toFixed(2));
+            $('#GPayAmount').text(gpayTotal.toFixed(2));
+            $('#TransferAmount').text(transferTotal.toFixed(2));
+        }
+
+        function buildModeSelect() {
+            var selectHtml = '<select class="form-control select2 custom-select bulk-mode" style="width:100%;">';
+            selectHtml += '<option value="">-- Select --</option>';
+            @* Build options from ViewBag.TransactionModeTypeID *@
+            @if (ViewBag.TransactionModeTypeID != null)
+            {
+                var list = (IEnumerable<SelectListItem>)ViewBag.TransactionModeTypeID;
+                foreach (var item in list)
+                {
+                    <text>
+                        selectHtml += '<option value="@item.Value">@item.Text</option>';
+                    </text>;
+                }
+            }
+            selectHtml += '</select>';
+            return selectHtml;
+        }
+    </script>
+}

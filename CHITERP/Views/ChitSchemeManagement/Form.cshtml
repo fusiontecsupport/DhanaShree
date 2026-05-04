@@ -1,0 +1,1252 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.ChitSchemeList
+
+@{
+    ViewBag.Title = "Chit Scheme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .spacer5 {
+        height: 15px;
+    }
+    /*   body {
+        font-family: Arial !important;
+    }*/
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+
+                <div class="card-header bg-info">
+                    <h4 class="mb-0 text-white">@ViewBag.Title </h4><a class="mb-0 text-white" style="margin-top:10px !important"> <strong> (@ViewBag.ChitSchemeName) </strong></a>
+                </div>
+
+                <div class="card-body">
+                    <div id="mytab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" id="General">
+                                <a class="nav-link d-flex active tab" data-bs-toggle="tab" href="#home2" role="tab" aria-selected="true">
+                                    <span>
+                                        <i class="fa fa-tree"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">General</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" id="AddressDetails">
+                                <a class="nav-link d-flex tab1" data-bs-toggle="tab" href="#profile2" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-shipping-fast"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">
+                                        Scheme Pattern
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="nav-item" id="YardDetails">
+                                <a class="nav-link d-flex tab2" data-bs-toggle="tab" href="#messages2" role="tab" aria-selected="false">
+                                    <span>
+                                        <i class="fa fa-users"></i>
+                                    </span>
+                                    <span class="d-none d-md-block ms-2">Collection Pattern</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="home2" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <br />
+                                        <form action="@Url.Content("~/ChitSchemeManagement/Savedata")" method="post" data-flag="0" class="needs-validation ChitSchemeManagementform" id="ChitSchemeManagementform" name="ChitSchemeManagementform" novalidate onsubmit="return ValidateMyform(this,event);">
+                                            <div class="row">
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="ChitSchemeID">Id</label>
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="text" id="ChitSchemeID" name="ChitSchemeID" value="@Model.chitscheme[0].ChitSchemeID" class="form-control ChitSchemeID" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="ChitSchemeID" name="ChitSchemeID" value="0" class="form-control ChitSchemeID" />
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="ChitTypeID">Type <span class="text-danger">*</span></label>
+
+                                                    @Html.DropDownList("ChitTypeID", null, "Please select Type", new { @class = "form-control select2 custom-select  ChitTypeID", @data_val = "true", @required = "required", @id = "ChitTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Type !!
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="ChitSchemeCode">Scheme Code <span class="text-danger">*</span></label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="text" id="ChitSchemeCode" name="ChitSchemeCode" value="@Model.chitscheme[0].ChitSchemeCode" class="form-control ChitSchemeCode" required placeholder="Scheme Code" maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Scheme Code !!
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="ChitSchemeCode" name="ChitSchemeCode" class="form-control ChitSchemeCode" required placeholder="Scheme Code" maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Scheme Code !!
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="ChitSchemeName">Scheme Name<span class="text-danger">*</span></label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="text" id="ChitSchemeName" name="ChitSchemeName" value="@Model.chitscheme[0].ChitSchemeName" class="form-control ChitSchemeName" required placeholder="Scheme Name" maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Scheme Name !!
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="ChitSchemeName" name="ChitSchemeName" class="form-control ChitSchemeName" required placeholder="Scheme Name" maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Scheme Name !!
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="ChitValue">Value (₹)<span class="text-danger">*</span></label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="ChitValue" name="ChitValue" value="@Model.chitscheme[0].ChitValue" class="form-control ChitValue" required placeholder="Value" maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Value !!
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="ChitValue" name="ChitValue" class="form-control ChitValue" required placeholder="Value" maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Value !!
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="ForemanCommision">Foreman Comsn. (%)</label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="ForemanCommision" name="ForemanCommision" value="@Model.chitscheme[0].ForemanCommision" class="form-control ForemanCommision" placeholder="Foreman Com" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="ForemanCommision" name="ForemanCommision" class="form-control ForemanCommision" placeholder="Foreman Com" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="ChitDuration">Duration<span class="text-danger">*</span></label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="ChitDuration" name="ChitDuration" value="@Model.chitscheme[0].ChitDuration" class="form-control ChitDuration" required placeholder="Duration" maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Duration !!
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="ChitDuration" name="ChitDuration" class="form-control ChitDuration" required placeholder="Duration" maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Duration !!
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="DurationTypeId">Days<span class="text-danger">*</span></label>
+
+                                                    @Html.DropDownList("DurationTypeId", null, "Please select Days", new { @class = "form-control select2 custom-select  DurationTypeId", @data_val = "true", @required = "required", @id = "DurationTypeId", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Days !!
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="InitialDiscount">Initial Discount (%)</label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="InitialDiscount" name="InitialDiscount" value="@Model.chitscheme[0].InitialDiscountPerc" class="form-control InitialDiscount" placeholder="Initial Discount" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="InitialDiscount" name="InitialDiscount" class="form-control InitialDiscount" placeholder="Initial Discount" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="InitialDividend">Initial Dividend (%)</label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="InitialDividend" name="InitialDividend" value="@Model.chitscheme[0].InitialDividendPerc" class="form-control InitialDividend" placeholder="Initial Dividend" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="text" id="InitialDividend" name="InitialDividend" class="form-control InitialDividend" placeholder="Initial Dividend" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="SealingPeriod">Sealing Period</label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="SealingPeriod" name="SealingPeriod" value="@Model.chitscheme[0].SealingPeriod" class="form-control SealingPeriod" placeholder="Sealing Period" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="SealingPeriod" name="SealingPeriod" class="form-control SealingPeriod" placeholder="Sealing Period" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="ReGenPatrnOpt">Regenerate Pattern</label> <br />
+
+                                                    <input type="checkbox" style="width:30px;" id="ReGenPatrnOpt" name="ReGenPatrnOpt" class="ReGenPatrnOpt" tabindex="2" onchange="Chk(this);" />
+                                                    <input type="text" id="boolReGen" name="boolReGen" value="0" class="form-control boolReGen hide" tabindex="2" />
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label>Book Verification <span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("BookVerificationTypeId", null, "Please select", new { @class = "form-control select2 custom-select  BookVerificationTypeId", @data_val = "true", @required = "required", @id = "BookVerificationTypeId", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Book Verification !!
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="ForemanPrizeInstalment">Prize Install.</label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="ForemanPrizeInstalment" name="ForemanPrizeInstalment" value="@Model.chitscheme[0].ForemanPrizeInstalment" class="form-control ForemanPrizeInstalment" placeholder="Prize Install" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="ForemanPrizeInstalment" name="ForemanPrizeInstalment" class="form-control ForemanPrizeInstalment" placeholder="Prize Install" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="CommissionEmp">Commission Emp (%)<span class="text-danger">*</span></label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="CommissionEmp" name="CommissionEmp" value="@Model.chitscheme[0].CommissionEmp" class="form-control CommissionEmp" required placeholder="Commission Emp" maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Commission Emp !!
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="CommissionEmp" name="CommissionEmp" class="form-control CommissionEmp" required placeholder="Commission Emp" maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Commission Emp !!
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+                                                    <label for="SubscriptionAmount">Subscription (₹)</label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="SubscriptionAmount" readonly name="SubscriptionAmount" value="@Model.chitscheme[0].SubscriptionAmount" class="form-control SubscriptionAmount" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="SubscriptionAmount" name="SubscriptionAmount" readonly value="@ViewBag.SubscriptionAmount" class="form-control SubscriptionAmount" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2">
+
+                                                    <label>Status <span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Status !!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-3 mb-3 hide">
+                                                    <label for="AmountCodeID">Amount Code <span class="text-danger">*</span></label>
+
+                                                    @Html.DropDownList("AmountCodeID", null, "Please select Amount Code", new { @class = "form-control select2 custom-select  AmountCodeID", @data_val = "true", @id = "AmountCodeID", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Amount Code !!
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="BidCapAmount">Bid Cap (%)</label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="BidCapAmount" name="BidCapAmount" value="@Model.chitscheme[0].BidCapAmount" class="form-control BidCapAmount" placeholder="Bid Cap (%)" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="BidCapAmount" name="BidCapAmount" class="form-control BidCapAmount" placeholder="Bid Cap (%)" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                </div>
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="CommissionNonEmp">Non Emp (%)<span class="text-danger">*</span></label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="CommissionNonEmp" name="CommissionNonEmp" value="@Model.chitscheme[0].CommissionNonEmp" class="form-control CommissionNonEmp" placeholder="Non Emp" maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Non Emp !!
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="CommissionNonEmp" name="CommissionNonEmp" class="form-control CommissionNonEmp" placeholder="Non Emp" maxlength="50" tabindex="2" />
+                                                        <div class="invalid-feedback">
+                                                            Please Enter Non Emp !!
+                                                        </div>
+                                                    }
+                                                </div>
+
+
+
+
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label>Ascertainment <span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("AscertainmentTypeId", null, "Please select Auction", new { @class = "form-control select2 custom-select  AscertainmentTypeId", @data_val = "true", @id = "AscertainmentTypeId", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Auction !!
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label>Collection Frequency <span class="text-danger">*</span></label>
+                                                    @Html.DropDownList("AscertainmentFrequencyTypeId", null, "Please select Frequency", new { @readonly = "readonly", @class = "form-control select2 custom-select  AscertainmentFrequencyTypeId", @data_val = "true", @id = "AscertainmentFrequencyTypeId", @style = "width:50%;" })
+                                                    <div class="invalid-feedback">
+                                                        Please Select Frequency !!
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="AverageDiscount">Avg. Discount (%)</label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="AverageDiscount" readonly name="AverageDiscount" value="@Model.chitscheme[0].AverageDiscount" class="form-control AverageDiscount" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="AverageDiscount" name="AverageDiscount" readonly class="form-control AverageDiscount" value="@ViewBag.AverageDiscount" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="AverageDiscountAmount">Avg. Discount Amount</label>
+                                                    <input type="number" id="AverageDiscountAmount" name="AverageDiscountAmount" value="@ViewBag.AverageDiscountAmount" readonly class="form-control AverageDiscountAmount" maxlength="50" tabindex="2" />
+                                                </div>
+
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="AverageDivident">Avg. Dividend (%)</label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="AverageDivident" readonly name="AverageDivident" value="@Model.chitscheme[0].AverageDivident" class="form-control AverageDivident" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="AverageDivident" name="AverageDivident" value="@ViewBag.AverageDivident" readonly class="form-control AverageDivident" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-1 hide">
+                                                    <label for="AverageDividentAmount">Avg. Dividend Amount</label>
+                                                    <input type="number" id="AverageDividentAmount" name="AverageDividentAmount" value="@ViewBag.AverageDividentAmount" readonly class="form-control AverageDividentAmount" maxlength="50" tabindex="2" />
+
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+
+
+
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="EligibilityAmount">Eligibility Amount (₹)</label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="EligibilityAmount" readonly name="EligibilityAmount" value="@Model.chitscheme[0].EligibilityAmount" class="form-control EligibilityAmount" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="EligibilityAmount" name="EligibilityAmount" readonly class="form-control EligibilityAmount" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-2 mb-2 hide">
+                                                    <label for="SubscriberReturns">Subscriber Returns (%)</label>
+
+                                                    @if (Model.chitscheme.Count > 0)
+                                                    {
+                                                        <input type="number" id="SubscriberReturns" readonly name="SubscriberReturns" value="@Model.chitscheme[0].SubscriberReturns" class="form-control SubscriberReturns" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" id="SubscriberReturns" name="SubscriberReturns" readonly class="form-control SubscriberReturns" maxlength="50" tabindex="2" />
+
+                                                    }
+                                                </div>
+
+
+
+
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="d-md-flex align-items-center mt-3">
+
+                                                    <a href="@Url.Action("Index", "ChitSchemeManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+                                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane p-3" id="profile2" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form action="@Url.Content("~/ChitSchemeManagement/SaveSPData")" method="post" data-flag="0" class="needs-validation SchemePatternform" id="SchemePatternform" name="SchemePatternform" novalidate onsubmit="return ValidateSchemePatternform(this,event);">
+                                                <div class="row">
+                                                    <div class="col-lg-3 hide">
+                                                        <div class="form-group">
+                                                            <label>primary</label>
+                                                            <input class="form-control" id="ChitSchemeID" value="@ViewBag.ChitSchemeID" name="ChitSchemeID" />
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" id="SMTDETAILIDX" value="0" name="SMTDETAILIDX" class="SMTDETAILIDX hide" />
+
+
+
+                                                    <table class='table table-striped table-bordered bootstrap-datatable' id="SMTDETAIL">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><label>Install No<span class="required-field"></span></label></th>
+                                                                <th><label>Subs.Amt</label></th>
+                                                                <th><label>Due.Amt</label></th>
+                                                                <th><label>Divident (%)</label></th>
+                                                                <th><label>Divident (₹)</label></th>
+                                                                <th><label>Discount (%)</label></th>
+                                                                <th><label>Discount (₹)</label></th>
+                                                                <th><label>Prize Amt. (₹)</label></th>
+                                                                <th class="hide"> <a class="btn btn-success btn-sm" href="#" id="smadd_detail"><i class="fa fa-plus-square" style="color:white"></i></a></th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="SMTDETAIL_BODY" id="SMTDETAIL_BODY">
+                                                            @if (Model.chitschemepatterns.Count > 0)
+                                                            {
+                                                                var order = 0;
+                                                                foreach (ChitSchemePattern details in Model.chitschemepatterns)
+                                                                {
+                                                                    order = ++order;
+                                                                    <tr class="item-row">
+
+                                                                        <td class="col-md-1">
+                                                                            <input type="text" id="PatternID" class="PatternID hide" name="PatternID" value="@details.PatternID" />
+                                                                            <input id="ChitInstalmentNo" type="number" readonly value="@details.ChitInstalmentNo" name="ChitInstalmentNo" class="form-control ChitInstalmentNo" required />
+                                                                        </td>
+                                                                        <td class="col-md-2">
+
+                                                                            <input id="DtlSubsAmt" readonly type="number" min="0.00" step="0.01" value="@ViewBag.SubscriptionAmount" name="DtlSubsAmt" class="form-control DtlDueAmt" />
+                                                                        </td>
+                                                                        <td class="col-md-2">
+
+                                                                            <input id="DtlDueAmt" readonly type="number" min="0.00" step="0.01" name="DtlDueAmt" class="form-control DtlDueAmt" />
+                                                                        </td>
+                                                                        <td class="col-md-1">
+
+                                                                            <input id="DividentPercentage" min="0.00" step="0.01" type="number" value="@details.DividentPercentage" name="DividentPercentage" onchange="CalcDividentAmt(this);" class="form-control DividentPercentage" />
+                                                                        </td>
+
+                                                                        <td class="col-md-2">
+
+                                                                            <input id="DividentAmount" min="0.00" step="0.01" type="number" value="@details.DividentAmount" name="DividentAmount" readonly class="form-control DividentAmount" />
+                                                                        </td>
+                                                                        <td class="col-md-1">
+
+                                                                            <input id="DiscountPercentage" min="0.00" step="0.01" type="number" value="@details.DiscountPercentage" name="DiscountPercentage" onchange="CalcDiscountAmt(this);" class="form-control DiscountPercentage" />
+                                                                        </td>
+
+                                                                        <td class="col-md-1">
+
+                                                                            <input id="DiscountAmount" min="0.00" step="0.01" type="number" value="@details.DiscountAmount" name="DiscountAmount" readonly class="form-control DiscountAmount" />
+                                                                        </td>
+                                                                        <td class="col-md-2">
+
+                                                                            <input id="DtlPrzAmt" type="number" min="0.00" step="0.01" name="DtlPrzAmt" readonly class="form-control DtlPrzAmt" />
+                                                                        </td>
+                                                                        <td class=" col-md-1 hide">
+
+                                                                            <a class="btn btn-danger hide btn-sm" id="smdel_detail"> <i class="fa fa-trash" style="color:white"></i></a>
+
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="item-row">
+
+                                                                    <td class="col-md-1">
+                                                                        <input type="text" id="PatternID" class="PatternID hide" name="PatternID" value="" />
+                                                                        <input id="ChitInstalmentNo" readonly type="number" min="1" value="0" name="ChitInstalmentNo" class="form-control ChitInstalmentNo" required />
+                                                                    </td>
+                                                                    <td class="col-md-2">
+
+                                                                        <input id="DtlSubsAmt" readonly type="number" min="0.00" step="0.01" value="@ViewBag.SubscriptionAmount" name="DtlSubsAmt" class="form-control DtlDueAmt" />
+                                                                    </td>
+                                                                    <td class="col-md-2">
+
+                                                                        <input id="DtlDueAmt" readonly type="number" min="0.00" step="0.01" name="DtlDueAmt" class="form-control DtlDueAmt" />
+                                                                    </td>
+                                                                    <td class="col-md-1">
+
+                                                                        <input id="DividentPercentage" type="number" value="0" min="0.00" step="0.01" name="DividentPercentage" onchange="CalcDividentAmt(this);" class="form-control DividentPercentage" />
+                                                                    </td>
+
+                                                                    <td class="col-md-1">
+
+                                                                        <input id="DividentAmount" type="number" value="0" min="0.00" step="0.01" name="DividentAmount" class="form-control DividentAmount" />
+                                                                    </td>
+                                                                    <td class="col-md-1">
+
+                                                                        <input id="DiscountPercentage" type="number" value="0" min="0.00" step="0.01" name="DiscountPercentage" onchange="CalcDiscountAmt(this);" class="form-control DiscountPercentage" />
+                                                                    </td>
+
+                                                                    <td class="col-md-1">
+
+                                                                        <input id="DiscountAmount" type="number" value="0" min="0.00" step="0.01" name="DiscountAmount" class="form-control DiscountAmount" />
+                                                                    </td>
+                                                                    <td class="col-md-2">
+
+                                                                        <input id="DtlPrzAmt" type="number" min="0.00" step="0.01" name="DtlPrzAmt" readonly class="form-control DtlPrzAmt" />
+                                                                    </td>
+                                                                    <td class=" col-md-1 hide">
+
+                                                                        <a class="btn btn-danger hide btn-sm" id="smdel_detail"> <i class="fa fa-trash" style="color:white"></i></a>
+
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+
+                                                        <a href="@Url.Action("Form", "ChitSchemeManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                                        <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                                            <button id="btnsmsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane p-3" id="messages2" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form action="@Url.Content("~/ChitSchemeManagement/SaveCPData")" method="post" data-flag="0" class="needs-validation CollectionPatternform" id="CollectionPatternform" name="CollectionPatternform" novalidate onsubmit="return ValidateCollectionPatternform(this,event);">
+                                                <div class="row">
+                                                    <div class="col-lg-3 hide">
+                                                        <div class="form-group">
+                                                            <label>primary</label>
+                                                            <input class="form-control" id="ChitSchemeID" value="@ViewBag.ChitSchemeID" name="ChitSchemeID" />
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" id="EMTDETAILIDX" value="0" name="EMTDETAILIDX" class="EMTDETAILIDX hide" />
+                                                    <table class='table table-striped table-bordered bootstrap-datatable' id="EMTDETAIL">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><label>Frequency</label></th>
+                                                                <th><label>Amount (₹)</label></th>
+                                                                <th><label>Final (₹)</label></th>
+
+                                                                <th> <a class="btn btn-success btn-sm hide" href="#" id="emadd_detail"><i class="fa fa-plus-square" style="color:white"></i></a></th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="EMTDETAIL_BODY" id="EMTDETAIL_BODY">
+                                                            @if (Model.chitschemecollections.Count > 0)
+                                                            {
+                                                                var order = 0;
+                                                                foreach (ChitSchemeCollection details in Model.chitschemecollections)
+                                                                {
+                                                                    order = ++order;
+                                                                    <tr class="item-row">
+
+                                                                        <td class="col-md-2">
+                                                                            <input type="text" id="ChitSchemeCollectionID" class="ChitSchemeCollectionID hide" name="ChitSchemeCollectionID" value="@details.ChitSchemeCollectionID" />
+                                                                            @*<input id="CollectionIntervalTypeID" type="text" value="@details.CollectionIntervalTypeID" name="CollectionIntervalTypeID" class="form-control CollectionIntervalTypeID" />*@
+                                                                            @Html.DropDownListFor(model => Model.chitschemecollections[0].CollectionIntervalTypeID, new SelectList(ViewBag.CollectionIntervalTypeID, "value", "text", @details.CollectionIntervalTypeID), "Select Interval", new { @class = "form-control custom-select select2   CollectionIntervalTypeID", @readonly = "readonly", @id = "CollectionIntervalTypeID", @data_val = "true", @required = "required", @name = "CollectionIntervalTypeID", @style = "width:50%;" })
+                                                                        </td>
+
+                                                                        <td class="col-md-3">
+
+                                                                            <input id="SuggestedAmount" type="number" min="0.00" step="0.01" value="@details.SuggestedAmount" name="SuggestedAmount" class="form-control SuggestedAmount" />
+
+                                                                        </td>
+
+                                                                        <td class="col-md-3">
+
+                                                                            <input id="CollectionAmount" type="number" min="0.00" step="0.01" value="@details.CollectionAmount" name="CollectionAmount" class="form-control CollectionAmount" />
+
+                                                                        </td>
+                                                                        <td class=" col-md-1">
+
+                                                                            <a class="btn btn-danger hide btn-sm" id="emdel_detail"> <i class="fa fa-trash" style="color:white"></i></a>
+
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="item-row">
+
+                                                                    <td class="col-md-2">
+                                                                        <input type="text" id="ChitSchemeCollectionID" class="ChitSchemeCollectionID hide" name="ChitSchemeCollectionID" value="0" />
+                                                                        @Html.DropDownList("CollectionIntervalTypeID", null, "Please select Interval", new { @readonly = "readonly", @class = "form-control select2 custom-select  CollectionIntervalTypeID", @data_val = "true", @required = "required", @id = "CollectionIntervalTypeID", @style = "width:50%;" })
+                                                                    </td>
+
+                                                                    <td class="col-md-3">
+
+                                                                        <input id="SuggestedAmount" type="number" value="0.00" name="SuggestedAmount" class="form-control SuggestedAmount" />
+
+                                                                    </td>
+
+                                                                    <td class="col-md-3">
+
+                                                                        <input id="CollectionAmount" type="number" value="0.00" name="CollectionAmount" class="form-control CollectionAmount" />
+
+                                                                    </td>
+                                                                    <td class=" col-md-1">
+
+                                                                        <a class="btn btn-danger hide btn-sm" id="emdel_detail"> <i class="fa fa-trash" style="color:white"></i></a>
+
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-md-flex align-items-center mt-3">
+
+                                                        <a href="@Url.Action("Index", "ChitSchemeManagement")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                                        <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                                            <button id="btnemsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#ChitSchemeID').val() == "") {
+                $('#ChitSchemeID').val() = 0;
+            }
+            else {
+                SPCalc();
+            }
+
+            if (($('#ChitSchemeID').val() == "0" || $('#ChitSchemeID').val() == "")) {
+                //$("#mytab ul li a.tab1").addClass("disabled");
+                //$("#mytab ul li a.tab2").addClass("disabled");
+                $("#mytab ul li a").addClass("disabled");
+            }
+            else {
+                $("#mytab ul li a").removeClass("disabled");
+            }
+
+            var smtblrowcount = $('#SMTDETAIL tbody tr').length;
+            $("#SMTDETAILIDX").val(smtblrowcount);
+
+            $("#smadd_detail").click(function () {
+                if ($("#SMTDETAILIDX").val() != 0) {
+
+                    var $tableBody = $('#SMTDETAIL').find("tbody"),
+                        $trLast = $tableBody.find("tr:last");
+
+                    $trNew = $trLast.clone();
+                    $trLast.after($trNew);
+
+                    $trNew.find("span").remove();
+
+                    $trNew.find("#PatternID").val("0");
+                    $trNew.find("#DiscountPercentage").val("0");
+                    $trNew.find("#DiscountAmount").val("0.00");
+                    $trNew.find("#DividentPercentage").val("0");
+                    $trNew.find("#DividentAmount").val("0.00");
+                    var trow = 1;
+
+                    $('.SMTDETAIL_BODY tr').each(function () {
+                        var $crow = $tableBody.find("tr:eq(" + trow + ")");
+
+                        $crow.find("select").select2("destroy").select2();
+                        $crow.find("select").select2();
+                        trow++;
+                    });
+
+                    var row_idx = parseInt($("#SMTDETAILIDX").val());
+                    $("#SMTDETAILIDX").val(row_idx + 1);
+                    $("#SMTDETAIL_BODY").show();
+                }
+                else {
+                    $('#SMTDETAILIDX').val("1");
+                    $("#SMTDETAIL_BODY").show();
+                }
+                return false;
+            });
+
+            $(document).on("click", "#smdel_detail", function () {
+                var r = confirm("Are you sure to delete this Scheme?");
+                if (r == true) {
+
+                    row = this.parentNode.parentNode.rowIndex;
+                    row = row - 1;
+                    var $tableBody = $('#SMTDETAIL').find("tbody")
+
+                    $trCur = $tableBody.find("tr:eq(" + row + ")");
+                    var det_id = $trCur.find("#PatternID").val();
+
+                    idx = $("#SMTDETAILIDX").val();
+
+                    if (det_id != 0) {
+                        var baseUrl = $("#BaseUrl").data("baseurl");
+                        $.post(baseUrl + "/ChitSchemeManagement/Del",
+                            {
+                                id: idx, fld: "ChitScheme"
+                            },
+                            function (data, status) {
+                                console.log(status);
+                                console.log(data);
+                                if (data == "") {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'info',
+                                        title: 'You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 5500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "ChitSchemeManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+                                else if (data == "Deleted Successfully ...") {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'success',
+                                        title: 'Scheme Pattern Details Deleted Successfully ..!', //You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 3500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "ChitSchemeManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+                                else  {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'warning',
+                                        title: data, //You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 3500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "ChitSchemeManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+
+                            });
+                    }
+                    else {
+                        if (idx == 1) {
+
+                            var $tableBody = $('#SMTDETAIL').find("tbody")
+                            $trCur = $tableBody.find("tr:eq(0)");
+                            $trCur.find("input:text").val("");
+                            $("#SMTDETAILIDX").val(1);
+
+                            $trCur.find(".PatternID").val('0');
+
+                            var row_idx = parseInt($("#SMTDETAILIDX").val());
+
+                            $("#SMTDETAILIDX").val(row_idx + 1);
+
+                            $("#SMTDETAIL_BODY").show();
+                        }
+                        else {
+                            $("#SMTDETAIL_BODY").show();
+                            var row = this.parentNode.parentNode;
+                            $(this).parents('.item-row').remove();
+                            $("#SMTDETAILIDX").val($("#SMTDETAILIDX").val() - 1);
+                        }
+                    }
+                }
+            });
+
+            var emtblrowcount = $('#EMTDETAIL tbody tr').length;
+            $("#EMTDETAILIDX").val(emtblrowcount);
+
+            $("#emadd_detail").click(function () {
+                if ($("#EMTDETAILIDX").val() != 0) {
+
+                    var $tableBody = $('#EMTDETAIL').find("tbody"),
+                        $trLast = $tableBody.find("tr:last");
+
+                    $trNew = $trLast.clone();
+                    $trLast.after($trNew);
+
+                    $trNew.find("span").remove();
+
+                    $trNew.find("#ChitSchemeCollectionID").val("0");
+                    $trNew.find("#SuggestedAmount").val("0.00");
+                    $trNew.find("#CollectionIntervalTypeID").val("0");
+                    $trNew.find("#CollectionAmount").val("0.00");
+                    trow = 1;
+
+                    $('.EMTDETAIL_BODY tr').each(function () {
+                        var $crow = $tableBody.find("tr:eq(" + trow + ")");
+
+                        $crow.find("select").select2("destroy").select2();
+                        $crow.find("select").select2();
+                        trow++;
+                    });
+
+                    var row_idx = parseInt($("#EMTDETAILIDX").val());
+                    $("#EMTDETAILIDX").val(row_idx + 1);
+                    $("#EMTDETAIL_BODY").show();
+                }
+                else {
+                    $('#EMTDETAILIDX').val("1");
+                    $("#EMTDETAIL_BODY").show();
+                }
+
+                return false;
+            });
+
+            $(document).on("click", "#emdel_detail", function () {
+                var r = confirm("Are you sure to delete this record ?");
+                if (r == true) {
+
+                    row = this.parentNode.parentNode.rowIndex;
+                    row = row - 1;
+                    var $tableBody = $('#EMTDETAIL').find("tbody")
+
+                    $trCur = $tableBody.find("tr:eq(" + row + ")");
+                    var det_id = $trCur.find("#ChitSchemeCollectionID").val();
+
+                    idx = $("#EMTDETAILIDX").val();
+
+                    if (det_id != 0) {
+                        var baseUrl = $("#BaseUrl").data("baseurl");
+                        $.post(baseUrl + "/ChitSchemeManagement/EMDel",
+                            {
+                                id: idx, fld: "ChitSchemeManagementCollection"
+                            },
+                            function (data, status) {
+
+                                if (data == "") {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'info',
+                                        title: 'You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 5500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "ChitSchemeManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+                                else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'success',
+                                        title: 'Scheme Collection Details Deleted Successfully ..!', //You are not authorize to Delete..!',
+                                        showConfirmButton: true,
+                                        //timer: 3500
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var returnurl = "@Url.Action("Index", "ChitSchemeManagement")";
+                                            window.location.href = returnurl;
+                                        }
+                                    });
+                                }
+
+                            });
+                    }
+                    else {
+                        if (idx == 1) {
+
+                            var $tableBody = $('#EMTDETAIL').find("tbody")
+                            $trCur = $tableBody.find("tr:eq(0)");
+                            $trCur.find("input:text").val("");
+                            $("#SEMTDETAILIDX").val(1);
+
+                            //$trCur.find(".ChitSchemeCollectionID").val('0');
+
+                            var row_idx = parseInt($("#EMTDETAILIDX").val());
+
+                            $("#EMTDETAILIDX").val(row_idx + 1);
+
+                            $("#SEMTDETAIL_BODY").show();
+                        }
+                        else {
+                            $("#EMTDETAIL_BODY").show();
+                            var row = this.parentNode.parentNode;
+                            $(this).parents('.item-row').remove();
+                            $("#EMTDETAILIDX").val($("#EEMTDETAILIDX").val() - 1);
+                        }
+                    }
+                }
+            });
+
+        });
+
+        function SPCalc() {
+            var trow = 0;
+            var $tableBody = $('#SMTDETAIL').find("tbody")
+            var chitval = $(".ChitValue").val();
+            var subsval = $(".SubscriptionAmount").val();
+            //alert(chitval);
+            //alert(subsval);
+            $('.SMTDETAIL_BODY tr').each(function () {
+                var $crow = $tableBody.find("tr:eq(" + trow + ")");
+                //alert($crow.find("#DtlSubsAmt").val());
+                $crow.find("#DtlSubsAmt").val(subsval);
+                var divamt = $crow.find("#DividentAmount").val();
+                var discamt = $crow.find("#DiscountAmount").val();
+                var przamt = eval(chitval - discamt).toFixed(2);
+                var dueamt = eval(subsval - divamt).toFixed(2);
+                $crow.find("#DtlDueAmt").val(dueamt);
+                $crow.find("#DtlPrzAmt").val(przamt);
+                trow++;
+            });
+
+        }
+
+        function ValidateMyform(form, event) {
+            $(".preloader").show();
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('ChitSchemeManagementform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                $(".preloader").hide();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+            //alert(flag);
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "ChitSchemeManagement";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#ChitSchemeManagementform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            $(".preloader").hide();
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                $(".preloader").hide();
+                return false;
+            }
+            $(".preloader").hide();
+        }
+
+        function Chk(obj) {
+            test = $(obj).prop("checked");
+
+            if (test == true) {
+                $(obj).prop('checked', true);
+                $(".boolReGen").val("1");
+            }
+            else {
+                $(obj).prop('checked', false);
+                $(".boolReGen").val("0");
+            }
+        }
+        function ValidateSchemePatternform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('SchemePatternform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveSPData";
+                            var controllername = "ChitSchemeManagement";
+                            var pagetitle = "Scheme Pattern";
+                            var formData = $('#SchemePatternform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+        function CalcDiscountAmt(obj) {
+            row = obj.parentNode.parentNode.rowIndex;
+            row = row - 1;
+            // alert("row" + row);
+            var $tableBody = $('#SMTDETAIL').find("tbody"),
+            $trCur = $tableBody.find("tr:eq(" + row + ")");
+
+            var chitval = $(".ChitValue").val();
+            var subsval = $(".SubscriptionAmount").val();
+            $trCur.find(".DtlSubsAmt").val(subsval);
+
+            var discperc = $trCur.find(".DiscountPercentage").val();
+            //alert(chitval);
+            //alert(discperc);
+            var discamt = eval(chitval * discperc / 100).toFixed(2);
+            var przamt = eval(chitval - discamt).toFixed(2);
+            $trCur.find(".DiscountAmount").val(discamt);
+            $trCur.find(".DtlPrzAmt").val(przamt);
+
+
+        }
+        function CalcDividentAmt(obj) {
+            row = obj.parentNode.parentNode.rowIndex;
+            row = row - 1;
+            // alert("row" + row);
+            var $tableBody = $('#SMTDETAIL').find("tbody"),
+            $trCur = $tableBody.find("tr:eq(" + row + ")");
+
+            var chitval = $(".ChitValue").val();
+            var divperc = $trCur.find(".DividentPercentage").val();
+            //alert(chitval);
+            //alert(divperc);
+            var divamt = eval(chitval * divperc / 100).toFixed(2);
+            $trCur.find(".DividentAmount").val(divamt);
+            var subsval = $trCur.find(".DtlSubsAmt").val();
+            var dueamt = eval(subsval - divamt).toFixed(2);
+            $trCur.find(".DtlDueAmt").val(dueamt);
+        }
+
+        function ValidateCollectionPatternform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('CollectionPatternform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,
+                        //position: "Center",
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveCPData";
+                            var controllername = "ChitSchemeManagement";
+                            var pagetitle = "Collection Pattern";
+                            var formData = $('#CollectionPatternform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+
+
+}

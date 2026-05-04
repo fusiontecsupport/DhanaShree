@@ -1,0 +1,36 @@
+﻿/*body {
+}
+*/
+
+/* bootstrap.css */
+* {
+    font-size: 14px;
+    //line-height: 1.428;
+}
+
+/* style.css */
+* {
+    font-size: 14px;
+
+    //line-height: 2;
+}
+td.center {
+    text-align: center;
+    font-weight: bold;
+}
+
+.select2 {
+    width: 100% !important;
+}
+.select2-selection__rendered {
+    line-height: 31px !important;
+}
+
+.select2-container .select2-selection--single {
+    height: 35px !important;
+}
+
+.select2-selection__arrow {
+    height: 34px !important;
+}
+

@@ -1,0 +1,221 @@
+﻿@using CHITERP.Models;
+@model CHITERP.Models.CompanyFundAccount
+
+@{
+    ViewBag.Title = "Fund Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @Html.Raw(ViewBag.msg)
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="card-title mb-3 pb-3 border-bottom">@ViewBag.Title</h3>
+                    <form action="@Url.Content("~/FundAccount/Savedata")" method="post" data-flag="0" class="needs-validation MasterFundAccountform" id="MasterFundAccountform" name="MasterFundAccountform" novalidate onsubmit="return ValidateMyform(this,event);">
+
+                        <div class="row">
+                            <div class="col-md-2 mb-2 hide">
+                                <label for="FundAccountID">Id</label>
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="FundAccountID" name="FundAccountID" value="@Model.FundAccountID" class="form-control FundAccountID" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="FundAccountID" name="FundAccountID" value="0" class="form-control FundAccountID" />
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="AccountCode">Account Code <span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="AccountCode" name="AccountCode" readonly value="@Model.AccountCode" class="form-control AccountCode" placeholder="Account Code" maxlength="100" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Account Code !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="AccountCode" name="AccountCode" class="form-control AccountCode" required placeholder="Account Code" maxlength="20" tabindex="1" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Account Code !!
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="AccountName">Account Name<span class="text-danger">*</span></label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="AccountName" name="AccountName" value="@Model.AccountName" class="form-control AccountName" required placeholder="Account Name" maxlength="100" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Account Name !!
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="text" id="AccountName" name="AccountName" class="form-control AccountName" required placeholder="Account Name" maxlength="100" tabindex="2" />
+                                    <div class="invalid-feedback">
+                                        Please Enter Account Name !!
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="AccountOpeningBalance">Opening Balance (₹)</label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="number" id="AccountOpeningBalance" name="AccountOpeningBalance" value="@Model.AccountOpeningBalance" class="form-control AccountOpeningBalance" placeholder="Account Opening Balance" maxlength="8" tabindex="2" />
+                                }
+                                else
+                                {
+                                    <input type="number" id="AccountOpeningBalance" name="AccountOpeningBalance" class="form-control AccountOpeningBalance" placeholder="Amount Code Constant" maxlength="8" tabindex="2" />
+                                }
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="AccountBank">Linked Bank</label>
+
+                                @if (Model != null)
+                                {
+                                    <input type="text" id="AccountBank" name="AccountBank" value="@Model.AccountBank" class="form-control AccountBank" placeholder="Link Bank" maxlength="100" tabindex="2" />
+                                }
+                                else
+                                {
+                                    <input type="text" id="AccountBank" name="AccountBank" class="form-control AccountBank" placeholder="Link Bank" maxlength="100" tabindex="2" />
+                                }
+                            </div>
+
+                            <div class="row col-md-12">
+                                
+                                <div class="col-md-4">
+                                    <label for="AccountNumber" class="control-label">Account Number </label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="AccountNumber" name="AccountNumber" value="@Model.AccountNumber" class="form-control AccountNumber" placeholder="Account Number" maxlength="100" tabindex="2" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="AccountNumber" name="AccountNumber" class="form-control AccountNumber" placeholder="Account Number" maxlength="100" tabindex="2" />
+                                    }
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="AccountBranch" class="control-label"> Branch</label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="text" id="AccountBranch" name="AccountBranch" value="@Model.AccountBranch" class="form-control AccountBranch" placeholder="Branch" maxlength="100" tabindex="2" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" id="AccountBranch" name="AccountBranch" class="form-control AccountBranch" placeholder="Branch" maxlength="100" tabindex="2" />
+                                    }
+                                </div>
+                                
+                                <div class="col-md-2">
+                                    <label for="StatusTypeID" class="control-label">Status<span class="text-danger">*</span></label>
+                                    @Html.DropDownList("StatusTypeID", null, "Please select Status", new { @class = "form-control select2 custom-select  StatusTypeID", @data_val = "true", @required = "required", @id = "StatusTypeID", @style = "width:50%;" })
+                                    <div class="invalid-feedback">
+                                        Please Select Status !!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="d-md-flex align-items-center mt-3">
+
+                                    <a href="@Url.Action("Index", "FundAccount")" class="btn btn-danger rounded-pill px-4 pull-left" tabindex="5">Go Back</a>
+
+                                    <div class="ms-auto mt-3 mt-md-1 pull-right">
+
+                                        <button id="btnsave" type="submit" class="btn btn-info font-weight-medium rounded-pill px-4" tabindex="4">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#FundAccountID').val() == "") {
+                $('#FundAccountID').val() = 0;
+            }
+        });
+
+        function ValidateMyform(form, event) {
+            flag = true;
+            i = 0;
+            var frmflag = $(form).attr('data-flag');
+            //alert(frmflag);
+            var form = document.getElementById('MasterFundAccountform');
+            var inputs = form.getElementsByTagName('input');
+            var forms = document.getElementsByClassName('needs-validation');
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                flag = false;
+            }
+            else {
+                form.classList.add('was-validated'); flag = true;
+            }
+
+            if (flag) {
+                if (frmflag == 0) {
+                    event.preventDefault(); //to prevent submitting
+
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Are you sure to Submit the Information !",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true,
+                        cancelButtonColor: "#d43f3a",
+                        cancelButtonText: "No",
+                        showCloseButton: true,                        
+                    }).then((result) => {
+                        if (result.value) {
+                            flag = true;
+                            var ActionName = "SaveData";
+                            var controllername = "FundAccount";
+                            var pagetitle = "@ViewBag.Title";
+                            var formData = $('#MasterFundAccountform').serialize();
+                            submitFormData(ActionName, controllername, pagetitle, formData);
+
+                        }
+                        else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                            flag = false;
+                            return false;
+                        }
+                    });
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+
+}
+
+
